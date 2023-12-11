@@ -1,0 +1,69 @@
+
+<!-- <section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row mt-3">
+                    <div class="col-lg-3 pt-1" *ngFor="let course of myData">
+                        <div class="box-shadow">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ course.title }}</h5>
+                                    <p class="card-text"><span class="text-danger fw-semibold me-2">${{ course.description }}</span></p>
+                         
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="fa fa-star" style="color: #f1f50f;"></i> <span class="text-muted"></span>
+                                            <i class="fa fa-star" style="color: #f1f50f;"></i> <span class="text-muted"></span>
+                                            <i class="fa fa-star" style="color: #f1f50f;"></i> <span class="text-muted"></span>
+                                            <i class="fa fa-star" style="color: #f1f50f;"></i> <span class="text-muted"></span>
+                                            <i class="fa fa-star-half-o" style="color: #f1f50f;"></i> <span class="text-muted">(21)</span>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                             <button class="btn btn-sm btn-success" (click)="onAddToCart(product.id)" > Add To Cart</button> -->
+                                            <!-- <button color="primary" mat-raised-button (click)="openDialog(product.nom,product.qts,product.prix,product.id,product.piece_image)" > Add To Cart</button> -->
+                                            <!-- <button color="primary" mat-raised-button (click)="getMyCartItems()" > Add To Cart</button> 
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+<h1>Your Courses</h1>
+<div *ngIf="user.is_superuser==true">
+<div style="display: flex; flex-wrap: wrap;">
+    <div *ngFor="let course of myData$ | async" class="card" style="width: 25rem; margin: 10px;">
+      <div class="card-body">
+        <h5 class="card-title">{{ course.title }}</h5>
+        <p class="card-text">{{ course.description }}</p>
+        <p class="card-text">{{ course.enrollment_capacity }}</p>
+        <button [routerLink]="['/material']" [queryParams]="{ CourseId: course.id ,do:1 }" class="btn btn-primary">View Material</button>
+        <button [routerLink]="['/material']" [queryParams]="{ CourseId: course.id ,do:2 }" class="btn btn-primary">Add Material</button>
+        <!-- <button class="btn btn-danger" (click)="delete_course(course.id)">Delete</button> -->
+        <!-- <button class="btn btn-primary" >Add Assignment</button> -->
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div *ngIf="user.is_staff==true">
+    <div style="display: flex; flex-wrap: wrap;">
+        <div *ngFor="let course of myData2$ | async" class="card" style="width: 50rem; margin: 10px;">
+          <div class="card-body">
+            <h5 class="card-title">{{ course.title }}</h5>
+            <p class="card-text">{{ course.description }}</p>
+            <p class="card-text">{{ course.enrollment_capacity }}</p>
+            <button [routerLink]="['/material']" [queryParams]="{ CourseId: course.id ,do:1 }" class="btn btn-primary">Inspect Materials</button>
+            <button class="btn btn-primary" (click)="enrollInClass(course.id)">Enroll in course</button>
+          </div>
+        </div>
+      </div>
+      </div>

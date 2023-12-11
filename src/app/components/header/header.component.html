@@ -1,0 +1,184 @@
+
+<header>
+  <!-- NavBar -->
+  <div></div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-top ">
+    <div class="container">
+      <a class="navbar-brand fs-2 fw-bold " href="#"><i class="fa fa-cart-shopping fs-2"
+          style="color: #f54242;"></i><span class="textBlur">E-Learning-Plateform</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <!--Toggle  -->
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Nav Items -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0  text-center ">
+          
+          <li class="nav-item dropdown">
+            <div class="d-inline-block">
+              <a *ngIf="user && user.is_superuser == true" class="nav-link fw-semibold text-uppercase text-black me-1" routerLink="courses">
+                Your Courses
+              </a>
+            </div>
+          
+            <div class="d-inline-block">
+              <a *ngIf="user && user.is_superuser == true" class="nav-link fw-semibold text-uppercase text-black me-1" routerLink="add-course">
+                Add a new course
+              </a>
+            </div>
+
+            
+          </li>
+
+          <li *ngIf="user && user.is_superuser == true" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fw-semibold text-uppercase text-black  me-1" routerLink="assignment" id="navbarDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Assignments
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" [routerLink]="['/assignment']" [queryParams]="{do:1 }" >View Assignments</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/assignment']" [queryParams]="{do:2 }" >Add Assignments</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/assignment']" [queryParams]="{do:3 }" >Evaluate Assignments</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a *ngIf="user && user.is_staff == true" class="nav-link fw-semibold text-uppercase text-black  me-1" routerLink="courses" >
+              Enroll in callses
+            </a>
+          </li>
+          
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle redHover fw-semibold text-uppercase text-black  me-1" href="#"
+              id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              pages
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Option</a></li>
+              <li><a class="dropdown-item" href="#">Option</a></li>
+
+              <li><a class="dropdown-item" href="#">Option</a></li>
+            </ul>
+          </li> -->
+
+
+          
+
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fw-semibold text-uppercase text-black  me-1" href="#" id="navbarDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              shop
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Option</a></li>
+              <li><a class="dropdown-item" href="#">Option</a></li>
+
+              <li><a class="dropdown-item" href="#">Option</a></li>
+            </ul>
+          </li> -->
+
+          <li *ngIf="user==null" class="nav-item">
+            <a class="nav-link fw-semibold text-uppercase text-black  me-1" routerLink="login">Log In</a>
+          </li>
+          
+
+
+          <!-- <li class="nav-item dropdown" *ngIf="user!=null" class="nav-item">
+            <a class="nav-link dropdown-toggle fw-semibold text-uppercase text-black  me-1" href="#" id="navbarDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{user.username}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Log Out</a></li>
+
+
+            </ul>
+          </li> -->
+          <li *ngIf="user!=null" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fw-semibold text-uppercase text-black  me-1" href="#" id="navbarDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{user.username}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" (click)="logout()">Log Out</a></li>
+              <!-- <li><a class="dropdown-item" (click)="getProductName(2)">Log Out</a></li> -->
+            </ul>
+          </li>
+        
+
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle cart fw-semibold text-uppercase text-black  me-1" href="#"
+              id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-cart-plus fs-5" style="color: #202122;"></i>
+              <span class="position-absolute  translate-middle badge rounded-pill bg-danger">
+                {{cartItems.length}}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </a>
+            <div class="dropdown-menu">
+              <div class="CartContainer">
+                <div class="row">
+                  <div class="col-6">
+                    Your Cart
+                  </div>
+                  <div class="col-6 text-end text-danger">
+                    Remove All
+                  </div>
+                </div>
+                
+
+
+                <div class="row pt-1" *ngFor="let cart of cartItems; index as index"> 
+                  <div class="col-4">
+                    <img class="img-fluid" style="height: 30px;border-radius: 50%;" class="card-img-top" [src]="api_url+products[index].piece_image">
+                  </div>
+                  <div class="col-3">
+                   {{products[index].nom}}
+                  </div>
+                  <div class="col-2">
+                    {{cart.qts}}
+                  </div>
+                  <div class="col-2 text-end">
+                    
+                  </div>
+                </div>
+
+               
+                <div class="row">
+                  <div class="col-3">
+
+                  </div>
+                  <div class="col-9">
+                    <hr>
+                  </div>
+                </div>
+               
+                <div class="row">
+                  <div class="col-2">
+                     
+                  </div>
+                  <div class="col-2">
+                     
+                  </div>
+                  <div class="col-4">
+                    <div class="Subtotal">Sub-Total</div>
+                    <div> <small> </small></div>
+                  </div>
+                  <div class="col-4 text-end">
+                    <strong> </strong>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 text-end">
+                    <button class="btn btn-sm btn-success" routerLink="sale" >Checkout</button>
+                  </div>
+                </div> 
+              </div>
+            </div> 
+          </li>  -->
+        </ul> 
+      </div>
+    </div>
+  </nav>
+</header>

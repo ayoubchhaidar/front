@@ -1,0 +1,14 @@
+
+
+  <!-- Your HTML file -->
+
+<div class="card-container" style="display: flex; flex-wrap: wrap;">
+  <div *ngFor="let submissions of myData$ | async" class="card">
+    <div class="card-body">
+      <h5 class="card-title">Student : {{ submissions.studentName }}</h5>
+      <h5>Content: {{ submissions.submission_content }}</h5>
+      <p class="card-text">Submitted on: {{ submissions.submission_date }}</p>
+      <button color="primary" mat-raised-button (click)="opendialog(submissions.student,submissions.assignment)">Grade work</button>   
+    </div>
+  </div>
+</div>

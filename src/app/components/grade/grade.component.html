@@ -1,0 +1,22 @@
+<!-- my-form.component.html -->
+
+<!-- <form [formGroup]="myForm" (ngSubmit)="submitForm()"> -->
+  <form [formGroup]="myform">
+    <div class="form-container">
+      <label for="grade">Grade:</label>
+      <input type="number" id="grade" formControlName="grade" />
+    </div>
+  
+    <div class="form-group">
+      <label for="feedback">Feedback:</label><br>
+      <textarea id="feedback" formControlName="feedback"></textarea>
+    </div>
+  
+    <div class="form-group">
+      <button type="submit" (click)=" GradeStudent()">Submit</button>
+    </div>
+
+
+  </form>
+  
+  
