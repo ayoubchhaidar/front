@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Front';
+  isLoggedIn: boolean = false;
+  userlogged:any;
+
+  ngOnInit(): void {  
+
+    this.userlogged = localStorage.getItem("currentUser");
+    this.isLoggedIn = this.userlogged !== null;
+   
+}
+
+
 }

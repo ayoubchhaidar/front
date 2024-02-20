@@ -17,13 +17,13 @@
           
           <li class="nav-item dropdown">
             <div class="d-inline-block">
-              <a *ngIf="user && user.is_superuser == true" class="nav-link fw-semibold text-uppercase text-black me-1" routerLink="courses">
+              <a *ngIf="user && user.is_active == true && user.is_staff == false" class="nav-link fw-semibold text-uppercase text-black me-1" routerLink="courses">
                 Your Courses
               </a>
             </div>
           
             <div class="d-inline-block">
-              <a *ngIf="user && user.is_superuser == true" class="nav-link fw-semibold text-uppercase text-black me-1" routerLink="add-course">
+              <a *ngIf="user && user.is_staff == true " class="nav-link fw-semibold text-uppercase text-black me-1" routerLink="add-course">
                 Add a new course
               </a>
             </div>
@@ -31,7 +31,7 @@
             
           </li>
 
-          <li *ngIf="user && user.is_superuser == true" class="nav-item dropdown">
+          <li *ngIf="user && user.is_staff == true" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle fw-semibold text-uppercase text-black  me-1" routerLink="assignment" id="navbarDropdown"
               role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Assignments
@@ -44,11 +44,16 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a *ngIf="user && user.is_staff == true" class="nav-link fw-semibold text-uppercase text-black  me-1" routerLink="courses" >
+            <a *ngIf="user && user.is_active == true && user.is_staff == false" class="nav-link fw-semibold text-uppercase text-black  me-1" routerLink="courses" >
               Enroll in callses
             </a>
           </li>
-          
+          <li   class="nav-item dropdown">
+            <div  *ngIf="user!=null" class="d-inline-block">
+              <a class="nav-link fw-semibold text-uppercase text-black me-1" routerLink="profile">
+                profile
+              </a>
+            </div>
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle redHover fw-semibold text-uppercase text-black  me-1" href="#"
               id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -107,6 +112,10 @@
           </li>
         
 
+          <li class="nav-item">
+            <a class="nav-link fw-semibold text-uppercase text-black  me-1" >Sign up needs verification</a>
+          </li>
+          <input type="checkbox" [(ngModel)]="userr.checked" (change)="changeVerificationStatus(userr.checked)">
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle cart fw-semibold text-uppercase text-black  me-1" href="#"
               id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

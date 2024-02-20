@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: 'app-verif-setup',
+  templateUrl: './verif-setup.component.html',
+  styleUrls: ['./verif-setup.component.css']
 })
-export class HeaderComponent implements OnInit {
-  user!:any;
-  userr = { checked: false }; 
+export class VerifSetupComponent implements OnInit {
   ngOnInit(): void {
-    this.user = localStorage.getItem("currentUser");
-    this.user = JSON.parse(this.user);
-    console.log(this.user)
+  
     this.authService.getVerifStatus().subscribe(
       (data: boolean) => {
       
@@ -25,25 +20,14 @@ export class HeaderComponent implements OnInit {
     );
     
   }
-
   constructor(private authService: AuthService) {
   
   }
-
-
-
-  logout(){
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("currentCart");
-    location.reload();
-  }
-
-
+  userr = { checked: false }; 
   changeVerificationStatus(newStatus: boolean){
 
     this.authService.changeVerificationStatus(newStatus).subscribe();
   }
-
 
 
 }

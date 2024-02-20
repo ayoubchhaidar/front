@@ -4,7 +4,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<body>
+<!-- <body>
     <div id="login">
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
@@ -28,7 +28,6 @@
                                 <a routerLink="/sign-up" class="text-info">Register here</a>
 
                             </div>
-                            <!-- <input type="button" name="logout" value="logout" (click)="logout()"  id=""> -->
                         </form>
 
                     </div>
@@ -36,4 +35,85 @@
             </div>
         </div>
     </div>
-</body>
+</body> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                </div>
+                                <form class="user" id="login-form" [formGroup]="myform" (ngSubmit)="onSubmit()">
+                                    <div class="form-group">
+                                        
+
+                                        <input type="text" placeholder="Nom d'Utilisateur" name="username"  formControlName="username" id="username" class="form-control form-control-user">
+
+                                    </div>
+                                    <div class="form-group">
+                                     
+                                    <input type="password" placeholder="Password" name="password" formControlName="password" id="password" class="form-control form-control-user">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+                                   
+                                    <input type="submit" name="submit" class="btn btn-primary btn-user btn-block" value="Login">
+
+                                    <hr>
+                                    <a href="index.html" class="btn btn-google btn-user btn-block">
+                                        <i class="fab fa-google fa-fw"></i> Login with Google
+                                    </a>
+                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                    </a>
+                                </form>
+                                <hr>
+                                <div class="text-center">
+                                    <a class="small" routerLink="/resme" >Forgot Password?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a routerLink="/sign-up"class="small" >Register here</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

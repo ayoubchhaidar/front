@@ -1,0 +1,131 @@
+
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="container-fluid">
+
+        <div class="card shadow mb-4">
+          
+            <div class="card-body">
+                <div class="table-responsive">
+
+    <table  class="table table-bordered" id="dataTable" width="100%" cellspacing="0"  *ngIf="listeDe!='Administraeurs'">
+      <thead>
+        
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>username </th>
+          <th>first name </th>
+          <th>last name</th>
+          <th>email </th>
+          <th>date joined  </th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td [colSpan]="9">
+          <button  class="btn btn-danger " *ngIf="showButton" (click)="deleteAll()"  style="margin-left:100px;">Delete all selected Users</button>
+      </td>
+    </tr>
+     
+        <tr  *ngFor="let user of speceficUsers" >
+         
+          <td> 
+            <input type="checkbox" [(ngModel)]="user.checked" (change)="addToTable(user.id, user.checked)" (change)="toggleButtonVisibility()"> 
+          </td>
+          <td> {{user.id}} </td>
+          <td> {{user.username}} </td>
+          <td> {{user.first_name}}  </td>
+          <td> {{user.last_name}}  </td>
+          <td> {{user.email}}  </td>
+          <td> {{user.date_joined | date: 'medium' }}  </td>
+
+
+          
+    
+
+
+          <td> 
+
+        <button  *ngIf="user.is_active==false"  class="btn btn-danger"  (click)="verify(user.id)" style="margin-left: 10px;"> Verify</button>    
+        <button   class="btn btn-danger" (click)="deleteUser(user.id)" style="margin-left: 10px;"> Delete</button>
+        <img *ngIf="user.is_active==true" src="assets/verif.png" alt="Verification Image" width="50" height="50">
+    
+</td>
+
+        </tr>
+      </tbody>
+    
+    </table>
+    
+  </div> 
+</div>
+</div>   
+</div>
+
+    <table class="table table-striped"  *ngIf="listeDe=='Administraeurs'">
+      <thead>
+        
+        <tr>
+      
+          <th>ID</th>
+          <th>username </th>
+          <th>first name </th>
+          <th>last name</th>
+          <th>email </th>
+          <th>date joined  </th>
+          <th>Admin  </th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td [colSpan]="9">
+          <button  class="btn btn-danger " *ngIf="showButton" (click)="deleteAll()"  style="margin-left:100px;">Delete all selected Users</button>
+      </td>
+    </tr>
+     
+        <tr  *ngFor="let user of speceficUsers" >
+         
+         
+          <td> {{user.id}} </td>
+          <td> {{user.username}} </td>
+          <td> {{user.first_name}}  </td>
+          <td> {{user.last_name}}  </td>
+          <td> {{user.email}}  </td>
+          <td> {{user.date_joined | date: 'medium' }}  </td>
+
+
+          
+    
+
+
+          <td> 
+        <img *ngIf="user.is_active==true" src="assets/verif.png" alt="Verification Image" width="50" height="50">
+    
+</td>
+
+        </tr>
+      </tbody>
+    
+    </table>

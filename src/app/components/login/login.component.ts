@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+
     this.authService.login(this.myform.value['username'], this.myform.value['password']).pipe(first()).subscribe(data=>{
           console.log(data); 
           location.reload();

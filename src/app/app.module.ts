@@ -20,7 +20,14 @@ import { MatFormFieldModule } from '@angular/material/form-field' ;
 import { MatInputModule} from '@angular/material/input' ;
 import { MatDialogModule} from '@angular/material/dialog';
 import { SubmissionsComponent } from './components/submissions/submissions.component';
-
+import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
+import {NgxExtendedPdfViewerModule} from 'ngx-extended-pdf-viewer';
+import { UploadpdfComponent } from './components/uploadpdf/uploadpdf.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { VerifSetupComponent } from './components/verif-setup/verif-setup.component'
 
 
 @NgModule({
@@ -34,7 +41,14 @@ import { SubmissionsComponent } from './components/submissions/submissions.compo
     MaterialComponent,
     AssignmentComponent,
     GradeComponent,
-    SubmissionsComponent
+    SubmissionsComponent,
+    PdfViewerComponent,
+    UploadpdfComponent,
+    ProfileComponent,
+    UsersListComponent,
+    ResetPasswordComponent,
+    DashboardComponent,
+    VerifSetupComponent,
   ],
   
   imports: [
@@ -49,7 +63,7 @@ import { SubmissionsComponent } from './components/submissions/submissions.compo
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-
+   
   ],
   providers: [],
   bootstrap: [AppComponent]

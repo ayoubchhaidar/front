@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
 import { MydataService } from 'src/app/services/mydata.service';
+// Import statements in your component file
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -10,6 +12,7 @@ import { MydataService } from 'src/app/services/mydata.service';
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
+  
   myData$: Observable<any> | undefined;
   myData2$: Observable<any> | undefined;
   myform: FormGroup | undefined;

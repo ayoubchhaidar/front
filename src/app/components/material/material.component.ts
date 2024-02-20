@@ -108,7 +108,7 @@ export class MaterialComponent implements OnInit {
     this.New_Material.up_file = this.myform.value['up_file']; 
     this.New_Material.course = this.CourseId;
     console.log(this.New_Material);
-    // this.MydataService.addCourseMaterial(this.CourseId,this.New_Material).subscribe();
+    this.MydataService.addCourseMaterial(this.CourseId,this.New_Material).subscribe();
   }
 
   
