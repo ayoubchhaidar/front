@@ -5,7 +5,6 @@ import { MydataService } from 'src/app/services/mydata.service';
 // Import statements in your component file
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -14,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CoursesComponent implements OnInit {
   
   myData$: Observable<any> | undefined;
-  myData2$: Observable<any> | undefined;
+  myData2$: any []=[];
   myform: FormGroup | undefined;
   user!:any;
   api_url: string = 'http://127.0.0.1:8000/';
@@ -31,7 +30,15 @@ export class CoursesComponent implements OnInit {
     this.user = localStorage.getItem("currentUser");
     this.user = JSON.parse(this.user);
     this.myData$ = this.MydataService.getTutorCourses(this.user.user_id);
-    this.myData2$ = this.MydataService.getCourses();
+    this.MydataService.getCourses().subscribe(
+      (data: any[]) => {
+        this.myData2$ = data;
+        console.log( this.myData2$)
+      },
+      (error: any) => {
+        console.error('Error fetching users:', error);
+      }
+    );
   }
 
 

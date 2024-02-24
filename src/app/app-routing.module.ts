@@ -14,65 +14,34 @@ import { UsersListComponent } from './components/users-list/users-list.component
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VerifSetupComponent } from './components/verif-setup/verif-setup.component';
+import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component';
+import { LessonsMateialsComponent } from './lessons-materials/lessons-materials.component';
 
-const routes: Routes = [{
-  path:'login', component: LoginComponent
-},
-
-{
-  path:'sign-up', component: SignUpComponent
-},
-
-
-{
-  path:'setup', component: VerifSetupComponent
-},
-
-
-{
-  path:'dashboard', component: DashboardComponent, children: [
-    { path: 'profile', component: ProfileComponent },]
-
-
-},
-
-{
-  path:'resme', component: ResetPasswordComponent
-},
-
-{
-  path:'users/:param', component: UsersListComponent
-},
-{
-  path:'profile', component: ProfileComponent
-},
-{
-  path:'upload', component: UploadpdfComponent
-},
-{
-  path:'pfd', component: PdfViewerComponent
-},
-
-{
-  path:'courses', component: CoursesComponent
-},
-
-{
-  path:'material', component: MaterialComponent
-},
-
-{
-  path:'submissions', component: SubmissionsComponent
-},
-
-{
-  path:'assignment', component: AssignmentComponent
-},
-
-{
-  path:'add-course', component: AddCourseComponent
-}
-
+const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, children: [
+    { path: 'profile', component: ProfileComponent },
+    { path: 'users/:param', component: UsersListComponent },
+    { path: 'setup', component: VerifSetupComponent },
+    { path: 'add-course', component: AddCourseComponent },
+    { path: 'courses', component: CoursesComponent},
+    { path: 'lesoon', component: LessonsMateialsComponent },
+  ] },
+  { path: 'sign-up', component: SignUpComponent },
+ 
+  { path: 'resme', component: ResetPasswordComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'upload', component: UploadpdfComponent },
+  { path: 'pfd', component: PdfViewerComponent },
+ 
+  { path: 'material', component: MaterialComponent },
+  { path: 'submissions', component: SubmissionsComponent },
+  { path: 'assignment', component: AssignmentComponent },
+  { path: 'add-course', component: AddCourseComponent },
+  { path: 'add-lesson', component: AddLessonComponent },
+ 
+  { path: '**', redirectTo: '/login' }, 
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({

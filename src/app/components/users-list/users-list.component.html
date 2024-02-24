@@ -1,27 +1,5 @@
 
 
-
-
-
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <div class="container-fluid">
 
         <div class="card shadow mb-4">
@@ -33,20 +11,20 @@
       <thead>
         
         <tr>
-          <th></th>
+          <th><button   class="btn btn-danger btn-circle btn-sm" *ngIf="showButton" (click)="deleteAll()"  >  <i class="fas fa-trash"> </i></button>
+          </th>
           <th>ID</th>
           <th>username </th>
           <th>first name </th>
           <th>last name</th>
           <th>email </th>
           <th>date joined  </th>
+          
         </tr>
       </thead>
       <tbody>
        <tr>
-        <td [colSpan]="9">
-          <button  class="btn btn-danger " *ngIf="showButton" (click)="deleteAll()"  style="margin-left:100px;">Delete all selected Users</button>
-      </td>
+        
     </tr>
      
         <tr  *ngFor="let user of speceficUsers" >
@@ -67,9 +45,10 @@
 
 
           <td> 
+                  
+            <button  *ngIf="user.is_active==false"  class="btn btn-danger"  (click)="verify(user.id)" style="margin-left: 10px;"> Verify</button>    
+            <button   class="btn btn-danger" (click)="deleteUser(user.id)" style="margin-left: 10px;"> Delete</button>
 
-        <button  *ngIf="user.is_active==false"  class="btn btn-danger"  (click)="verify(user.id)" style="margin-left: 10px;"> Verify</button>    
-        <button   class="btn btn-danger" (click)="deleteUser(user.id)" style="margin-left: 10px;"> Delete</button>
         <img *ngIf="user.is_active==true" src="assets/verif.png" alt="Verification Image" width="50" height="50">
     
 </td>
@@ -96,14 +75,11 @@
           <th>email </th>
           <th>date joined  </th>
           <th>Admin  </th>
+         
         </tr>
       </thead>
       <tbody>
-       <tr>
-        <td [colSpan]="9">
-          <button  class="btn btn-danger " *ngIf="showButton" (click)="deleteAll()"  style="margin-left:100px;">Delete all selected Users</button>
-      </td>
-    </tr>
+      
      
         <tr  *ngFor="let user of speceficUsers" >
          
@@ -117,11 +93,11 @@
 
 
           
-    
-
+         
 
           <td> 
-        <img *ngIf="user.is_active==true" src="assets/verif.png" alt="Verification Image" width="50" height="50">
+   
+            <img *ngIf="user.is_active==true" src="assets/verif.png" alt="Verification Image" width="50" height="50">
     
 </td>
 

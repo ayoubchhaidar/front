@@ -13,7 +13,7 @@ input {
     background:
       radial-gradient(farthest-side,#15202a 96%,#0000) 
         var(--_p,0%)/var(--s) content-box no-repeat,
-      var(--_c,#ff7a7a);
+      var(--_c,#e2e1f9);
     box-sizing: content-box;
     transform-origin: calc(3*var(--s)/5) 50%;
     transition: transform cubic-bezier(0,300,1,300) .5s,background .3s .1s ease-in;
@@ -22,7 +22,7 @@ input {
     appearance: none;
   }
   input:checked {
-    --_c: #85ff7a;
+    --_c: #4e73df;
     --_p: 100%;
     transform-origin: calc(100% - 3*var(--s)/5) 50%;
     transform: rotate(0.1deg);

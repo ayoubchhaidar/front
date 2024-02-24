@@ -1,8 +1,8 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { first } from 'rxjs/operators';
-import { MydataService } from 'src/app/services/mydata.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ import { MydataService } from 'src/app/services/mydata.service';
 export class LoginComponent implements OnInit {
   myform: FormGroup;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.myform = new FormGroup({
       username: new FormControl(''),
       password: new FormControl('')
@@ -26,21 +26,22 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.authService.login(this.myform.value['username'], this.myform.value['password'])
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log(data);
 
-    this.authService.login(this.myform.value['username'], this.myform.value['password']).pipe(first()).subscribe(data=>{
-          console.log(data); 
-          location.reload();
+          // Redirect to the dashboard route after successful login
+          this.router.navigate(['/dashboard']);
         },
         error => {
           console.error('Error occurred during login:', error);
         }
       );
   }
-
-
-// logout(){
-//     localStorage.removeItem("currentUser");
-//     location.reload();
-//   }
-
+  // logout(){
+  //   localStorage.removeItem("currentUser");
+  //   location.reload();  
+  // }
 }

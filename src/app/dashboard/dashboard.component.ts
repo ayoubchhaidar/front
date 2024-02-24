@@ -33,32 +33,37 @@ export class DashboardComponent {
     this.AuthService.getUserProfile(this.signeduser.user_id).subscribe(user => {
       this.user = user;
     });
- 
+    
 
   }
+  
+ 
+  
   reloadPage(): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/users', 'Formateurs']);
+      this.router.navigate(['/dashboard','users', 'Formateurs']);
     });
   }
   reloadPage1(): void {
+   
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/users', 'Apprenants']);
+      this.router.navigate(['/dashboard','users', 'Apprenants']);
     });
   }
   reloadPage2(): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/users', 'Administraeurs']);
+      this.router.navigate(['/dashboard','users', 'Administraeurs']);
     });
   }
   reloadPage3(): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/users', 'notVerified']);
+      this.router.navigate(['/dashboard','users', 'notVerified']);
     });
   }
   logout(){
     localStorage.removeItem("currentUser");
     localStorage.removeItem("currentCart");
-    location.reload();
+   
+    this.router.navigate(['']);
   }
 }

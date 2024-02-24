@@ -11,6 +11,7 @@ export class ProfileComponent {
 myform: FormGroup;
 selectedFile!: File;
 noFileSelected = true;
+editMode: boolean = false;
 onFileChange(event: any) {
   if (event.target.files.length > 0) {
   this.selectedFile = event.target.files[0];
@@ -71,7 +72,9 @@ onFileChange(event: any) {
 
   }
 
-
+  toggleEditMode() {
+    this.editMode = !this.editMode;
+  }
   updateUserProfile(): void {
    
 
@@ -98,6 +101,7 @@ onFileChange(event: any) {
           console.error('Error updating user profile:', error);
         }
       );
+      this.editMode = false;
   }
 
   

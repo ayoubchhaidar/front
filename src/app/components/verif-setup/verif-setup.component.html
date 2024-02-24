@@ -1,5 +1,26 @@
+<div class="container">
+  <div class="row">
+    <!-- Single Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <!-- Left Content -->
+            <div>
+              <h1 class="form-check-label ms-2" style="font-weight: bold;"> Activer l'approbation d'inscription</h1>
+              <p>Les nouveaux utilisateurs devront être approuvés par un administrateur pour obtenir un accès complet à la plateforme.</p>
+              <p></p>
+            </div>
 
-<li class="nav-item">
-    <a class="nav-link fw-semibold text-uppercase text-black  me-1" >Sign up needs verification</a>
-  </li>
-  <input type="checkbox" [(ngModel)]="userr.checked" (change)="changeVerificationStatus(userr.checked)">
+            <!-- Checkbox Section on the Right with Colored Background -->
+            <div class="bg-light p-3 rounded">
+              <label for="verificationCheckbox" class="ms-2">Activer l'approbation d'inscription</label>
+              <input type="checkbox" id="verificationCheckbox" [(ngModel)]="userr.checked" (change)="changeVerificationStatus(userr.checked)">
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

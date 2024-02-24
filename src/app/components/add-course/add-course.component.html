@@ -1,44 +1,38 @@
-<section class="h-100 bg-dark">
-    <form [formGroup]="myform" >
-        <div class="container py-5 h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col">
-              <div class="card card-registration my-4">
-                <div class="row g-0">
-                  
-                  
-                  <div class="col-xl-6">
-                    <div class="card-body p-md-5 text-black">
-                      <h3 class="mb-5 text-uppercase">Add a new course</h3>
-      
-                      <div class="form-outline mb-4">
-                        <label class="form-label" for="form3Example97">Title</label>
-                        <input type="text" id="form3Example97" class="form-control form-control-lg" formControlName="title" />
-                      </div>
-    
-                      <div class="form-outline mb-3">
-                        <label class="form-label" for="form3Example97">Description</label>
-                        <textarea id="form3Example97" class="form-control form-control-lg" formControlName="desc"></textarea>
-                        
-                      </div>
-    
-      
-                      <div class="form-outline mb-2">
-                        <label class="form-label" for="form3Example97">Enrollement capacity</label>
-                        <input type="number" id="form3Example97" class="form-control form-control-lg" formControlName="capacity" />
-                      </div>
-                
-                      <div class="d-flex justify-content-end pt-3">
-                        <button type="button" class="btn btn-light btn-lg">Reset all</button>
-                        <button type="submit" class="btn btn-warning btn-lg ms-2" (click)="addCourse()">Submit form</button>
-                      </div>
-      
-                    </div>
-                  </div>
-                </div>
-              </div>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container contact-form">
+            <div class="contact-image">
+                <img src="https://image.ibb.co/kUagtU/your-course-image.png" alt="course"/>
             </div>
-          </div>
-        </div>
-    </form>
-      </section>
+            <form [formGroup]="myform" (ngSubmit)="addCourse()">
+                <h3>Ajouter un cour</h3>
+               <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                           <label class="form-label" for="title">Title</label>
+                                    <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="capacity">Enrollment Capacity</label>
+                            <input type="number" id="capacity" class="form-control form-control-lg" formControlName="capacity" />
+                        </div>
+                        <div class="form-group">                            
+                        <label class="form-label" for="form3Example97">Profile Picture</label>
+                        <input type="file"  id="formFile"  (change)="onFileChange($event)" class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn  btn-lg ms-2" style="background-color: #4e73df; color: #ffffff;">Submit form</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label" for="desc">Description</label>
+                            <textarea id="desc" class="form-control form-control-lg" formControlName="desc"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+</div>

@@ -27,7 +27,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { VerifSetupComponent } from './components/verif-setup/verif-setup.component'
+import { VerifSetupComponent } from './components/verif-setup/verif-setup.component';
+import { LessonsMateialsComponent } from './lessons-materials/lessons-materials.component';
+import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component'
 
 
 @NgModule({
@@ -49,6 +51,8 @@ import { VerifSetupComponent } from './components/verif-setup/verif-setup.compon
     ResetPasswordComponent,
     DashboardComponent,
     VerifSetupComponent,
+    LessonsMateialsComponent,
+    AddLessonComponent,
   ],
   
   imports: [

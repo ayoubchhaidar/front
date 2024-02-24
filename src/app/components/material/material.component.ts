@@ -29,7 +29,7 @@ export class MaterialComponent implements OnInit {
   New_Material: any = {
     title: "",
     document_type: "", 
-    course:null,
+    lesson:null,
     up_file:""
   };
 
@@ -41,7 +41,8 @@ export class MaterialComponent implements OnInit {
       up_file: new FormControl('')
     });
    }
-  ngOnInit(): void {
+   selectedFile!: File;
+   ngOnInit(): void {
    
     this.user = localStorage.getItem("currentUser");
     this.user = JSON.parse(this.user);
@@ -56,8 +57,8 @@ export class MaterialComponent implements OnInit {
     this.myData$ = this.MydataService.getCourseMaterial(this.CourseId);
   }
 
-  onFileChange(event: any): void {
-    this.file = event.target.files[0];
+  onFileChange(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 
   sanitizePdfUrl(pdfUrl: string): any {
@@ -102,13 +103,14 @@ export class MaterialComponent implements OnInit {
 
       
   AddMaterial(){
-    this.New_Material.course = {};
-    this.New_Material.title = this.myform.value['title']; 
-    this.New_Material.document_type = this.myform.value['document_type']; 
-    this.New_Material.up_file = this.myform.value['up_file']; 
-    this.New_Material.course = this.CourseId;
-    console.log(this.New_Material);
-    this.MydataService.addCourseMaterial(this.CourseId,this.New_Material).subscribe();
+    const formData: FormData = new FormData();
+    formData.append('title', this.myform.value['title']);
+    formData.append('document_type', this.myform.value['document_type']);
+    formData.append('content',this.selectedFile);
+    formData.append('lesson', '1');
+
+   
+    // this.MydataService.addCourseMaterial(1,formData).subscribe();
   }
 
   
@@ -117,3 +119,6 @@ export class MaterialComponent implements OnInit {
   
 
 }
+
+
+

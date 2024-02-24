@@ -51,10 +51,10 @@ getAllUsers(): void {
       console.log( this.users)
 
       if(this.listeDe==='Apprenants'){
-      this.speceficUsers=this.users.filter(user => user.is_active==true);
+      this.speceficUsers=this.users.filter(user => (user.is_active==true  && user.is_staff==false) &&!user.is_superuser);
       console.log(this.speceficUsers);}
       else if(this.listeDe=='Formateurs'){
-        this.speceficUsers=this.users.filter(user => user.is_staff==true  && user.is_active==true );
+        this.speceficUsers=this.users.filter(user => (user.is_staff==true  && user.is_active==true) &&!user.is_superuser);
         console.log(this.speceficUsers);}
       else if(this.listeDe=='Administraeurs'){
           this.speceficUsers=this.users.filter(user => user.is_superuser==true);
