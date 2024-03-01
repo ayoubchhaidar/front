@@ -5,10 +5,10 @@
 
 <div class="container contact-form">
             <div class="contact-image">
-                <img src="https://image.ibb.co/kUagtU/your-course-image.png" alt="course"/>
+                <img src="https://www.keeplewisvillebeautiful.org/wp-content/uploads/2017/05/icon-education-blue.png" alt="course"/>
             </div>
             <form [formGroup]="myform" (ngSubmit)="addCourse()">
-                <h3>Ajouter un cour</h3>
+                <h1>Ajouter un cour</h1>
                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -21,10 +21,10 @@
                         </div>
                         <div class="form-group">                            
                         <label class="form-label" for="form3Example97">Profile Picture</label>
-                        <input type="file"  id="formFile"  (change)="onFileChange($event)" class="form-control" >
+                        <input type="file"  id="formFile"  (change)="onFileChange($event)" [(ngModel)]="selectedFile" class="form-control" >
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn  btn-lg ms-2" style="background-color: #4e73df; color: #ffffff;">Submit form</button>
+                            <button type="submit" class="btn  btn-lg ms-2" style="background-color: #4e73df; color: #ffffff;">Ajouter</button>
                         </div>
                     </div>
                     <div class="col-md-6">

@@ -83,7 +83,8 @@
                         </form>
 
                         <!-- Form for displaying user profile for editing when in edit mode -->
-                        <button class="btn btn-sm btn-info mr-4" *ngIf="editMode === false" (click)="toggleEditMode()">Modifier le profil</button>
+                        <button class="btn btn-sm mr-4" style="background-color: #4e73df; color: white;" *ngIf="editMode === false" (click)="toggleEditMode()">Modifier le profil</button>
+
                         <form *ngIf="editMode" [formGroup]="myform" (ngSubmit)="updateUserProfile()">
                             <h6 class="heading-small text-muted mb-4" style="font-size: 1.3em;">Modifier l'information de l'utilisateur </h6>
                             <div class="pl-lg-4">
@@ -132,7 +133,7 @@
                                 <input type="file" id="formFile" (change)="onFileChange($event)" class="form-control">
                             </div>
                            
-                            <input type="submit" href="#" class="btn btn-sm btn-info mr-4">
+                            <input type="submit" style="background-color: #4e73df; color: white;" href="#" class="btn btn-sm btn-info mr-4">
                         </form>
                     </div>
                 </div>

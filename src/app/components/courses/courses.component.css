@@ -84,11 +84,11 @@ article img {
     display: inline-flex;
     align-items: center;
     text-decoration: none;
-    color: #28666e;
+    color: #4e73df;
   }
   
   article a:focus {
-    outline: 1px dotted #28666e;
+    outline: 1px dotted #4e73df;
   }
   
   article a .icon {
@@ -104,7 +104,7 @@ article img {
   /* using the has() relational pseudo selector to update our custom properties */
   article:has(:hover, :focus) {
     --img-scale: 1.1;
-    --title-color: #28666e;
+    --title-color: #4e73df;
     --link-icon-translate: 0;
     --link-icon-opacity: 1;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
@@ -220,11 +220,11 @@ article a {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  color: #28666e;
+  color: #4e73df;
 }
 
 article a:focus {
-  outline: 1px dotted #28666e;
+  outline: 1px dotted #4e73df;
 }
 
 article a .icon {
@@ -240,7 +240,7 @@ article a .icon {
 /* using the has() relational pseudo selector to update our custom properties */
 article:has(:hover, :focus) {
   --img-scale: 1.1;
-  --title-color: #28666e;
+  --title-color: #4e73df;
   --link-icon-translate: 0;
   --link-icon-opacity: 1;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;

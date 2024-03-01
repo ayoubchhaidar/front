@@ -4,6 +4,8 @@ import { Observable, tap } from 'rxjs';
 import { MydataService } from 'src/app/services/mydata.service';
 // Import statements in your component file
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-courses',
@@ -23,7 +25,7 @@ export class CoursesComponent implements OnInit {
       enrollment_date: new Date().toISOString().split('T')[0],  // Set to the current date
     };
 
-  constructor(private MydataService:MydataService){ }
+  constructor(private MydataService:MydataService,private dialog: MatDialog){ }
  
 
   ngOnInit(): void {
@@ -41,7 +43,12 @@ export class CoursesComponent implements OnInit {
     );
   }
 
-
+  openMaterialModal(): void {
+    const modal = document.getElementById('materialModal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
 //  getCourses(){
 //   const courses: any[] = [];
 //   this.MydataService.getTutorCourses(1).subscribe((data)=>{
@@ -61,9 +68,18 @@ enrollInClass(courseid:number ){
   this.MydataService.StudentEnrollment(this.New_enrollement).subscribe();
 }
 
-  delete_course(id: number){
-    this.MydataService.deleteCourse(id).subscribe();
-  }
 
-  
+delete_course(id: number){
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    data: { message: 'Are you sure you want to delete this lesson?' }
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.MydataService.deleteCourse(id).subscribe(() => {
+        console.log(`lesoon with ID ${id} deleted successfully.`);
+       this.ngOnInit() ;
+      });
+    }
+  });
+}
 }

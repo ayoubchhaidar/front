@@ -1,133 +1,426 @@
-<!-- Your Header -->
-<header>
-    <h1>Your E-learning Course</h1>
-</header>
+<!-- Your Main Content --><!-- Add this in your index.html -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-<!-- Your Main Content -->
 <main id="course-content">
-    <button (click)="addLesson()">Add Lesson</button>
+    
 
     <!-- The Material Type Modal -->
     <div id="materialModal" class="modal">
         <div class="modal-content">
             <span class="close" (click)="closeMaterialModal()">&times;</span>
             <form (submit)="AddMaterial(selectedLessonId!)">
+
                 <!-- Your Material Form Fields -->
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" [(ngModel)]="myform.value['title']" required>
-
-                <label for="document_type">Document Type:</label>
-                <input type="text" id="document_type" name="document_type" [(ngModel)]="myform.value['document_type']" required>
-
-                <label for="content">Content:</label>
-                <input type="file" id="content" name="content" (change)="onFileChange($event)"  [(ngModel)]="selectedFile" required>
+                <div class="form-group">
+                  <label for="title">Title:</label>
+                  <input type="text" id="title" name="title" [(ngModel)]="myform.value['title']" required>
+                
+                  <label for="document_type">Document Type:</label>
+                  <select [(ngModel)]="myform.value['document_type']" id="document_type" name="document_type" class="form-control" required>
+                    <option value="" disabled selected>Select Document Type</option>
+                    <option value="invoice">Invoice <i class="fas fa-file-invoice"></i></option>
+                    <option value="report">Report <i class="fas fa-file-alt"></i></option>
+                    <option value="presentation">Presentation <i class="fas fa-file-powerpoint"></i></option>
+                    <!-- Add more options with corresponding icons as needed -->
+                  </select>
                   
-                <button type="submit">Add Material</button>
+                <label for="file">
+                  Upload                           
+                </label>
+<input type="file" id="file" name="content" (change)="onFileChange($event)"  [(ngModel)]="selectedFile" required> 
+        
+              <!-- your-file.html -->
+              <button *ngIf="uploadedLink !== ''" type="submit">Add Material</button>
+            </div>
+
             </form>
         </div>
     </div>
+    
 
-    <!-- Your Lessons Iteration -->
-    <div *ngFor="let lesson of lessons; let i = index" class="lesson" [attr.id]="'lesson-' + lesson.id">
-        <p>Lesson Number: {{ i + 1 }}</p>
-        <h1>{{ lesson.title }}</h1>
-        
-        <!-- Materials Iteration for the Current Lesson -->
-        <div *ngFor="let mat of lesson.mateials"> 
-            <p>{{ mat.title }}</p>
-            <p>{{ mat.content }}</p>
+ <!-- Your Lessons Iteration -->
+ <div *ngFor="let lesson of lessons; let i = index" class="lesson" [attr.id]="'lesson-' + lesson.id">
+  <button class="add-material-button" (click)="openMaterialModal(lesson.id)">
+    <i class="fas fa-plus"></i> Add Material
+  </button>
+  
+  <button (click)="delete_lesson(lesson.id)" class="delete-button">
+    <i class="fas fa-trash-alt"></i> Delete
+  </button>
+  
+    
+  
+    <div class="lesson-content">
+        <div class="lesson-header">
+            <p class="lesson-number"><span>{{ i + 1 }}</span></p>
+            <h1 class="lesson-title">{{ lesson.title }}</h1>
+            <button class="button-link" (click)="toggleMaterials(lesson)">Show More</button>
         </div>
+        <div *ngIf="lesson.showMaterials" class="materials-container">
+            <div *ngFor="let mat of lesson.mateials" class="material-item" (mouseenter)="onMouseEnter(mat.id)" (mouseleave)="onMouseLeave()">
+              
+                <!-- Add an icon based on the material type -->
+                <i class="{{ getMaterialIcon(mat.document_type) }} material-icon"></i>
+                <span class="material-title">{{ mat.title }}</span>
+              
+              <div class="material-actions" *ngIf="hoveredItemId === mat.id">
+                <button (click)="previewMaterial(mat)" class="material-action" >Preview</button>
+                <button  (click)="openMaterialModalup(lesson.id,mat)" class="material-action">Update</button>
+                <div id="materialModalup" class="modal">
+                  <div class="modal-content">
+                      <span class="close" (click)="closeMaterialModal()">&times;</span>
+                      <form (submit)="UpdateMaterial(mat.id)">
+            
+                          <!-- Your Material Form Fields -->
+                          <label for="title">Title:</label>
+                          <input [(ngModel)]="myform.value['title']" type="text" id="title" name="title" required>
+                          
+                          <label for="document_type">Document Type:</label>
+<select [(ngModel)]="myform.value['document_type']" id="document_type" name="document_type" class="form-control" required>
+  <option value="" disabled selected>Select Document Type</option>
+  <option value="invoice">Invoice <i class="fas fa-file-invoice"></i></option>
+  <option value="report">Report <i class="fas fa-file-alt"></i></option>
+  <option value="presentation">Presentation <i class="fas fa-file-powerpoint"></i></option>
+  <!-- Add more options with corresponding icons as needed -->
+</select>
+   
+                          <label for="file">
+                            Upload                           
+                          </label>
+<input type="file" id="file" name="content" (change)="onFileChange($event)"  [(ngModel)]="selectedFile" required> 
+                        <!-- your-file.html -->
+                        <button type="submit">update</button>
+            
+            
+                      </form>
+                  </div>
+              </div>
+                <button (click)="delete_mat(mat.id)" class="material-action">Delete</button>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+          
+          
+
+        <!-- Line to separate lessons -->
+        <hr>
+    </div>
+</div>
+
+   
         
-        <!-- Button to Add Materials for the Current Lesson -->
-        <button (click)="openMaterialModal(lesson.id)">Add Material</button>
+       
+
+
+    
+    <!-- Button to Add a New Lesson -->
+    <div class="button-container">
+        <button class="button_plus" (click)="addLesson()"></button>
+        <a class="add-section" (click)="addLesson()">Add Section</a>
     </div>
 </main>
 
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
+  .document-type-list {
+  display: flex;
+  flex-direction: column;
+}
 
-    header {
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-    }
+.document-type-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em; /* Adjust the margin as needed */
+}
 
-    main {
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+input[type=radio] {
+  margin-right: 0.5em; /* Adjust the margin as needed */
+  /* Add additional styling for radio inputs if necessary */
+}
 
-    section {
-        margin-bottom: 20px;
-    }
+label {
+  cursor: pointer;
+}
 
-    h2 {
-        border-bottom: 2px solid #333;
-        padding-bottom: 5px;
-    }
+  input[type=file] { display: none; }
+label[for=file] {
+  margin-top: 10px;
+	display: grid;
+	grid-auto-flow: column;
+	grid-gap: .5em;
+	justify-items: center;
+	align-content: center;
+	color: #4e73df;
+	border: .2em solid #4e73df;
+	background: hsl(0 0 0/0);
+	padding: .85em 1.5em;
+	color: #4e73df;
+	border-radius: 2em;
+	transition: 1s;
+  width: 150px;
+	&:hover, &:focus, &:active {
+    background: #4e73df;
+		color: #fff;
+	}
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
 
-    .lesson {
-        margin: 10px 0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-    }
 
-    .material {
-        display: flex;
-        align-items: center;
-        margin: 5px 0;
-    }
 
-    .material-icon {
-        margin-right: 10px;
-    }
+  input[type=text] {
+	appearance: none;
+	border: none;
+	outline: none;
+	border-bottom: .2em solid #4e73df;
+	background: rgba(#4e73df, .2);
+	border-radius: .2em .2em 0 0;
+	margin-bottom: 20px;
+	color: #000;
+  width:250px;
+}
+   /* Add these styles to your component's CSS file */
+   .delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 14px;
+  color: red;
+  background: none; /* Remove any default background */
+  border: none; /* Remove any default border */
+  cursor: pointer; /* Add cursor pointer for better UX */
+}
+   .material-item {
+  display: flex;
+  align-items: center;  
+  margin-bottom: 20px; /* Adjust the size of the space between each material */
+}
 
-    .material-link {
-        color: #333;
-        text-decoration: none;
-    }
-    .modal {
-          display: none;
-          position: fixed;
-          z-index: 1;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          overflow: auto;
-          background-color: rgba(0, 0, 0, 0.5);
-          padding-top: 50px;
-      }
+.material-actions {
+  display: flex;
+  align-items: center;
+}
 
-      .modal-content {
-          background-color: #fefefe;
-          margin: 5% auto;
-          padding: 20px;
-          border: 1px solid #888;
-          width: 80%;
-      }
+.material-action {
+  background-color: #4e73df;
+  color: #fff;
+  padding: 4px 0px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
 
-      .close {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-      }
+.material-content {
+  display: flex;
+  align-items: center;
+}
 
-      .close:hover,
-      .close:focus {
-          color: black;
-          text-decoration: none;
-          cursor: pointer;
-      }
+.material-icon {
+  font-size: 25px; /* Adjust the size as needed */
+  margin-right: 10px;
+}
+
+.material-title {
+  font-size: 18px; /* Adjust the size as needed */
+  margin-right: 5px;
+}
+
+.lesson {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #4e73df;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.add-material-button {
+  color: #28a745; /* Green color for an "add" theme */
+  position: absolute;
+  bottom: -5px; /* Move to the bottom */
+  left: 0px; /* Move to the left */
+  font-size: 14px;
+  background: none; /* Remove any default background */
+  border: none; /* Remove any default border */
+  cursor: pointer;
+}
+
+
+.lesson-content {
+  width: 70%;
+}
+
+.lesson-header {
+  display: flex;
+  align-items: center;
+}
+
+.lesson-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4e73df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.lesson-title {
+  font-size: 18px;
+  color: #4e73df;
+  flex: 1;
+}
+
+.button-link {
+  background: none;
+  border: none;
+  color: #4e73df;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.materials-container {
+  margin-top: 20px;
+  padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button_plus {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  cursor: pointer;
+  border: 2px solid #4e73df;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.button_plus:after {
+  content: '';
+  position: absolute;
+  transform: translate(-50%, -50%);
+  height: 4px;
+  width: 50%;
+  background: #4e73df;
+  top: 50%;
+  left: 50%;
+}
+
+.button_plus:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #4e73df;
+  height: 50%;
+  width: 4px;
+}
+
+.button_plus:hover:before,
+.button_plus:hover:after {
+  background: #fff;
+  transition: 0.2s;
+}
+
+.button_plus:hover {
+  background-color: #4e73df;
+  transition: 0.2s;
+}
+
+main {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+button {
+  background-color: #4e73df;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.lesson {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #4e73df;
+  background-color: #f9f9f9;
+}
+
+.material {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.material-icon {
+  margin-right: 10px;
+}
+
+.material-link {
+  color: #333;
+  text-decoration: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding-top: 50px;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #3949ab;
+  width: 50%;
+  height: auto;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+
   </style>

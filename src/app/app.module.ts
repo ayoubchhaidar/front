@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -29,7 +28,13 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VerifSetupComponent } from './components/verif-setup/verif-setup.component';
 import { LessonsMateialsComponent } from './lessons-materials/lessons-materials.component';
-import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component'
+import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component';
+import { UploadComponent } from './upload/upload.component'
+import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { NgSelectModule } from '@ng-select/ng-select
 
 
 @NgModule({
@@ -53,6 +58,9 @@ import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component
     VerifSetupComponent,
     LessonsMateialsComponent,
     AddLessonComponent,
+    UploadComponent,
+    ExamplePdfViewerComponent,
+    ConfirmationDialogComponent,
   ],
   
   imports: [
@@ -67,7 +75,9 @@ import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-   
+    NgxExtendedPdfViewerModule,
+    PdfViewerModule,
+   NgxDocViewerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -27,7 +27,7 @@
         
     </tr>
      
-        <tr  *ngFor="let user of speceficUsers" >
+        <tr  *ngFor="let user of filteredUsers" >
          
           <td> 
             <input type="checkbox" [(ngModel)]="user.checked" (change)="addToTable(user.id, user.checked)" (change)="toggleButtonVisibility()"> 
@@ -47,8 +47,7 @@
           <td> 
                   
             <button  *ngIf="user.is_active==false"  class="btn btn-danger"  (click)="verify(user.id)" style="margin-left: 10px;"> Verify</button>    
-            <button   class="btn btn-danger" (click)="deleteUser(user.id)" style="margin-left: 10px;"> Delete</button>
-
+           
         <img *ngIf="user.is_active==true" src="assets/verif.png" alt="Verification Image" width="50" height="50">
     
 </td>
@@ -57,12 +56,6 @@
       </tbody>
     
     </table>
-    
-  </div> 
-</div>
-</div>   
-</div>
-
     <table class="table table-striped"  *ngIf="listeDe=='Administraeurs'">
       <thead>
         
@@ -81,7 +74,7 @@
       <tbody>
       
      
-        <tr  *ngFor="let user of speceficUsers" >
+        <tr  *ngFor="let user of filteredUsers" >
          
          
           <td> {{user.id}} </td>
@@ -105,3 +98,10 @@
       </tbody>
     
     </table>
+    
+  </div> 
+</div>
+</div>   
+</div>
+
+    

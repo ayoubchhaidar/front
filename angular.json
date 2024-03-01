@@ -22,7 +22,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
@@ -32,13 +37,16 @@
               "node_modules/startbootstrap-sb-admin-2/css/sb-admin-2.min.css",
               "src/styles.css"
             ],
-            "scripts": [ "node_modules/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js",
-            "node_modules/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js",
-            "node_modules/startbootstrap-sb-admin-2/vendor/jquery-easing/jquery.easing.min.js",
-            "node_modules/startbootstrap-sb-admin-2/js/sb-admin-2.min.js",
-            "node_modules/startbootstrap-sb-admin-2/vendor/chart.js/Chart.min.js",
-            "node_modules/startbootstrap-sb-admin-2/js/demo/chart-area-demo.js",
-            "node_modules/startbootstrap-sb-admin-2/js/demo/chart-pie-demo.js"]
+            "scripts": [
+              "node_modules/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js",
+              "node_modules/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "node_modules/startbootstrap-sb-admin-2/vendor/jquery-easing/jquery.easing.min.js",
+              "node_modules/startbootstrap-sb-admin-2/js/sb-admin-2.min.js",
+              "node_modules/startbootstrap-sb-admin-2/vendor/chart.js/Chart.min.js",
+              "node_modules/startbootstrap-sb-admin-2/js/demo/chart-area-demo.js",
+              "node_modules/startbootstrap-sb-admin-2/js/demo/chart-pie-demo.js"
+           
+            ]
           },
           "configurations": {
             "production": {
@@ -83,7 +91,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "Front:build"
-            
           }
         },
         "test": {
