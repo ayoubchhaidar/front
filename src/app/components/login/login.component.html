@@ -27,15 +27,18 @@
                                                 class="form-control form-control-user">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" placeholder="Password" name="password"
-                                                formControlName="password" id="password"
-                                                class="form-control form-control-user">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                            <div class="password-input-container">
+                                                <input type="password" placeholder="Password" formControlName="password" [type]="hidePassword ? 'password' : 'text'" class="form-control form-control-user">
+                                                <button type="button" class="toggle-password-button" (click)="togglePasswordVisibility()">
+                                                    <i class="fas" [ngClass]="{'fa-eye': hidePassword, 'fa-eye-slash': !hidePassword}"></i>
+                                                </button>
                                             </div>
+                                        </div>
+                                        
+                                        <div class="form-group">                                  
+                                                <div style="margin-left:65px;" *ngIf="errorMessage" class="error-message">
+                                                    {{ errorMessage }}
+                                                  </div>
                                         </div>
                                         <input routerlink="dashboard" type="submit" name="submit"
                                             class="btn btn-primary btn-user btn-block" value="Login">

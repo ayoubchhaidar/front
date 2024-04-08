@@ -16,6 +16,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VerifSetupComponent } from './components/verif-setup/verif-setup.component';
 import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component';
 import { LessonsMateialsComponent } from './lessons-materials/lessons-materials.component';
+import { AddNotificationComponent } from './add-notification/add-notification.component';
+import { CommsComponent } from './comms/comms.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { CoursePlayerComponent } from './course-player/course-player.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { QuizComponent } from './quiz/quiz.component';
+import { QuizContentComponent } from './quiz-content/quiz-content.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,24 +31,32 @@ const routes: Routes = [
     { path: 'users/:param', component: UsersListComponent },
     { path: 'setup', component: VerifSetupComponent },
     { path: 'add-course', component: AddCourseComponent },
-    { path: 'courses', component: CoursesComponent},
+    { path: 'courses/:type', component: CoursesComponent },
+    { path: 'courses', component: CoursesComponent },
     { path: 'lesoon', component: LessonsMateialsComponent },
+    { path: 'noti', component: AddNotificationComponent },
+    { path: 'comms', component: CommsComponent },
+    { path: 'stat', component: StatisticsComponent },
+    { path: 'quiz', component: QuizComponent },
+    { path: 'quizC', component: QuizContentComponent },
   ] },
   { path: 'sign-up', component: SignUpComponent },
- 
   { path: 'resme', component: ResetPasswordComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'upload', component: UploadpdfComponent },
   { path: 'pfd', component: PdfViewerComponent },
+  {
+    path:'confirm-email/:username', component: ConfirmEmailComponent
+  },
  
   { path: 'material', component: MaterialComponent },
-  { path: 'submissions', component: SubmissionsComponent },
+  { path: 'submissions', component: CoursePlayerComponent },
   { path: 'assignment', component: AssignmentComponent },
   { path: 'add-course', component: AddCourseComponent },
   { path: 'add-lesson', component: AddLessonComponent },
- 
   { path: '**', redirectTo: '/login' }, 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+
 ];
 
 @NgModule({

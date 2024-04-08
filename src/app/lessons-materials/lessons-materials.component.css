@@ -1,0 +1,381 @@
+
+/* Style for the links */
+a {
+  color: black;
+  font-size: 1.3rem;
+  text-decoration: none;
+  margin-top: 1em;
+  display: inline-block;
+  font-weight: bold;
+  padding: .5em;
+  margin-left: -.5em;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Style for active links */
+.active-section a {
+  color: rgb(0, 99, 228); /* Change color for links within active section */
+  text-decoration: underline; /* Underline active links */
+}
+
+a:before, a:after {
+  position: absolute;
+  content: '';
+  border-bottom: 3px solid rgb(0, 99, 228);
+  border-radius: 1em;
+  bottom: .3em;
+  transition: transform .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+a:before {
+  width: 1em;
+  transform-origin: left;
+}
+
+a:after {
+  width: 82%;
+  left: 1em;
+  transform: translateX(110%);
+}
+
+a:hover:before {
+  transform: scaleX(0.3);
+}
+
+a:hover:after {
+  transform: translateX(0);
+}
+
+/* Center the links */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.lesson-header-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Adjust as needed */
+  gap: 20px; /* Adjust as needed for spacing between items */
+  margin:auto
+}
+
+.lesson-header {
+  flex-basis: calc(33.33% - 20px); /* 33.33% for three items per row, minus gap */
+  /* Adjust width and margin as needed */
+}
+input:required {
+    border: 1px solid red;
+  }
+  
+    .document-type-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .document-type-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5em; /* Adjust the margin as needed */
+  }
+  
+  input[type=radio] {
+    margin-right: 0.5em; /* Adjust the margin as needed */
+    /* Add additional styling for radio inputs if necessary */
+  }
+  
+  label {
+    cursor: pointer;
+  }
+  
+    input[type=file] { display: none; }
+  label[for=file] {
+    margin-top: 10px;
+      display: grid;
+      grid-auto-flow: column;
+      grid-gap: .5em;
+      justify-items: center;
+      align-content: center;
+      color: #4e73df;
+      border: .2em solid #4e73df;
+      background: hsl(0 0 0/0);
+      padding: .85em 1.5em;
+      color: #4e73df;
+      border-radius: 2em;
+      transition: 1s;
+    width: 150px;
+      &:hover, &:focus, &:active {
+      background: #4e73df;
+          color: #fff;
+      }
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  
+    input[type=text] {
+      appearance: none;
+      border: none;
+      outline: none;
+      border-bottom: .2em solid #4e73df;
+      background: rgba(#4e73df, .2);
+      border-radius: .2em .2em 0 0;
+      margin-bottom: 20px;
+      color: #000;
+    width:250px;
+  }
+     /* Add these styles to your component's CSS file */
+     .delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    color: red;
+    background: none; /* Remove any default background */
+    border: none; /* Remove any default border */
+    cursor: pointer; /* Add cursor pointer for better UX */
+  }
+     .material-item {
+    display: flex;
+    align-items: center;  
+    margin-bottom: 20px; /* Adjust the size of the space between each material */
+  }
+  
+  .material-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Add this to your global styles or component styles file */
+  
+  .material-action {
+    background-color: #f9f9f9;/* Set background color */
+    color: #4e73df;  /* Set text color */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  .material-action mat-icon {
+    font-size: 8px;  
+  }
+  
+  /* Add hover effect */
+  .material-action:hover {
+  color: #2980b9; /* Darken the background color on hover */
+  }
+  
+  
+  
+  
+  .material-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    font-size: 25px; /* Adjust the size as needed */
+    margin-right: 10px;
+  }
+  
+  .material-title {
+    font-size: 20px; /* Adjust the size as needed */
+    margin-right: 5px;
+  }
+  
+  .lesson {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #4e73df;
+    background-color: #f9f9f9;
+    position: relative;
+  }
+  
+  .add-material-button {
+    color: #28a745; /* Green color for an "add" theme */
+    position: absolute;
+    bottom: -5px; /* Move to the bottom */
+    left: 0px; /* Move to the left */
+    font-size: 14px;
+    background: none; /* Remove any default background */
+    border: none; /* Remove any default border */
+    cursor: pointer;
+  }
+  
+  
+  .lesson-content {
+    width: 70%;
+  }
+  
+  .lesson-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .lesson-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4e73df;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    margin-right: 10px;
+  }
+  
+  .lesson-title {
+    font-size: 18px;
+    color: #4e73df;
+    flex: 1;
+  }
+  
+  .button-link {
+    background: none;
+    border: none;
+    color: #4e73df;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .materials-container {
+    margin-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .button_plus {
+    position: relative;
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    cursor: pointer;
+    border: 2px solid #4e73df;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .button_plus:after {
+    content: '';
+    position: absolute;
+    transform: translate(-50%, -50%);
+    height: 4px;
+    width: 50%;
+    background: #4e73df;
+    top: 50%;
+    left: 50%;
+  }
+  
+  .button_plus:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #4e73df;
+    height: 50%;
+    width: 4px;
+  }
+  
+  .button_plus:hover:before,
+  .button_plus:hover:after {
+    background: #fff;
+    transition: 0.2s;
+  }
+  
+  .button_plus:hover {
+    background-color: #4e73df;
+    transition: 0.2s;
+  }
+  
+  main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  button {
+    background-color: #4e73df;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .lesson {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #4e73df;
+    background-color: #f9f9f9;
+  }
+  
+  .material {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .material-icon {
+    margin-right: 10px;
+  }
+  
+  .material-link {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 50px;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #3949ab;
+    width: 50%;
+    height: auto;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  

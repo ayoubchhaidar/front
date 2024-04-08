@@ -1,111 +1,231 @@
-<!-- Your Main Content --><!-- Add this in your index.html -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-<main id="course-content">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<div class="button-container">
+  <a (click)="toggleSection('information')" [class.active]="showInformation">Information</a>
+  <a  (click)="toggleSection('content')" [class.active]="showContent">Contenu</a>
+</div>
+
+
+<div *ngIf="showInformation">
+  <main>
+    <h2>Information</h2>
+    <div class="lesson">
+     <p>
+  <span style="font-weight: bold; color: #333;">Titre :</span>
+  {{ getCourseById(CourseId)?.title }}<br>
+  <span style="font-weight: bold; color: #333;">Description :</span>
+  {{ getCourseById(CourseId)?.description }}
+</p>
+
+    </div>
+    <div class="lesson">
+      <p style="font-weight: bold; color: #333;">Contenu :</p>
+      <div class="lesson-header-container">
+     
+        <div  class="lesson-header" *ngFor="let lesson of lessons; let i = index" [attr.id]="'lesson-' + lesson.id">
+          <p class="lesson-number"><span>{{ i + 1 }}</span></p>
+          <h1 class="lesson-title">{{ lesson.title }}</h1>
+        </div>
+      </div>
+    </div>
+    
+  </main>
+
+</div>
+
+<main id="course-content" *ngIf="showContent">
     
 
     <!-- The Material Type Modal -->
     <div id="materialModal" class="modal">
         <div class="modal-content">
             <span class="close" (click)="closeMaterialModal()">&times;</span>
-            <form (submit)="AddMaterial(selectedLessonId!)">
-
-                <!-- Your Material Form Fields -->
-                <div class="form-group">
-                  <label for="title">Title:</label>
-                  <input type="text" id="title" name="title" [(ngModel)]="myform.value['title']" required>
-                
-                  <label for="document_type">Document Type:</label>
-                  <select [(ngModel)]="myform.value['document_type']" id="document_type" name="document_type" class="form-control" required>
-                    <option value="" disabled selected>Select Document Type</option>
-                    <option value="invoice">Invoice <i class="fas fa-file-invoice"></i></option>
-                    <option value="report">Report <i class="fas fa-file-alt"></i></option>
-                    <option value="presentation">Presentation <i class="fas fa-file-powerpoint"></i></option>
-                    <!-- Add more options with corresponding icons as needed -->
-                  </select>
+            <h4 *ngIf="update==false && eval==false" style="text-align: center; color: #4e73df;">Add Material</h4>
+            <h4 *ngIf="update==true" style="text-align: center; color: #4e73df;">Update Material</h4>
+            <h4 *ngIf="eval==true" style="text-align: center; color: #4e73df;">Add Evaluation</h4>
+            <form (ngSubmit)="update ? UpdateMaterial(selectedmatId): AddMaterial(selectedLessonId)" #myForm="ngForm">
+              
+              <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" [(ngModel)]="myform.value['title']" required #Input="ngModel">
+                <div *ngIf="(Input.invalid) && (Input.dirty || Input.touched )" class="error-message">
+                  Title is required.
+                </div>
+            
+                <label for="document_type">Document Type:</label>
+                <mat-select [(ngModel)]="myform.value['document_type']" id="document_type" name="document_type" class="form-control" required color="blue" #Input="ngModel">
+                  <mat-option disabled selected>Select Document Type</mat-option>
+                  <div *ngIf="eval===false">
+                  <mat-option value="pdf">
+                    <mat-icon class="icon">picture_as_pdf</mat-icon> PDF
+                  </mat-option>
+                  <mat-option value="docx">
+                    <mat-icon class="icon">description</mat-icon> Docx
+                  </mat-option>
+                  <mat-option value="pptx">
+                    <mat-icon class="icon">slideshow</mat-icon> Présentation (PPTX)
+                </mat-option>
+                  <mat-option value="youtube">
+                    <mat-icon class="icon">video_library</mat-icon>YouTube
+                  </mat-option>
+                  <mat-option value="video">
+                    <mat-icon class="icon">video_library</mat-icon>Video
+                  </mat-option>
+                </div>
+                  <!-- <div *ngIf="eval===true">
+                  <mat-option value="quiz" >
+                    <mat-icon class="icon">live_help</mat-icon> Quiz
+                  </mat-option>
+                  <mat-option value="exercise">
+                    <mat-icon class="icon">fitness_center</mat-icon> Exercise
+                  </mat-option>
+                </div> -->
+                  <!-- Add more options with corresponding icons as needed -->
+                </mat-select>
+              
+                <div *ngIf="Input.invalid && (Input.dirty || Input.touched)" class="error-message">
+                  Document Type is required.
+                </div>
+            
+                <div *ngIf="myform.value['document_type'] === 'youtube'">
+                  <label for="youtube_url">YouTube URL:</label>
+                  <input  type="text" id="youtube_url" name="youtube_url" class="form-control" [(ngModel)]="uploadedLink" required #youtubeUrl="ngModel" />
+                  <div *ngIf="youtubeUrl.invalid && (youtubeUrl.dirty || youtubeUrl.touched)" class="error-message">
+                    YouTube URL is required.
+                  </div>
                   
-                <label for="file">
-                  Upload                           
-                </label>
-<input type="file" id="file" name="content" (change)="onFileChange($event)"  [(ngModel)]="selectedFile" required> 
-        
-              <!-- your-file.html -->
-              <button *ngIf="uploadedLink !== ''" type="submit">Add Material</button>
-            </div>
-
+                </div>
+                <div *ngIf="myform.value['document_type'] === 'video'">
+                  <label for="youtube_url">drive link for ur video:</label>
+                  <input  type="text" id="youtube_url" name="youtube_url" class="form-control" [(ngModel)]="uploadedLink" required #youtubeUrl="ngModel" />
+                  <div *ngIf="youtubeUrl.invalid && (youtubeUrl.dirty || youtubeUrl.touched)" class="error-message">
+                    drive link is required.
+                  </div>
+                
+                </div>
+            
+                <div *ngIf="['pdf','docx'].includes(myform.value['document_type'])">
+                  <label for="file">File Upload</label>
+                  <input type="file" id="file" name="content" (change)="onFileSelected($event)" [(ngModel)]="selectedFile" required #Input="ngModel" />
+                  <div *ngIf="Input.invalid && (Input.dirty || Input.touched)" class="error-message">
+                    File Upload is required.
+                  </div>
+                </div>
+                <div *ngIf="myform.value['document_type'] === 'pptx'">>
+                  <label for="file">File Upload</label>
+                  <input type="file" id="file" name="content" (change)="onFileSelected($event)" [(ngModel)]="selectedFile" required #Input="ngModel" />
+                  <div *ngIf="Input.invalid && (Input.dirty || Input.touched)" class="error-message">
+                    File Upload is required.
+                  </div>
+                </div>
+            
+                <div *ngIf="errorMessage" class="error-message">
+                  {{ errorMessage }}
+                </div>
+                      <!-- your-file.html -->
+                <button *ngIf="myForm.valid && uploadedLink !== '' && errorMessage == '' && !update" type="submit">Add Material</button>
+  <button *ngIf="myForm.valid && uploadedLink !== '' && errorMessage == '' && update" type="submit">Update Material</button>
+              </div>
             </form>
+            
         </div>
     </div>
     
 
  <!-- Your Lessons Iteration -->
  <div *ngFor="let lesson of lessons; let i = index" class="lesson" [attr.id]="'lesson-' + lesson.id">
-  <button class="add-material-button" (click)="openMaterialModal(lesson.id)">
+  <button class="add-material-button" (click)="openMaterialModal(lesson?.id, 0, false,false)">
     <i class="fas fa-plus"></i> Add Material
   </button>
-  
+  <button class="add-material-button" style="margin-left: 500px;"  (click)="openMaterialModaleval()">
+    <i class="fas fa-plus"></i> Add Evaluation
+  </button>
+  <div id="materialModaleval" class="modal">
+    <div class="modal-content">  
+      <span class="close" (click)="closeMaterialModal()">&times;</span>
+      <h4  style="text-align: center; color: #4e73df;">select</h4>
+      <a  [routerLink]="['/dashboard/quiz']"
+      [queryParams]="{ courseId: CourseId, lessonId: lesson.id }">quiz</a><br>
+      <a>exercise</a><br>
+  </div>
+</div>
   <button (click)="delete_lesson(lesson.id)" class="delete-button">
     <i class="fas fa-trash-alt"></i> Delete
   </button>
   
+  <div class="lesson-content">
+    <div class="lesson-header">
+      <p class="lesson-number"><span>{{ i + 1 }}</span></p>
+      <h1 class="lesson-title">
+        <span *ngIf="!lesson.isEditing" (click)="enableLessonEdit(lesson)">{{ lesson.title }}</span>
+        <input *ngIf="lesson.isEditing" type="text" [(ngModel)]="lesson.newTitle" (keyup.enter)="updateLessonTitle(lesson)" >
+        <button type="button" *ngIf="lesson.isEditing" (click)="updateLessonTitle(lesson)">Save</button>
+      </h1>
+      <button class="button-link" (click)="toggleMaterials(lesson)">Show More</button>
+    </div>
+    <div id="yourListItemId" class="your-list-item">
+      <!-- Material content -->
     
-  
-    <div class="lesson-content">
-        <div class="lesson-header">
-            <p class="lesson-number"><span>{{ i + 1 }}</span></p>
-            <h1 class="lesson-title">{{ lesson.title }}</h1>
-            <button class="button-link" (click)="toggleMaterials(lesson)">Show More</button>
-        </div>
+
+ 
+     
         <div *ngIf="lesson.showMaterials" class="materials-container">
             <div *ngFor="let mat of lesson.mateials" class="material-item" (mouseenter)="onMouseEnter(mat.id)" (mouseleave)="onMouseLeave()">
               
                 <!-- Add an icon based on the material type -->
-                <i class="{{ getMaterialIcon(mat.document_type) }} material-icon"></i>
-                <span class="material-title">{{ mat.title }}</span>
+                  <mat-icon class="icon">{{ getMaterialIcon(mat.document_type) }}</mat-icon> 
+                   <span class="material-title">{{ mat.title }}</span>
               
               <div class="material-actions" *ngIf="hoveredItemId === mat.id">
-                <button (click)="previewMaterial(mat)" class="material-action" >Preview</button>
-                <button  (click)="openMaterialModalup(lesson.id,mat)" class="material-action">Update</button>
-                <div id="materialModalup" class="modal">
+              
+                <button (click)="openMaterialModalpreview(mat)" class="material-action">
+                  <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
+                </button>
+
+                <div id="materialModalpreview" class="modal"  >
                   <div class="modal-content">
-                      <span class="close" (click)="closeMaterialModal()">&times;</span>
-                      <form (submit)="UpdateMaterial(mat.id)">
-            
-                          <!-- Your Material Form Fields -->
-                          <label for="title">Title:</label>
-                          <input [(ngModel)]="myform.value['title']" type="text" id="title" name="title" required>
-                          
-                          <label for="document_type">Document Type:</label>
-<select [(ngModel)]="myform.value['document_type']" id="document_type" name="document_type" class="form-control" required>
-  <option value="" disabled selected>Select Document Type</option>
-  <option value="invoice">Invoice <i class="fas fa-file-invoice"></i></option>
-  <option value="report">Report <i class="fas fa-file-alt"></i></option>
-  <option value="presentation">Presentation <i class="fas fa-file-powerpoint"></i></option>
-  <!-- Add more options with corresponding icons as needed -->
-</select>
-   
-                          <label for="file">
-                            Upload                           
-                          </label>
-<input type="file" id="file" name="content" (change)="onFileChange($event)"  [(ngModel)]="selectedFile" required> 
-                        <!-- your-file.html -->
-                        <button type="submit">update</button>
-            
-            
-                      </form>
+                    <span class="close" (click)="closeMaterialModal()">&times;</span>
+                    <h4  style="text-align: center; color: #4e73df;">mat</h4>
+                    <form >
+                      
+                    <!-- <iframe [src]="mat.content" height="1100px" width="100%" frameborder="0" ></iframe>  -->
+                      <!-- <ngx-extended-pdf-viewer [src]="mat.content" [textLayer]="true"></ngx-extended-pdf-viewer> 
+                      
+                      -->
+
+                      <ngx-doc-viewer
+                      [url]="mat.content"
+                      viewer="url"
+                      style="width:100%;height:500px;"
+                    >
+                    </ngx-doc-viewer> 
+                  
+                  
+                    
+                    </form>  
+                    
                   </div>
+                </div>
+                
+                <button (click)="openMaterialModal(lesson.id, mat, true,false)" class="material-action">
+                  <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
+                </button>
+
+
+
+<button (click)="delete_mat(mat.id)" class="material-action">
+  <i class="fas fa-trash-alt"></i> <!-- Font Awesome trash icon -->
+</button>
               </div>
-                <button (click)="delete_mat(mat.id)" class="material-action">Delete</button>
-              </div>
+            </div>
             </div>
           </div>
           
           
           
           
-          
-
-        <!-- Line to separate lessons -->
+        
         <hr>
     </div>
 </div>
@@ -113,314 +233,27 @@
    
         
        
-
-
+<div id="materialModallesson" class="modal">
+  <div class="modal-content">
     
-    <!-- Button to Add a New Lesson -->
-    <div class="button-container">
-        <button class="button_plus" (click)="addLesson()"></button>
-        <a class="add-section" (click)="addLesson()">Add Section</a>
+    <span class="close" (click)="closeMaterialModal()">&times;</span>
+    <h4  style="text-align: center; color: #4e73df;">Add Lesson</h4>
+    <form #materialForm="ngForm" (ngSubmit)="addLesson()">
+      <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" [(ngModel)]="newLessonTitle" required #Input="ngModel">
+      <div *ngIf="(Input.invalid) && (Input.dirty || Input.touched)" class="error-message">
+        Title is required.
+      </div>
+      <button *ngIf="newLessonTitle!=''" type="submit">Add</button>
     </div>
+    </form>
+  </div>
+</div>
+
+<div class="button-container">
+  <button class="button_plus" (click)="openMaterialModallesson()"></button>
+  <a class="add-section" (click)="openMaterialModallesson()">Add Section</a>
+</div>
+
 </main>
-
-<style>
-  .document-type-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.document-type-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5em; /* Adjust the margin as needed */
-}
-
-input[type=radio] {
-  margin-right: 0.5em; /* Adjust the margin as needed */
-  /* Add additional styling for radio inputs if necessary */
-}
-
-label {
-  cursor: pointer;
-}
-
-  input[type=file] { display: none; }
-label[for=file] {
-  margin-top: 10px;
-	display: grid;
-	grid-auto-flow: column;
-	grid-gap: .5em;
-	justify-items: center;
-	align-content: center;
-	color: #4e73df;
-	border: .2em solid #4e73df;
-	background: hsl(0 0 0/0);
-	padding: .85em 1.5em;
-	color: #4e73df;
-	border-radius: 2em;
-	transition: 1s;
-  width: 150px;
-	&:hover, &:focus, &:active {
-    background: #4e73df;
-		color: #fff;
-	}
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-
-
-  input[type=text] {
-	appearance: none;
-	border: none;
-	outline: none;
-	border-bottom: .2em solid #4e73df;
-	background: rgba(#4e73df, .2);
-	border-radius: .2em .2em 0 0;
-	margin-bottom: 20px;
-	color: #000;
-  width:250px;
-}
-   /* Add these styles to your component's CSS file */
-   .delete-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 14px;
-  color: red;
-  background: none; /* Remove any default background */
-  border: none; /* Remove any default border */
-  cursor: pointer; /* Add cursor pointer for better UX */
-}
-   .material-item {
-  display: flex;
-  align-items: center;  
-  margin-bottom: 20px; /* Adjust the size of the space between each material */
-}
-
-.material-actions {
-  display: flex;
-  align-items: center;
-}
-
-.material-action {
-  background-color: #4e73df;
-  color: #fff;
-  padding: 4px 0px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 5px;
-}
-
-.material-content {
-  display: flex;
-  align-items: center;
-}
-
-.material-icon {
-  font-size: 25px; /* Adjust the size as needed */
-  margin-right: 10px;
-}
-
-.material-title {
-  font-size: 18px; /* Adjust the size as needed */
-  margin-right: 5px;
-}
-
-.lesson {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #4e73df;
-  background-color: #f9f9f9;
-  position: relative;
-}
-
-.add-material-button {
-  color: #28a745; /* Green color for an "add" theme */
-  position: absolute;
-  bottom: -5px; /* Move to the bottom */
-  left: 0px; /* Move to the left */
-  font-size: 14px;
-  background: none; /* Remove any default background */
-  border: none; /* Remove any default border */
-  cursor: pointer;
-}
-
-
-.lesson-content {
-  width: 70%;
-}
-
-.lesson-header {
-  display: flex;
-  align-items: center;
-}
-
-.lesson-number {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #4e73df;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: #fff;
-  margin-right: 10px;
-}
-
-.lesson-title {
-  font-size: 18px;
-  color: #4e73df;
-  flex: 1;
-}
-
-.button-link {
-  background: none;
-  border: none;
-  color: #4e73df;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.materials-container {
-  margin-top: 20px;
-  padding-left: 40px;
-  display: flex;
-  flex-direction: column;
-}
-
-.button-container {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.button_plus {
-  position: relative;
-  display: block;
-  width: 50px;
-  height: 50px;
-  background: #fff;
-  cursor: pointer;
-  border: 2px solid #4e73df;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.button_plus:after {
-  content: '';
-  position: absolute;
-  transform: translate(-50%, -50%);
-  height: 4px;
-  width: 50%;
-  background: #4e73df;
-  top: 50%;
-  left: 50%;
-}
-
-.button_plus:before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #4e73df;
-  height: 50%;
-  width: 4px;
-}
-
-.button_plus:hover:before,
-.button_plus:hover:after {
-  background: #fff;
-  transition: 0.2s;
-}
-
-.button_plus:hover {
-  background-color: #4e73df;
-  transition: 0.2s;
-}
-
-main {
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background-color: #fff;
-}
-
-button {
-  background-color: #4e73df;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.lesson {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #4e73df;
-  background-color: #f9f9f9;
-}
-
-.material {
-  display: flex;
-  align-items: center;
-  margin: 5px 0;
-}
-
-.material-icon {
-  margin-right: 10px;
-}
-
-.material-link {
-  color: #333;
-  text-decoration: none;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 50px;
-}
-
-.modal-content {
-  background-color: #fff;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #3949ab;
-  width: 50%;
-  height: auto;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #333;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-  </style>

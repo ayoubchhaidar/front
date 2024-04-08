@@ -25,8 +25,7 @@ onFileChange(event: any) {
   user ={"id":null,
   "password": null,
   "username": null,
-  "first_name": null,
-  "last_name": null,
+  "full_name": null,
   "email":null,
   "is_active": null,
   "is_superuser": null,
@@ -40,8 +39,7 @@ onFileChange(event: any) {
   constructor(private AuthService: AuthService) {   
     this.myform = new FormGroup({
     Username: new FormControl(''),
-    first_name: new FormControl(''),
-    last_name: new FormControl(''),
+    full_name: new FormControl(''),
     email: new FormControl(''),
   });}
 
@@ -62,8 +60,7 @@ onFileChange(event: any) {
       console.log(this.user)
       this.myform.setValue({
         Username: this.user.username,
-        first_name: this.user.first_name,
-        last_name: this.user.last_name,
+        full_name: this.user.full_name,     
         email: this.user.email,
       });
 
@@ -80,8 +77,7 @@ onFileChange(event: any) {
 
     const formData = new FormData();
     formData.append('username', this.myform.value['Username']);
-    formData.append('first_name', this.myform.value['first_name']);
-    formData.append('last_name', this.myform.value['last_name']);
+    formData.append('full_name', this.myform.value['full_name']); 
     formData.append('email', this.myform.value['email']);
     if( this.noFileSelected===false){     formData.append('image', this.selectedFile); }
 

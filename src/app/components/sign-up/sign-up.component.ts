@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, platformCore } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -11,11 +11,11 @@ export class SignUpComponent implements OnInit {
   myform: FormGroup;
   selectedFile!: File;
   needVerification=false;
+  errormsg: string | undefined;
   constructor(private AuthService: AuthService) {
     this.myform = new FormGroup({
       username: new FormControl(''),
-      first_name: new FormControl(''),
-      last_name: new FormControl(''),
+      full_name: new FormControl(''),
       password: new FormControl(''),
       role: new FormControl(''),
       email: new FormControl('')
@@ -35,6 +35,14 @@ export class SignUpComponent implements OnInit {
   );
 
 }
+// Component TypeScript file
+password: string = '';
+hidePassword: boolean = true;
+
+togglePasswordVisibility() {
+  this.hidePassword = !this.hidePassword;
+}
+
 
   get f() {
     return this.myform.controls;
@@ -44,13 +52,16 @@ export class SignUpComponent implements OnInit {
 
 
     const verifStatus=this.AuthService.getVerifStatus().subscribe();
-    console.log(verifStatus);
+    console.log(this.myform.value['full_name']);
 
 
     const isTeacher = this.myform.value['role'] === 'teacher';
     const isStudent = this.myform.value['role'] === 'student';
 
-    if (this.myform.value['username'] && this.myform.value['first_name'] && this.myform.value['password']&& this.myform.value['email']) {
+    if (this.myform.value['username'] && this.myform.value['full_name'] && this.myform.value['password']&& this.myform.value['email']) {
+
+      if(   this.checkPw( this.myform.value['password'])==true ){
+
       const formData = new FormData();
       formData.append('profile_image', this.selectedFile);
 
@@ -58,26 +69,51 @@ export class SignUpComponent implements OnInit {
         console.log("Role value:", this.myform.value['role']);
         console.log(isTeacher);
 
-      this.AuthService.signup(this.myform.value['username'],this.myform.value['first_name'],this.myform.value['last_name'],this.myform.value['email'],this.myform.value['password'], true ,false,isTeacher,this.selectedFile)
+      this.AuthService.signup(this.myform.value['username'],this.myform.value['full_name'],this.myform.value['email'],this.myform.value['password'], true ,false,isTeacher)
         }
       else if(this.needVerification==true){
         console.log("Role value:", this.myform.value['role']);
         console.log(isTeacher);
 
-        this.AuthService.signup(this.myform.value['username'],this.myform.value['first_name'],this.myform.value['last_name'],this.myform.value['email'],this.myform.value['password'], false ,false,isTeacher,this.selectedFile)
+        this.AuthService.signup(this.myform.value['username'],this.myform.value['full_name'],this.myform.value['email'],this.myform.value['password'], false ,false,isTeacher)
 
       }
-    
-    
-    
-      } else {
 
+
+    }
+
+
+    else {
+
+      this.errormsg='Password must be at least 8 characters long,contain at least one uppercase letter and at least one digit '
+    }
+      } else {
+        this.errormsg="Please fill in all required fields."
       console.error('Please fill in all required fields.');
     }
-  
-  
-  
+
+
+
   }
-  
+
+
+  checkPw(password: string) {
+
+    if (password.length < 8) {
+      return false;     }
+
+    if (!/[A-Z]/.test(password)) {
+      return false; 
+    }
+
+    if (!/\d/.test(password)) {
+      return false;     }
+
+    return true;
+
+  }
 
 }
+  
+
+

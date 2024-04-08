@@ -1,0 +1,114 @@
+<div class="container">
+  <div class="row">
+      <section class="discussions">
+          <div class="discussion search">
+              <div class="searchbar">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <input type="text" placeholder="Search...">
+              </div>
+          </div>
+<div style="height: 500px; overflow-y: auto;">
+
+          <div class="discussion" *ngFor="let user of users"  (click)="reloadCurrentRoute()"(click)="openMaterialModalup(user.username)">
+              <div class="photo">
+                  <div class="online"></div>
+                  
+              </div>
+              <div class="desc-contact">
+                  <p class="name">{{user.username}}</p>
+                  <p class="message">{{user.email}}</p>
+              </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chat">
+       
+
+          <div class="header-chat">
+              <i class="icon fa fa-user-o" aria-hidden="true"></i>
+              <p class="name">Megan Leib</p>
+              <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
+          </div>
+
+          <div class="messages-chat">
+              <div class="msg_history" #msgHistory>
+
+
+
+                  <div *ngFor="let msg of specmessages" class="mesgs">
+                      <div *ngIf="msg.username !== signeduser.user_id" class="incoming_msg">
+                          <div class="received_msg">
+                              <div class="received_withd_msg">
+                                  <p>{{msg.message}}</p>
+                                  <span class="time_date">{{msg.date | date: 'medium'}}</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div *ngIf="msg.username === signeduser.user_id" class="outgoing_msg">
+                          <div class="sent_msg">
+                              <p>{{msg.message}}</p>
+                              <span class="time_date">{{msg.date | date: 'medium'}}</span>
+                          </div>
+                      </div>
+                  </div>
+
+ 
+
+
+                  
+                  <div *ngFor="let msg of  midmessages" class="mesgs">
+                    <div *ngIf="msg.receiver===signeduser.username && msg.username==this.preusername " class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>{{msg.message}}</p>
+                                <span class="time_date">{{now | date: 'medium'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+
+
+
+                <div *ngFor="let msg of messages" class="mesgs">
+                  <div *ngIf="msg.username==preusername" class="incoming_msg">
+                      <div class="received_msg">
+                          <div class="received_withd_msg">
+                              <p>{{msg.message}}</p>
+                              <span class="time_date">{{msg.date | date: 'medium'}}</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div *ngIf="msg.username==signeduser.username" class="outgoing_msg">
+                      <div class="sent_msg">
+                          <p>{{msg.message}}</p>
+                          <span class="time_date">{{msg.date | date: 'medium'}}</span>
+                      </div>
+                  </div>
+              </div>
+                
+
+
+
+              </div>
+          </div>
+
+          <div class="footer-chat">
+            <i class="icon fa fa-smile-o clickable" style="font-size: 25pt;" aria-hidden="true"></i>
+            <input type="text" class="write-message" [(ngModel)]="message" placeholder="Type your message here">
+            <form (submit)="submit()">
+                <button  type="submit" class="submit-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        
+        
+        
+      </section>
+      
+  </div>
+</div>

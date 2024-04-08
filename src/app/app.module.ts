@@ -19,8 +19,6 @@ import { MatFormFieldModule } from '@angular/material/form-field' ;
 import { MatInputModule} from '@angular/material/input' ;
 import { MatDialogModule} from '@angular/material/dialog';
 import { SubmissionsComponent } from './components/submissions/submissions.component';
-import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
-import {NgxExtendedPdfViewerModule} from 'ngx-extended-pdf-viewer';
 import { UploadpdfComponent } from './components/uploadpdf/uploadpdf.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
@@ -30,11 +28,23 @@ import { VerifSetupComponent } from './components/verif-setup/verif-setup.compon
 import { LessonsMateialsComponent } from './lessons-materials/lessons-materials.component';
 import { AddLessonComponent } from './components/add-lesoon/add-lesoon.component';
 import { UploadComponent } from './upload/upload.component'
-import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { NgSelectModule } from '@ng-select/ng-select
+import { MatSelectModule } from '@angular/material/select';
+import { AddNotificationComponent } from './add-notification/add-notification.component';
+import { CommsComponent } from './comms/comms.component';
+import { NgxExtendedPdfViewerModule} from 'ngx-extended-pdf-viewer';
+import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { CoursePlayerComponent } from './course-player/course-player.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+import { QuizComponent } from './quiz/quiz.component';
+import { QuizContentComponent } from './quiz-content/quiz-content.component';
+
+
+
+
 
 
 @NgModule({
@@ -49,7 +59,6 @@ import { NgSelectModule } from '@ng-select/ng-select
     AssignmentComponent,
     GradeComponent,
     SubmissionsComponent,
-    PdfViewerComponent,
     UploadpdfComponent,
     ProfileComponent,
     UsersListComponent,
@@ -59,8 +68,15 @@ import { NgSelectModule } from '@ng-select/ng-select
     LessonsMateialsComponent,
     AddLessonComponent,
     UploadComponent,
-    ExamplePdfViewerComponent,
     ConfirmationDialogComponent,
+    AddNotificationComponent,
+    CommsComponent,
+    ConfirmEmailComponent,
+    CoursePlayerComponent,
+    StatisticsComponent,
+    QuizComponent,
+    QuizContentComponent,
+
   ],
   
   imports: [
@@ -74,10 +90,12 @@ import { NgSelectModule } from '@ng-select/ng-select
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
     MatDialogModule,
     NgxExtendedPdfViewerModule,
-    PdfViewerModule,
-   NgxDocViewerModule,
+    NgxDocViewerModule,
+    HighchartsChartModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

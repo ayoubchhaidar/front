@@ -1,0 +1,56 @@
+<div id="app-container">
+    <div id="wrapper">     
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15"></div>
+                <div class="sidebar-brand-text mx-3">course title</div>
+            </a>
+            <hr class="sidebar-divider">
+            <hr class="sidebar-divider my-0">
+            <div>
+                <li class="nav-item" *ngFor="let lesson of lessons; let i = index">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" [attr.data-target]="'#collapse' + i"
+                        aria-expanded="true" [attr.aria-controls]="'collapse' + i">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>{{lesson.title}}</span>
+                    </a>
+                   
+                    <div [id]="'collapse' + i" class="collapse" [attr.aria-labelledby]="'heading' + i"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <div class="material-item" *ngFor="let mat of lesson.mateials">
+                                <a class="collapse-item"   (click)="showDocument(mat.content,mat.document_type)" (click)="track(mat.id,user.user_id)">
+                                    <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">{{ getMaterialIcon(mat.document_type) }}</mat-icon>
+                                    <span>{{ mat.title }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
+        
+        <!-- Dashboard content area -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+               
+                <ngx-doc-viewer *ngIf="mattype==='pdf' || mattype === 'docx' || mattype==='pptx' " 
+                [url]="documentToShow"
+                viewer="url"
+                style="width:100%;height:100%; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+            >
+            </ngx-doc-viewer>
+            <div class="video-container">
+                <iframe *ngIf="mattype==='video'|| mattype==='youtube'" [src]="getSafeUrl()" frameborder="0" allowfullscreen></iframe>
+              </div>
+              
+          
+
+            <!-- <iframe src="https://player.vimeo.com/video/909169767?h=1453759f78&color=ffffff&title=0&byline=0&portrait=0&badge=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>       
+             -->
+            
+            </div>
+        </div>
+        <!-- End of Dashboard content area -->
+    </div>
+</div>

@@ -3,6 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { SearchService } from '../search.service';
+import { MydataService } from '../services/mydata.service';
+import Pusher from 'pusher-js'
+
 declare var $: any;
 @Component({
   selector: 'app-dashboard',
@@ -10,8 +13,9 @@ declare var $: any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  realtimenoti: any [] = [];
   searchQuery: string = '';
-
+  userNoti: any[] = [];
   signeduser!:any;
   user ={"id":null,
   "password": null,
@@ -27,9 +31,9 @@ export class DashboardComponent {
   "image": null,}
 
   scrollTop!: number;
+  nb: number=0;
   
-  constructor(private AuthService: AuthService,private router: Router,private searchService: SearchService) {   
-  }
+  constructor(private AuthService: AuthService,private router: Router,private searchService: SearchService,private MydataService:MydataService) {}
   ngOnInit(): void {
     this.initializeScript();
     this.signeduser = localStorage.getItem("currentUser");
@@ -38,7 +42,24 @@ export class DashboardComponent {
     this.AuthService.getUserProfile(this.signeduser.user_id).subscribe(user => {
       this.user = user;
     });
-    
+    this.getNotifications();
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('90f0597aabf866e92325', {
+      cluster: 'eu'
+    });
+  
+    var channel = pusher.subscribe('chat');
+    channel.bind('notifications', (data: any) => {
+  
+      if (data.targeted_users.includes(this.signeduser.user_id)) {
+        this.nb++;
+        this.showNotification(data.message, data.type); 
+       return this.realtimenoti.push(data);
+        
+      }
+  
+       else return 0;});  
   }
   updateSearch() {
     console.log('Search query:', this.searchQuery);
@@ -134,4 +155,129 @@ export class DashboardComponent {
    
     this.router.navigate(['']);
   }
+  seen() {
+
+    this.nb=0;
+    this.MydataService.seen(this.signeduser.user_id).subscribe();
+    for (let noti of this.realtimenoti) {
+  }
+  
+  }
+  getNotifications(){
+
+    this.MydataService.getUserNoti(this.signeduser.user_id).subscribe(
+        (data: any[]) => {
+          this.userNoti = data;
+          console.log( this.userNoti);
+    
+          this.nb= this.userNoti.filter(noti => noti.is_read==false).length; 
+     this.userNoti.sort((a, b) => {
+      // Convert timestamps to Date objects for comparison
+      const dateA = new Date(a.timestamp);
+      const dateB = new Date(b.timestamp);
+    
+      // Compare timestamps
+      if (dateA > dateB) return -1; // Sort descending (newest first)
+      if (dateA < dateB) return 1;
+      return 0;
+    });
+          console.log(this.nb);
+          console.log( this.userNoti);
+    
+        },
+        (error: any) => {
+          console.error('Error fetching users:', error);
+        }
+      );
+    
+    }
+  //   showNotification(message: string, type: string): void {
+  //     const notification = document.createElement('div');
+  //     notification.className = `notification ${type}`;
+  //     notification.innerHTML = `
+  //         <div class="icon">
+  //             ${type === 'warning' ? '<i class="fas fa-exclamation-triangle"></i>' :
+  //             type === 'success' ? '<i class="fas fa-check-circle"></i>' :
+  //             type === 'information' ? '<i class="fas fa-info-circle"></i>' :
+  //             type === 'danger' ? '<i class="fas fa-times-circle"></i>' : ''}
+  //         </div>
+  //         <div class="message">${message}</div>
+  //     `;
+  //     document.body.appendChild(notification);
+  //     setTimeout(() => {
+  //         notification.remove();
+  //     }, 10000); // Remove the notification after 10 seconds
+  // }
+  showNotification(message: string, type: string): void {
+    const alertClass: { [key: string]: string } = {
+        'success': 'alert-success',
+        'info': 'alert-info',
+        'warning': 'alert-warning',
+        'danger': 'alert-danger',
+        'primary': 'alert-primary'
+    };
+
+    const notificationContainer = document.getElementById('notification-container');
+    if (!notificationContainer) {
+        console.error('Notification container not found');
+        return;
+    }
+
+    const notification = document.createElement('div');
+    notification.className = `alert fade alert-simple ${alertClass[type]} alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show`;
+    notification.setAttribute('role', 'alert');
+    
+    notification.innerHTML = `
+        <button type="button" class="close font__size-18" data-dismiss="alert">
+            <span aria-hidden="true">
+                <i class="fa fa-times"></i>
+            </span>
+            <span class="sr-only">Close</span>
+        </button>
+        <i class="start-icon ${this.getIconClass(type)}"></i>
+        <strong class="font__weight-semibold">${this.getTitle(type)}</strong> ${message}
+    `;
+
+    notificationContainer.appendChild(notification);
+
+    // Automatically remove the notification after 10 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 10000);
+}
+
+
+getIconClass(type: string): string {
+    switch (type) {
+        case 'success':
+            return 'far fa-check-circle faa-tada animated';
+        case 'info':
+            return 'fa fa-info-circle faa-shake animated';
+        case 'warning':
+            return 'fa fa-exclamation-triangle faa-flash animated';
+        case 'danger':
+            return 'far fa-times-circle faa-pulse animated';
+        case 'information':
+            return 'fa fa-thumbs-up faa-bounce animated';
+        default:
+            return '';
+    }
+}
+
+ getTitle(type: string): string {
+    switch (type) {
+        case 'success':
+            return 'Well done!';
+        case 'info':
+            return 'Heads up!';
+        case 'warning':
+            return 'Warning!';
+        case 'danger':
+            return 'Oh snap!';
+        case 'information':
+            return 'Well done!';
+        default:
+            return '';
+    }
+}
 }

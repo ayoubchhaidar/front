@@ -39,31 +39,33 @@ export class AuthService {
   
 
 
-
-  signup(username: string, first_name:string,last_name:string, email: string, password: string,is_active:boolean,is_superuser:boolean,is_staff:boolean,image:File){
+  signup(username: string, full_name:string, email: string, password: string,is_active:boolean,is_superuser:boolean,is_staff:boolean){
 
     const formData = new FormData();
     formData.append('username', username);
-    formData.append('first_name', first_name);
-    formData.append('last_name', last_name);
+    formData.append('full_name', full_name);
     formData.append('email', email);
     formData.append('password', password);
     formData.append('is_active', String(is_active));
     formData.append('is_superuser', String(is_superuser));
     formData.append('is_staff', String(is_staff));
-    formData.append('image', image);
-  
-    
+
+
      this.http.post<any>(  this.api_url + 'accounts/api/signup/', formData).subscribe(
       response => {
         console.log('sign in uploaded successfully:', response);
       },
       error => {
-        console.error('Error uploading file:', error);
+        console.error('Error :', error);
       }
     );
   }
-
+  confirmEmail(username: string) {
+    return this.http.post<any>(this.api_url + 'accounts/api/confirm_email/' + username + '/', {});
+  }
+  get_user_messages(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.api_url}palteforme/get_user_messages/${userId}/`);
+  }
   getUserProfile(userId: number): Observable<any> {
     return this.http.get<any>(`${this.api_url}accounts/api/profile/${userId}/`);
   }
@@ -77,6 +79,11 @@ export class AuthService {
   getAllUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.api_url}accounts/api/users/`);
   }
+
+  getuserfreinds(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.api_url}accounts/api/user_freinds/`);
+  }
+
 
 
   changeVerificationStatus(newStatus: boolean) {

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   myform: FormGroup;
+  errorMessage: string = ''; // Add error message property
 
   constructor(private authService: AuthService, private router: Router) {
     this.myform = new FormGroup({
@@ -20,7 +21,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+  password: string = '';
+  hidePassword: boolean = true;
 
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
   get f() {
     return this.myform.controls;
   }
@@ -37,11 +43,13 @@ export class LoginComponent implements OnInit {
         },
         error => {
           console.error('Error occurred during login:', error);
+          this.errorMessage = 'Invalid username or password'; // Set error message
         }
       );
   }
-  // logout(){
-  //   localStorage.removeItem("currentUser");
-  //   location.reload();  
-  // }
+
+  // Clear error message when input changes
+  clearErrorMessage() {
+    this.errorMessage = '';
+  }
 }

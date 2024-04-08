@@ -1,36 +1,40 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { MydataService } from 'src/app/services/mydata.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin } from 'rxjs';
+
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+
 
 interface UploadResponse {
   public_link: string;
 }
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+}
+
+
 @Component({
   selector: 'app-lessons-mateials',
   templateUrl: './lessons-materials.component.html',
   styleUrls: ['./lessons-materials.component.css']
 })
+
 export class LessonsMateialsComponent {
 // Property to track the index of the currently hovered item
 hoveredItemId: string | null = null;
-   options = [
-    { value: 'pdf', label: 'PDF', icon: 'https://cdn.mycourse.app/v3.3.0/author/images/contents-pdf-dark.png' },
-    { value: 'video', label: 'Video', icon: 'https://cdn.mycourse.app/v3.3.0/author/images/contents-yt-dark.png' },
-    // Add more options as needed
-  ];
-  selectOption(value: string): void {
-    console.log('Selected Document Type:', this.myform.value['document_type']);
-  }
-  materialTypeIcons: { [key: string]: string } = {
-    'PDF': 'far fa-file-pdf',
-    'Video': 'far fa-file-video',
-    'Image': 'far fa-file-image',
-    // Add more material types and their corresponding icons as needed
-  };
+ 
+materialTypeIcons: { [key: string]: string } = {
+  'PDF': 'picture_as_pdf',
+  'Video': 'video_library',
+  'Image': 'image',
+  // Add more material types and their corresponding icons as needed
+};
+update: boolean = false;
+eval: boolean = false;
   selectedDocumentType: string | null = null;
   CourseId:any;
   material ={}
@@ -48,6 +52,11 @@ hoveredItemId: string | null = null;
 public uploadedLink: string = '';
 selectedFile: any;
   materials: any;
+materialForm: any;
+  selectedmatId: any;
+  myData$: any=[];
+  user!: any;
+
   
 
   constructor(private MydataService:MydataService,private route: ActivatedRoute,private dialog: MatDialog) {
@@ -61,7 +70,20 @@ selectedFile: any;
     this.route.queryParams.subscribe(params => {
       this.CourseId = params['CourseId'];
       });
-    
+      this.user = localStorage.getItem("currentUser");
+      this.user = JSON.parse(this.user);
+      this.MydataService.getTutorCourses(this.user.user_id).subscribe(
+        (data: any[]) => {
+          this.myData$ = data;
+          console.log( "user",this.myData$)   
+          
+        },
+        (error: any) => {
+          console.error('Error fetching users:', error);
+        }
+      );
+
+ 
       this.getCourselessons(this.CourseId);
     
       this.myform = new FormGroup({
@@ -71,21 +93,99 @@ selectedFile: any;
       });
        
 
+  } 
+ 
+  
+  // Inside your component class
+  enableLessonEdit(lesson: any) {
+    lesson.isEditing = true;
+    lesson.newTitle = lesson.title;
   }
-    getMaterialIcon(materialType: string): string {
-    const materialTypeLowerCase = materialType.toLowerCase();
+  
 
-    switch (materialTypeLowerCase) {
-      case 'pdf':
-        return 'icon fas fa-file-pdf';
-      case 'video':
-        return 'icon fas fa-video';
-      case 'image':
-        return 'icon fas fa-image';
-      default:
-        return 'far fa-file'; // Default icon class
+  
+ updateLessonTitle(lesson: any) {
+    // Update the title in the lesson object
+    lesson.title = lesson.newTitle;
+
+    // Prepare the updated data object to be sent to the backend
+    const updatedData = {
+      title: lesson.newTitle,
+      course: lesson.course, // Include the course field if required
+      description: lesson.description // Include the description field if required
+      // Add more fields as needed
+    };
+
+    // Call the updateLesson method of MydataService to update the lesson on the backend
+    this.MydataService.updateLesson(lesson.id, updatedData).subscribe(
+      () => {
+        lesson.isEditing = false;
+      },
+      (error) => {
+        // Handle error response if needed
+        console.error('Error updating lesson:', error);
+      }
+    );
+
+    // Reset editing mode
+    lesson.isEditing = false;
+}
+
+  
+  
+ 
+  
+  showInformation: boolean = true; // Show information section by default
+  showContent: boolean = false;   // Hide content section by default
+
+
+  getCourseById(id: number): Course | null {
+    for (let course of this.myData$) {
+      if (id === this.CourseId) {
+        return course;
+      }
+    }
+    return null;
+  }
+  
+
+  // Function to toggle between information and content sections
+  toggleSection(section: string) {
+    if (section === 'information') {
+      this.showInformation = true;
+      this.showContent = false;
+    } else if (section === 'content') {
+      this.showInformation = false;
+      this.showContent = true;
     }
   }
+  getMaterialIcon(materialType: string): string {
+    const materialTypeLowerCase = materialType.toLowerCase();
+  
+    switch (materialTypeLowerCase) {
+      case 'pdf':
+        return 'picture_as_pdf';
+        case 'pptx':
+          return 'slideshow';
+      case 'video':
+        return 'video_library';
+      case 'image':
+        return 'image';
+      case 'youtube':
+        return 'video_library';
+        case 'video':
+          return 'video_library';
+      case 'quiz':
+        return 'live_help';
+      case 'exercise':
+        return 'fitness_center';
+      case 'docx':
+        return 'description';
+      default:
+        return 'description'; // Default icon for unknown types
+    }
+  }
+
 
 
   delete_lesson(id: number){
@@ -118,6 +218,105 @@ selectedFile: any;
   }
 
   
+allowedFileTypes: string = ''; // Initialize with an empty string
+errorMessage: string = '';
+onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+
+  // Reset any previous error messages
+  this.errorMessage = '';
+
+  if (!file) {
+    this.noFileSelected = true;
+    return;
+  }
+
+  this.noFileSelected = false;
+
+  // Derive material type based on file extension
+  const materialType = this.getMaterialTypeFromExtension(file.name);
+
+  if (!materialType) {
+    // Set the error message
+    this.errorMessage = 'Invalid file type. Please choose a valid file.';
+    // Log the error message to the console
+    console.error(this.errorMessage);
+    return;
+  }
+
+  // Specify the expected document type based on your application's logic
+  const selectedDocumentType = this.myform.value['document_type'];
+  const expectedDocumentType = this.getExpectedDocumentType(selectedDocumentType);
+
+  // Check if the determined material type matches the expected document type
+  if (!this.validateDocumentType(materialType, expectedDocumentType)) {
+    // Set the error message
+    this.errorMessage = `Invalid document type. Please choose a ${expectedDocumentType} file.`;
+    // Log the error message to the console
+    console.error(this.errorMessage);
+    return;
+  }
+
+  // Continue with file upload
+  const formData = new FormData();
+  formData.append('file', file);
+
+  this.MydataService.uploadFile(formData).subscribe(
+    (response: UploadResponse) => {
+      console.log('Public link:', response.public_link);
+      this.uploadedLink = response.public_link;
+    },
+    (error) => {
+      // Handle upload errors and set the error message
+      this.errorMessage = 'Error uploading file. Please try again.';
+      console.error(this.errorMessage, error);
+    }
+  );
+}
+
+getMaterialTypeFromExtension(fileName: string): string | null {
+  const extension = fileName.split('.').pop()?.toLowerCase() ?? '';
+  
+  // Add logic to determine material type based on file extension
+  if (extension === 'pdf') {
+    return 'pdf';
+  } else if (extension === 'docx') {
+    return 'docx';
+  } else if (extension === 'pptx') {
+    return 'pptx';
+  } else {
+    // Add more cases for other material types if needed
+    return null;
+  }
+}
+
+getExpectedDocumentType(selectedDocumentType: string): any{
+  switch (selectedDocumentType) {
+    case 'pdf':
+      return 'pdf';
+    case 'youtube':
+      // Add logic for YouTube file types if needed
+      break;
+    case 'quiz':
+      // Add logic for Quiz file types if needed
+      break;
+    case 'exercise':
+      // Add logic for Exercise file types if needed
+      break;
+    case 'docx':
+      return 'docx';
+      case 'pptx':
+        return 'pptx';
+    default:
+      return ''; // Default, allow all file types
+  }
+}
+
+validateDocumentType(materialType: string, expectedDocumentType: string): boolean {
+  return materialType === expectedDocumentType;
+}
+
+
 
   onMouseEnter(itemId: string): void {
     this.hoveredItemId = itemId;
@@ -154,39 +353,18 @@ selectedFile: any;
     this.selectedDocumentType = type.name;
   }
 
-  onFileChange(event: any) {
-    const file: File = event.target.files[0];
-    this.noFileSelected = false;
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      this.MydataService.uploadFile(formData).subscribe((response: UploadResponse) => {
-        console.log('Public link:', response.public_link);
-        this.uploadedLink = response.public_link;
-       
-      });
-     
-    }
-  }
-  openMaterialModalup(lessonId: string, material:any): void {
-    this.selectedLessonId = lessonId;
-    const modal = document.getElementById('materialModalup');
-    if (modal) {
-      modal.style.display = 'block';
-    }
-    this.myform.value['title'] = material.title;
-    this.myform.value['document_type'] =material.document_type;
-  }
+ 
+
   UpdateMaterial(id: number){
     const formData = new FormData();
     if( this.myform.value['title'] !=''){ formData.append('title', this.myform.value['title']);}
     if( this.myform.value['document_type'] !=''){ formData.append('document_type', this.myform.value['document_type']);}
     if( this.uploadedLink!=''){ formData.append('content', this.uploadedLink); }
-  
-  
-    this.MydataService.UpdateCourseMaterial(id,formData).subscribe();
+    this.MydataService.UpdateCourseMaterial(id,formData).subscribe(() => {
+      this.getCourselessons(this.CourseId);
+      this.closeMaterialModal();
+    });
   }
-  
 
   getCourselessons(id:number){
   this.MydataService.getCourselessons(id).subscribe((data: any[]) => {
@@ -245,7 +423,7 @@ getmaterials() {
 addLesson(): void {
   // Add a new Lesson to the database
 
-  this.newLessonTitle = prompt('Enter the title for the new lesson:');
+ 
 
   if (this.newLessonTitle) {
     const newLesson = {
@@ -274,6 +452,8 @@ addLesson(): void {
           (data: any[]) => {
             addedLesson.materials = data;
             console.log('Materials for the newly added lesson:', addedLesson.materials);
+            this.getCourselessons(this.CourseId);
+      this.closeMaterialModal();
           },
           (error: any) => {
             console.error('Error fetching materials for the newly added lesson:', addedLesson.id, ':', error);
@@ -295,37 +475,111 @@ addLesson(): void {
       selectedSublist.classList.add('show');
     }
   }
-openMaterialModal(lessonId: string): void {
+
+  openMaterialModal(lessonId: string, material: any, update: boolean, Eval: boolean): void {
   this.selectedLessonId = lessonId;
+  this.selectedmatId=material.id
   const modal = document.getElementById('materialModal');
   if (modal) {
     modal.style.display = 'block';
   }
+  this.eval=Eval;
+  this.update = update;
+  console.log(this.selectedLessonId,this.selectedmatId,this.update);
+  this.myform.value['title'] = material.title;
+  this.myform.value['document_type'] = material.document_type;
+  this.myform.value['content'] = material.content;
+  this.uploadedLink=material.content;
 }
+openMaterialModaleval(): void {
+  const modal = document.getElementById('materialModaleval');
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
+openMaterialModallesson(): void {
+  const modal = document.getElementById('materialModallesson');
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
+openMaterialModalpreview( material: any): void {
+  this.selectedmatId=material.id
+  const modal = document.getElementById('materialModalpreview');
+  if (modal) {
+    modal.style.display = 'block';
+  }
+  const imgurLink = "https://i.imgur.com/example.jpg";
+  const canvas: HTMLCanvasElement | null = document.querySelector('#myCanvas');
+  
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+  
+    const img = new Image();
+    img.crossOrigin = 'anonymous'; // Enable CORS for the image
+  
+    img.src = imgurLink;
+  
+    img.onload = () => {
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+    };
+  }
+  
 
-
+}
 closeMaterialModal(): void {
+  this.getCourselessons(this.CourseId);
   const modal = document.getElementById('materialModal');
-  const modal1 = document.getElementById('materialModalup');
+  const modal1 = document.getElementById('materialModallesson');
+  this.update=false;
+  
   if (modal) {
     modal.style.display = 'none';
   }
   if (modal1) {
     modal1.style.display = 'none';
   }
+  this.newLessonTitle="";
+  this.myform.value['title']="";
+  this.myform.value['document_type']="";
+  this.myform.value['content']="";
+  this.uploadedLink="";
+ 
 }
+
+
+
+resetInput(input: NgModel) {
+  console.log('Before reset:', input.value, input.control.value); // Log values before reset
+  input.control.reset(); // Reset the form control
+  input.reset(); // Reset the NgModel
+  console.log('After reset:', input.value, input.control.value); // Log values after reset
+}
+
+
+
 AddMaterial(lessonId: string): void {
+  
   if (lessonId !== null) {
   const formData: FormData = new FormData();
   formData.append('title', this.myform.value['title']);
   formData.append('document_type', this.myform.value['document_type']);
-  formData.append('content', this.uploadedLink);
+  if(this.eval==true){
+formData.append('content',"https://www.eval.com")
+  }
+  else{
+    formData.append('content', this.uploadedLink);
+  }
+
   formData.append('lesson', lessonId);
 
   this.MydataService.addCourseMaterial(lessonId, formData).subscribe(
     (response: any) => {
       console.log('Material added successfully:', response);
-      window.location.reload();
+      this.getCourselessons(this.CourseId);
+      this.closeMaterialModal();
 
       // Update the materials for the corresponding lesson
       const lessonIndex = this.lessons.findIndex(lesson => lesson.id === lessonId);

@@ -13,7 +13,8 @@
                 <div class="card card-profile shadow">
                     <div class="row justify-content-center">
                         <div class="profile-image-container">
-                            <img [src]="user.image" class="rounded d-block" alt="User Image">
+                            <img *ngIf="user.image!=null" [src]="user.image" class="rounded-circle">
+                            <img *ngIf="user.image==null"  src="assets/def.png" class="rounded-circle">
                         </div>
                     </div>
 
@@ -62,22 +63,13 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label" for="input-first-name">First name :</label>
+                                        <label class="form-control-label" for="input-first-name">Full name :</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" id="input-first-name" class="form-control form-control-alternative"
-                                            formControlName="first_name" [value]="user.first_name" readonly>
+                                            formControlName="full_name" [value]="user.full_name" readonly>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label" for="input-last-name">Last name :</label>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" id="input-last-name" class="form-control form-control-alternative"
-                                            formControlName="last_name" [value]="user.last_name" readonly>
-                                    </div>
-                                </div>
+                                </div>                          
                             </div>
                             
                         </form>
@@ -108,22 +100,14 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label">First name :</label>
+                                        <label class="form-control-label">Full name :</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" id="input-first-name" class="form-control form-control-alternative"
-                                            formControlName="first_name" [value]="user.first_name" required>
+                                            formControlName="full_name" [value]="user.full_name" required>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label" >Last name :</label>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" id="input-last-name" class="form-control form-control-alternative"
-                                            formControlName="last_name" [value]="user.last_name" required>
-                                    </div>
-                                </div>
+                               
                             </div>
                             
                             <hr class="my-4">

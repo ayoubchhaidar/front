@@ -1,0 +1,98 @@
+<div class="container contact-form">
+    <div class="contact-image">
+        <img src="https://www.keeplewisvillebeautiful.org/wp-content/uploads/2017/05/icon-education-blue.png"
+            alt="course" />
+    </div>
+    <form [formGroup]="myform">
+        <h1>envoyer noti</h1>
+        <div class="form-group">
+            <label class="form-label" for="form3Example97">Description</label>
+            <textarea id="form3Example97" class="form-control form-control-lg" formControlName="message"></textarea>
+        </div>
+
+        <div class="form-outline">
+            <label class="form-label" for="form3Example97">Type</label>
+            <select class="form-control" formControlName="type">
+                <option value="success">Success</option>
+                <option value="information">Information</option>
+                <option value="warning">Warning</option>
+                <option value="danger">Danger</option>
+            </select>
+        </div>
+
+        <div>
+            <button (click)="openMaterialModalup()"
+                class="btn btn-lg ms-2" style="background-color: #4e73df; color: #ffffff; margin-top: 20px;">Ajouter</button>
+        </div>
+    </form>
+
+    <div id="materialModalup" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeMaterialModalup()">&times;</span>
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input
+                        type="text"
+                        class="form-control bg-light border-0 small"
+                        placeholder="Search for..."
+                        aria-label="Search"
+                        aria-describedby="basic-addon2"
+                        [(ngModel)]="searchQuery"
+                        [ngModelOptions]="{ standalone: true }"
+                        (input)="updateSearch()"
+                    />
+                </div>
+            </form>
+           
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" (change)="checkAllUsers($event)">
+                            </th>
+                            <th>ID</th>
+                            <th>username</th>
+                            <th>email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of filteredUsers">
+                            <td>
+                                <input type="checkbox" [(ngModel)]="user.checked"
+                                    (change)="addToTable(user.id, user.checked)"
+                                    (change)="toggleButtonVisibility()">
+                            </td>
+                            <td>{{user.id}}</td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.email}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+            <button type="submit" class="btn btn-lg ms-2" style="background-color: #4e73df; color: #ffffff; margin-top: 20px;"  (click)="sendNoti()">envoyer</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

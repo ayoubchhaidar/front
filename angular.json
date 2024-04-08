@@ -25,17 +25,20 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
-                "output": "/assets/"
+                 "input": "./node_modules/ngx-extended-pdf-viewer/assets/",
+                 "output": "/assets/"
               }
+             
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/custom-theme.scss",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css",
               "node_modules/startbootstrap-sb-admin-2/css/sb-admin-2.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/viewerjs/dist/viewer.css"
+              
             ],
             "scripts": [
               "node_modules/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js",
@@ -44,8 +47,11 @@
               "node_modules/startbootstrap-sb-admin-2/js/sb-admin-2.min.js",
               "node_modules/startbootstrap-sb-admin-2/vendor/chart.js/Chart.min.js",
               "node_modules/startbootstrap-sb-admin-2/js/demo/chart-area-demo.js",
-              "node_modules/startbootstrap-sb-admin-2/js/demo/chart-pie-demo.js"
-           
+              "node_modules/startbootstrap-sb-admin-2/js/demo/chart-pie-demo.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/viewerjs/dist/viewer.js"
+              
+             
             ]
           },
           "configurations": {
@@ -106,7 +112,7 @@
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
             "scripts": [
