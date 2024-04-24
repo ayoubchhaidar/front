@@ -1,10 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MydataService } from 'src/app/services/mydata.service';
-import { timer } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
+interface Quiz {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  random_order: boolean;
+  pass_mark: number;
+  lesson: number;
+  timestamp: string; // Assuming this is a string representation of date and time
+}
 
 @Component({
   selector: 'app-quiz',
@@ -15,7 +23,7 @@ export class QuizComponent implements OnInit {
 
 
   myform1: FormGroup;
-  constructor(private MydataService: MydataService, private route: ActivatedRoute) {
+  constructor(private MydataService: MydataService, private route: ActivatedRoute,private router: Router) {
     this.myform1 = new FormGroup({
       title: new FormControl(''),
       description: new FormControl(''),
@@ -34,57 +42,28 @@ export class QuizComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
      this.courseId = params['courseId'];
       this.lessonId = params['lessonId'];
-     
-      // Now you can use courseId and lessonId to perform your logic for adding evaluation
     });
+  }
+quiz: Quiz | undefined ;
+addquiz() {
+  const formData = new FormData();
+  formData.append('title', this.myform1.value['title']);
+  formData.append('description', this.myform1.value['description']);
+  formData.append('category', this.myform1.value['category']);
+  formData.append('random_order', String(this.random_order.checked));
+  formData.append('pass_mark', this.myform1.value['pass_mark']);
+  formData.append('lesson', this.lessonId);
 
-
-
+  this.MydataService.addQuiz(formData).subscribe((data: Quiz) => {
+    this.quiz = data;
+    console.log('quiz', this.quiz.id);
+    this.router.navigate(['/dashboard/quizC'], { queryParams: { quizID: this.quiz.id  ,courseId: this.courseId, lessonId: this.lessonId} });
+  });
+}
 
   }
-
-
-
-
-    addquiz() {
-      const formData = new FormData();
-          formData.append('title', this.myform1.value['title'],);
-          formData.append('description', this.myform1.value['description']);
-          formData.append('category', this.myform1.value['category']);
-          formData.append('random_order', String(this.random_order.checked));
-          formData.append('pass_mark', this.myform1.value['pass_mark']);
-          formData.append('course', this.courseId);
-          formData.append('lesson', this.lessonId);
-      this.MydataService.addQuiz(formData).subscribe();
-      
-        
-      }
-      quizes: any []=[];
-      getQuizByCourse(){
-      
-      this.MydataService.getQuizByCourse(1).subscribe((data: any[]) => {
-        this.quizes = data;
-        console.log( this.quizes)
-      },
-      (error: any) => {
-        console.error('Error fetching users:', error);
-      });
-      
-      
-      
-      
-      
-      }
   
 
- 
-  
-  
-  
-  }
-  
-  
-  
   
   
   

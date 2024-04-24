@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, ViewChild } from '@angular/core';
+import { ChatbotComponent } from '../chatbot/chatbot.component';
 import { MydataService } from 'src/app/services/mydata.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,12 +11,19 @@ import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./course-player.component.css']
 })
 export class CoursePlayerComponent {
+  
   lessons: any[]=[];
   CourseId: any;
   documentToShow: string="";
   mattype:string ="";
   showViewer: boolean = false;
   user: any;
+  pdfID: any;
+  showChatbot: any;
+  quizes: any[] =[];
+  assignments: any[]=[];
+  
+
   get embedUrl() {
     if (this.mattype === 'video') {
       return `https://drive.google.com/file/d/${this.extractDriveId(this.documentToShow)}/preview`;
@@ -32,8 +39,29 @@ export class CoursePlayerComponent {
       this.CourseId = params['CourseId'];
       });   
       this.getCourselessons(this.CourseId);
+      this.get_assig();
+      this.get_quiz();
   }
   constructor(private MydataService:MydataService,private route: ActivatedRoute,private dialog: MatDialog,private sanitizer: DomSanitizer) { }
+  get_quiz(){
+    this.MydataService.getQuizByLesson(this.CourseId).subscribe((data: any[]) => {
+      this.quizes = data;
+      console.log("quiize",this.quizes)
+    },
+    (error: any) => {
+      console.error('Error fetching quiz:', error);
+    });
+  }
+  get_assig(){
+    this.MydataService.AssignmentsbyCourse(this.CourseId).subscribe( (data: any[]) => {
+      this.assignments = data;
+      console.log( "ass",this.assignments)   ;
+
+    },
+    (error: any) => {
+      console.error('Error fetching users:', error);
+    });
+  }
   track(matId:any, userID:any) {
     const formData = new FormData();
     formData.append('user', userID);
@@ -44,6 +72,8 @@ export class CoursePlayerComponent {
     this.documentToShow = documentUrl;
     this.mattype=mattype
     this.showViewer = true;
+    this.pdfID=this.extractDriveId(documentUrl);
+    console.log(this.pdfID);
   }
   extractDriveId(link: string): string | null {
     const match = link.match(/(?:https?:\/\/)?drive.google.com\/(?:file\/d\/|open\?id=)([\w-]+)/);

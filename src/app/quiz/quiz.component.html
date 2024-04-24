@@ -1,37 +1,35 @@
 <div class="container contact-form">
   <div class="contact-image">
-      <!-- <img src="https://www.keeplewisvillebeautiful.org/wp-content/uploads/2017/05/icon-education-blue.png" alt="course"/> -->
+      <!-- <img src="https://wikiclic.com/wp-content/uploads/2021/05/quizz-wikiclic.png" alt="course"/> -->
   </div>
-  <form [formGroup]="myform1" (ngSubmit)="addquiz()">
+  <form [formGroup]="myform1"  (ngSubmit)="addquiz()" >
       <h1>Ajouter un Quiz</h1>
       <div class="row">
           <div class="col-md-6">
               <div class="form-group">
                   <label class="form-label" for="form3Example97">Title</label>
-                  <input type="text" id="form3Example97" class="form-control form-control-lg contact-form-control" formControlName="title" />
-              </div>            
+                  <input type="text" id="form3Example97" class="form-control form-control-lg" formControlName="title" />
+              </div>      
+              <div class="form-group">
+                <label class="form-label" for="desc">Description</label>
+                <textarea id="desc" class="form-control form-control-lg custom-width" formControlName="description" ></textarea>
+            </div>      
               <label class="form-label" for="form3Example97">Type</label>
-              <select formControlName="category" class="form-control form-control-lg contact-form-control">
+              <select formControlName="category" class="form-control form-control-lg ">
                   <option value="assignment">assignment</option>
                   <option value="exam">exam</option>
                   <option value="practice">practice</option>
               </select>
               <div class="form-outline mb-3">
                   <label class="form-label" for="form3Example97">pass_mark</label>
-                  <input type="number" id="form3Example97" class="form-control form-control-lg contact-form-control" formControlName="pass_mark">
+                  <input type="number" id="form3Example97" class="form-control form-control-lg " formControlName="pass_mark">
               </div>
               <div class="form-group">
                   <button type="submit" class="btn btn-lg ms-2" style="background-color: #4e73df; color: #ffffff;">Ajouter</button>
               </div>
           </div>
         
-            <div class="col-md-6">
-            <div class="form-group">
-              <label class="form-label" for="desc">Description</label>
-              <textarea id="desc" class="form-control form-control-lg" formControlName="description" maxlength="140"></textarea>
-          </div>
-          </div>
-         
+          
       </div>
   </form>
 </div>

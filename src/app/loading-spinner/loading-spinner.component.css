@@ -1,0 +1,12 @@
+/* Add styles to position the elements */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px; 
+  }
+  
+  .loading-spinner {
+    margin-top: 10px; /* Adjust the margin as needed */
+  }

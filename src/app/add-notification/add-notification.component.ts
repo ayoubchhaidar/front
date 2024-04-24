@@ -22,7 +22,8 @@ export class AddNotificationComponent {
 
 checkbox: any;
 showButton: any;
-  filteredUsers: any;
+  filteredUsers: any[] = [];
+selectedOption: string="tous";
   ngOnInit(): void {
 
     this.user = localStorage.getItem("currentUser");
@@ -120,28 +121,37 @@ getUsers(){
   );
 return this.AuthService.getAllUsers();
 }
-filterData(query: string) {
+filterData(query: string, ) {
   console.log('Query:', query);
-  console.log('speceficUsers:', this.users);
+  console.log('Selected Option:', this.selectedOption);
+  console.log('All Users:', this.users);
 
-  if (query==='') {
+  if (query === '' && this.selectedOption === 'tous') {
     this.filteredUsers = this.users;
-    return ;
-  }  else {
-    // If there is a query, apply the filtering logic
-    this.filteredUsers = this.users.filter((user) => {
-      // Customize this logic based on your requirements
-      const usernameMatch = user.username?.toLowerCase().includes(query.toLowerCase()) || false;
-      const firstNameMatch = user.first_name?.toLowerCase().includes(query.toLowerCase()) || false;
-      const lastNameMatch = user.last_name?.toLowerCase().includes(query.toLowerCase()) || false;
-      const idMatch = user.id?.toString().includes(query) || false;
-      const emailMatch= user.email?.toLowerCase().includes(query.toLowerCase()) || false;
-      return usernameMatch || firstNameMatch || lastNameMatch || idMatch || emailMatch;
-    });
+    return;}
+  else if (query === '' && this.selectedOption === 'formateur') {
+    this.filteredUsers = this.users.filter(user => user.is_staff==true  && user.is_active==true  && user.is_superuser==false);
+      return;
+  } 
+  else if (query === '' && this.selectedOption === 'apprenant') {
+    this.filteredUsers =this.users.filter(user => user.is_active==true && user.is_staff==false && user.is_superuser==false);
+    return;
+} else {
+    // If there is a query, apply the filtering logic based on the selected option
+   
+      this.filteredUsers = this.filteredUsers.filter((user) => {
+        // Customize this logic based on your requirements
+        const usernameMatch = user.username?.toLowerCase().includes(query.toLowerCase()) || false;
+        const firstNameMatch = user.first_name?.toLowerCase().includes(query.toLowerCase()) || false;
+        const lastNameMatch = user.last_name?.toLowerCase().includes(query.toLowerCase()) || false;
+        const idMatch = user.id?.toString().includes(query) || false;
+        const emailMatch = user.email?.toLowerCase().includes(query.toLowerCase()) || false;
+        return usernameMatch || firstNameMatch || lastNameMatch || idMatch || emailMatch;
+      });
+    
   }
-
-  console.log('filteredUsers:', this.filteredUsers);
 }
+
 openMaterialModalup(): void {
   
   const modal = document.getElementById('materialModalup');

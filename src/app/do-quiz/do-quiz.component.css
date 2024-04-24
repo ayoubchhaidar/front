@@ -1,0 +1,393 @@
+.loading-screen {
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 1000;
+    color: #4e73df;
+  }
+  
+  .loading-screen-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .container {
+    position: relative;
+  }
+  @keyframes progress {
+    0% { --percentage: 0; }
+    100% { --percentage: var(--value); }
+  }
+  
+  @property --percentage {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+  .progress-bar-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust as needed */
+}
+
+  [role="progressbar"] {
+    --percentage: var(--value);
+    --primary: #4e73df;
+    --secondary: rgb(154, 181, 255);
+    --size: 150px;
+    animation: progress 2s 0.5s forwards;
+    width: var(--size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+  
+  [role="progressbar"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+    mask: radial-gradient(white 55%, transparent 0);
+    mask-mode: alpha;
+    -webkit-mask: radial-gradient(#0000 55%, #000 0);
+    -webkit-mask-mode: alpha;
+  }
+  
+  [role="progressbar"]::after {
+    counter-reset: percentage var(--value);
+    content: counter(percentage) '%';
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: calc(var(--size) / 5);
+    color: var(--primary);
+  }
+  
+  /* demo */
+  body {
+    margin: 0;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background: #f0f8ff;
+  }
+  .lesson {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ff2828;
+    background-color: #ffffff;
+    margin-top: 10px;
+}
+
+.lesson > div {
+    margin-bottom: 10px; /* Add some space between the paragraphs */
+}
+
+.lesson a {
+    margin-left: 10px; /* Add some space between the link and the first paragraph */
+}
+
+
+.lessonT {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #00ea1f;
+    background-color: #ffffff;
+    margin-top: 10px;
+}
+
+
+  
+.contact-form {
+    position: relative; /* Ensure position relative for absolute positioning of timer */
+    background-color: #fff;
+    margin-top: 100px;
+    margin-bottom: 5%;
+    width: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    height: 100%;
+  
+}
+
+.blurredElement {
+    pointer-events: none;
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+    }
+
+.timer-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.timer {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 24px;
+    color: #4e73df;
+    position: relative;
+}
+
+.timer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    border-top-color: #4e73df;
+    border-right-color: #4e73df;
+    border-radius: 50%;
+    animation: timer-animation 30s linear forwards;
+}
+
+@keyframes timer-animation {
+    0% {
+        transform: rotate(90deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Change style of title */
+.text-container h3 {
+    color: #4e73df; /* Change title color */
+    font-size: 24px; /* Adjust title font size */
+    margin-bottom: 20px; /* Adjust spacing below title */
+    margin-top: -50px;
+}
+
+/* Change style of question */
+.text-container p {
+    color: #333; /* Change question color */
+    font-size: 18px; /* Adjust question font size */
+    margin-bottom: 30px; /* Adjust spacing below question */
+}
+
+/* Change style of button */
+.btn {
+    padding: 12px 24px; /* Adjust button padding */
+    font-size: 18px; /* Adjust button font size */
+    text-align: center; /* Center button text */
+    color: #fff;
+    background-color: #4e73df;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block; 
+    margin-bottom: 30px;
+}
+
+/* Rest of your existing CSS styles... */
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+body {
+    font-family: 'Comfortaa', cursive;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    counter-reset: points;
+}
+
+
+
+section {
+    padding-top: 80px;
+    overflow-y: hidden;
+}
+
+main {
+    border-radius: 10px;
+    padding: 5px 20px 50px;
+    width: 95%;
+    max-width: 500px;
+    margin: 0 auto 214px;
+}
+
+.text-container {
+    text-align: center;
+}
+
+.quiz-options {
+    margin: 10px 0;
+}
+
+[type=radio] {
+    border: 0;
+    height: 0.0625rem;
+    width: 0.0625rem;
+    position: absolute;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 6px 0;
+    position: relative;
+    width: 100%;
+    color: #000;
+}
+
+label:hover {
+    cursor: pointer;
+}
+
+label:hover .alphabet {
+    background: #4e73df;
+    color: #fff;
+}
+
+label .alphabet {
+    border-radius: 5px;
+    border: solid 1px #4e73df;
+    padding: .4rem .5rem .4rem;
+    width: 2.3rem;
+    margin: 0 1.3rem 0 .7rem;
+    display: flex;
+    justify-content: center;
+    color: #4e73df;
+}
+
+label .icon {
+    height: auto;
+    position: absolute;
+    left: 92%;
+    top: 12px;
+}
+
+label .jfdedgwfzexf4hjin {
+    width: 18px;
+}
+
+label .jdsjkefkefkefefexco {
+    width: 22px;
+}
+
+label.active .alphabet {
+    background: #4e73df;
+    color: #fff;
+}
+
+.score-counter {
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    width: 210px;
+    height: 9%;
+    background: rgba(0, 0, 0, 0.749);
+    border: 4px solid #000;
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    box-shadow: inset 2px -2px 9px #020202, inset -2px 2px 9px #d2d2d2;
+}
+
+.score-text {
+    margin: 0 20px;
+}
+
+.score-counter::after {
+    content: counter(points) "/5";
+}
+
+.one-a:checked,
+.two-c:checked,
+.three-c:checked,
+.four-b:checked,
+.five-a:checked {
+    counter-increment: points;
+}
+
+
+
+h1::before {
+    content: attr(data-heading);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0) 45%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0) 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+    mix-blend-mode: screen;
+    animation: shine 1s infinite;
+    background-size: 200%;
+    text-shadow: 2px 2px 10px rgba(#000, 0.2), -2px 2px 10px rgba(#000, 0.2), -2px -2px 10px rgba(#000, 0.2);
+}
+
+
+
+.over-text-cont {
+    text-align: center;
+}
+
+.over-text-cont h2 {
+    font-family: 'Sirin Stencil', cursive;
+}
+
+.over-text-cont h2::after {
+    content: counter(points) "0/50";
+    margin-left: 15px;
+}
+
+#refresh {
+    color: #fff;
+    position: relative;
+    height: 100vh;
+}
+
+.refresh-content {
+    display: grid;
+    font-size: 1.2rem;
+    place-items: center;
+    width: 70%;
+    line-height: 2;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.refresh-content svg {
+    width: 50px;
+    height: auto;
+    animation: pulse 1s infinite;
+}

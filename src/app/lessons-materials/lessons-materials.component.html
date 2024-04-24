@@ -2,14 +2,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <div class="button-container">
-  <a (click)="toggleSection('information')" [class.active]="showInformation">Information</a>
-  <a  (click)="toggleSection('content')" [class.active]="showContent">Contenu</a>
+  <a (click)="toggleSection('information')" [class.active]="showInformation" class="custom-link">Information</a>
+  <a (click)="toggleSection('content')" [class.active]="showContent" class="custom-link">Contenu</a>
 </div>
+
+
 
 
 <div *ngIf="showInformation">
   <main>
-    <h2>Information</h2>
+    <h2 style="text-align: center;" >Information</h2>
     <div class="lesson">
      <p>
   <span style="font-weight: bold; color: #333;">Titre :</span>
@@ -35,7 +37,8 @@
 </div>
 
 <main id="course-content" *ngIf="showContent">
-    
+  <h2 style="text-align: center;">Contenu</h2>
+
 
     <!-- The Material Type Modal -->
     <div id="materialModal" class="modal">
@@ -138,22 +141,46 @@
   <button class="add-material-button" (click)="openMaterialModal(lesson?.id, 0, false,false)">
     <i class="fas fa-plus"></i> Add Material
   </button>
-  <button class="add-material-button" style="margin-left: 500px;"  (click)="openMaterialModaleval()">
+  <button class="add-material-button" style="margin-left: 500px;" (click)="checkEval(lesson.id)" (click)="openMaterialModaleval(lesson?.id)">
     <i class="fas fa-plus"></i> Add Evaluation
   </button>
   <div id="materialModaleval" class="modal">
     <div class="modal-content">  
       <span class="close" (click)="closeMaterialModal()">&times;</span>
       <h4  style="text-align: center; color: #4e73df;">select</h4>
-      <a  [routerLink]="['/dashboard/quiz']"
-      [queryParams]="{ courseId: CourseId, lessonId: lesson.id }">quiz</a><br>
-      <a>exercise</a><br>
+<a *ngIf="eval===false" [routerLink]="['/dashboard/quiz']" [queryParams]="{ courseId: CourseId, lessonId: selectedLessonId}">quiz</a>
+<a *ngIf="eval===true" >quiz</a><p *ngIf="eval===true">(already exist)</p>
+<a  [routerLink]="['/dashboard/assignment']"
+[queryParams]="{ courseId: CourseId, lessonId: selectedLessonId }">exercise</a><br>
   </div>
 </div>
   <button (click)="delete_lesson(lesson.id)" class="delete-button">
     <i class="fas fa-trash-alt"></i> Delete
   </button>
+<!-- Hide the checkbox input -->
+<input type="checkbox" class="hahaha delete-button1" id="verificationCheckbox{{lesson.id}}" [(ngModel)]="lesson.locked" (change)="lockUnlock(lesson.id)" style="display: none;">
+
+<!-- Wrap the icon inside a label and associate it with the corresponding hidden checkbox -->
+<label class="lock-button" for="verificationCheckbox{{lesson.id}}">
+  <span *ngIf="lesson.locked; else unlockedIcon" >
+    <!-- Display closed lock icon when checkbox is checked -->
+    <i class="fas fa-lock" style="cursor: pointer;"></i> <!-- Assuming you're using Font Awesome -->
+  </span>
+  <ng-template #unlockedIcon >
+    <!-- Display open lock icon when checkbox is not checked -->
+    <i class="fas fa-lock-open" style="cursor: pointer;color: grey;"></i> <!-- Assuming you're using Font Awesome -->
+  </ng-template>
+</label>
+
+
   
+  
+  
+  
+  <!-- <button (click)="unlockNext(lesson.id)" class="material-action">
+    qsdqdqdqdqdsqdqdqd
+   </button> -->
+
   <div class="lesson-content">
     <div class="lesson-header">
       <p class="lesson-number"><span>{{ i + 1 }}</span></p>
@@ -172,8 +199,7 @@
      
         <div *ngIf="lesson.showMaterials" class="materials-container">
             <div *ngFor="let mat of lesson.mateials" class="material-item" (mouseenter)="onMouseEnter(mat.id)" (mouseleave)="onMouseLeave()">
-              
-                <!-- Add an icon based on the material type -->
+
                   <mat-icon class="icon">{{ getMaterialIcon(mat.document_type) }}</mat-icon> 
                    <span class="material-title">{{ mat.title }}</span>
               
@@ -188,11 +214,6 @@
                     <span class="close" (click)="closeMaterialModal()">&times;</span>
                     <h4  style="text-align: center; color: #4e73df;">mat</h4>
                     <form >
-                      
-                    <!-- <iframe [src]="mat.content" height="1100px" width="100%" frameborder="0" ></iframe>  -->
-                      <!-- <ngx-extended-pdf-viewer [src]="mat.content" [textLayer]="true"></ngx-extended-pdf-viewer> 
-                      
-                      -->
 
                       <ngx-doc-viewer
                       [url]="mat.content"
@@ -219,7 +240,35 @@
 </button>
               </div>
             </div>
-            </div>
+           <p style="margin-left: -30px; font: bold;">Evaluation :</p>
+            <div *ngFor="let quiz of quizes" >
+              <div *ngIf="quiz.lesson===lesson.id" class="material-item" (mouseenter)="onMouseEnter(quiz.id)" (mouseleave)="onMouseLeave()" >
+            <mat-icon class="icon">live_help</mat-icon> 
+            <span class="material-title">{{quiz.title}}</span>
+            <button [routerLink]="['/dashboard/quizD']" [queryParams]="{ quizID : quiz.id, lessonID : lesson.id, CourseId:CourseId }" class="material-action">
+              <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
+            </button>
+            <button (click)="delete_quiz(quiz.id)" class="material-action">
+              <i class="fas fa-trash-alt"></i> 
+            </button>
+          </div>
+          </div>
+          <div *ngFor="let sub of assignments" >
+          <div *ngIf="sub.lesson===lesson.id" class="material-item" >
+          <mat-icon class="icon" >fitness_center</mat-icon> 
+          <span class="material-title">{{sub.title}}</span>
+          <button class="material-action">
+            <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
+          </button>
+          <button class="material-action">
+            <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
+          </button>
+          <button (click)="delete_assig(sub.id)" class="material-action">
+            <i class="fas fa-trash-alt"></i> 
+          </button>
+          </div>
+          </div>
+          </div>
           </div>
           
           

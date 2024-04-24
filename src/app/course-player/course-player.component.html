@@ -15,15 +15,38 @@
                         <span>{{lesson.title}}</span>
                     </a>
                    
-                    <div [id]="'collapse' + i" class="collapse" [attr.aria-labelledby]="'heading' + i"
+                    <div [id]="'collapse' + i" class="collapse show" [attr.aria-labelledby]="'heading' + i"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <div class="material-item" *ngFor="let mat of lesson.mateials">
-                                <a class="collapse-item"   (click)="showDocument(mat.content,mat.document_type)" (click)="track(mat.id,user.user_id)">
+                                <a *ngIf="lesson.locked==true"   class="collapse-item"  >
                                     <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">{{ getMaterialIcon(mat.document_type) }}</mat-icon>
                                     <span>{{ mat.title }}</span>
                                 </a>
+                                <a *ngIf="lesson.locked==false" class="collapse-item"  [routerLink]="['/submissions']" [queryParams]="{ CourseId: CourseId}" (click)="showDocument(mat.content,mat.document_type); showChatbot = (mat.document_type === 'pdf')" (click)="track(mat.id,user.user_id)">
+                                    <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">{{ getMaterialIcon(mat.document_type) }}</mat-icon>
+                                    <span>{{ mat.title }}</span>
+                                </a>
+                                <div *ngIf="showChatbot">
+                                    <app-chatbot [pdfID]="pdfID" > </app-chatbot>
+                                </div>
+                                
+                                
                             </div>
+                            <a *ngFor="let quiz of quizes"  class="collapse-item" [routerLink]="['/submissions/Do']" [queryParams]="{ CourseId: CourseId ,quizID : quiz.id}" (click)="showDocument(quiz.content,quiz.document_type)">
+                                <div *ngIf="quiz.lesson===lesson.id" class="material-item" >
+                              <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">live_help</mat-icon> 
+                              <span class="material-title">{{quiz.title}}</span>
+                            </div>
+                                </a>
+                           
+                            <a *ngFor="let sub of assignments"   class="collapse-item">
+                            <div *ngIf="sub.lesson===lesson.id" class="material-item" >
+                            <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">fitness_center</mat-icon> 
+                            <span class="material-title">{{sub.title}}</span>    
+                          </div>            
+                            </a>
+                           
                         </div>
                     </div>
                 </li>
@@ -33,22 +56,26 @@
         <!-- Dashboard content area -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-               
+               <ng-container>
                 <ngx-doc-viewer *ngIf="mattype==='pdf' || mattype === 'docx' || mattype==='pptx' " 
                 [url]="documentToShow"
                 viewer="url"
                 style="width:100%;height:100%; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
             >
             </ngx-doc-viewer>
-            <div class="video-container">
-                <iframe *ngIf="mattype==='video'|| mattype==='youtube'" [src]="getSafeUrl()" frameborder="0" allowfullscreen></iframe>
+            </ng-container>
+            <ng-container>
+            <div  *ngIf="mattype==='video'|| mattype==='youtube'" class="video-container">
+                <iframe [src]="getSafeUrl()" frameborder="0" allowfullscreen></iframe>
               </div>
-              
+              </ng-container>
           
 
             <!-- <iframe src="https://player.vimeo.com/video/909169767?h=1453759f78&color=ffffff&title=0&byline=0&portrait=0&badge=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>       
              -->
-            
+             <ng-container>
+            <router-outlet></router-outlet>
+        </ng-container>
             </div>
         </div>
         <!-- End of Dashboard content area -->

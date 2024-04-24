@@ -27,18 +27,13 @@ export class LessonsMateialsComponent {
 // Property to track the index of the currently hovered item
 hoveredItemId: string | null = null;
  
-materialTypeIcons: { [key: string]: string } = {
-  'PDF': 'picture_as_pdf',
-  'Video': 'video_library',
-  'Image': 'image',
-  // Add more material types and their corresponding icons as needed
-};
+
 update: boolean = false;
 eval: boolean = false;
   selectedDocumentType: string | null = null;
   CourseId:any;
-  material ={}
-  lessons: any []=[]
+  material ={};
+  lessons: any []=[];
   
   newLessonTitle: string | null = null;
   myform: any = {
@@ -51,17 +46,18 @@ eval: boolean = false;
   selectedLessonId!: string;
 public uploadedLink: string = '';
 selectedFile: any;
-  materials: any;
+materials: any;
 materialForm: any;
-  selectedmatId: any;
-  myData$: any=[];
-  user!: any;
+selectedmatId: any;
+myData$: any=[];
+user!: any;
+quizes: any[] =[];
+  assignments: any[]=[];
 
   
 
   constructor(private MydataService:MydataService,private route: ActivatedRoute,private dialog: MatDialog) {
-    // Ensure 'this' is bound to the class methods
-
+   
   }
   ngOnInit(): void {
     this.lessons=[]
@@ -70,6 +66,7 @@ materialForm: any;
     this.route.queryParams.subscribe(params => {
       this.CourseId = params['CourseId'];
       });
+     this.get_quiz();
       this.user = localStorage.getItem("currentUser");
       this.user = JSON.parse(this.user);
       this.MydataService.getTutorCourses(this.user.user_id).subscribe(
@@ -82,7 +79,7 @@ materialForm: any;
           console.error('Error fetching users:', error);
         }
       );
-
+     this.get_assig();
  
       this.getCourselessons(this.CourseId);
     
@@ -186,8 +183,53 @@ materialForm: any;
     }
   }
 
+  get_quiz(){
+    this.MydataService.getQuizByLesson(this.CourseId).subscribe((data: any[]) => {
+      this.quizes = data;
+      console.log("quiize",this.quizes)
+    },
+    (error: any) => {
+      console.error('Error fetching quiz:', error);
+    });
+  }
+  delete_quiz(id: number){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: 'Are you sure you want to delete this quiz?' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.MydataService.deleteQuiz(id).subscribe(() => {
+          console.log(`quiz with ID ${id} deleted successfully.`);
+        this.get_quiz();
+        });
+      }
+    });
+    console.log(id);
+  }
+  get_assig(){
+    this.MydataService.AssignmentsbyCourse(this.CourseId).subscribe( (data: any[]) => {
+      this.assignments = data;
+      console.log( "ass",this.assignments)   ;
 
-
+    },
+    (error: any) => {
+      console.error('Error fetching users:', error);
+    });
+  }
+  delete_assig(id: number){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: 'Are you sure you want to delete this assignment?' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.MydataService.deleteAssignment(id).subscribe(() => {
+          console.log(`Assignment with ID ${id} deleted successfully.`);
+        this.get_assig();
+        });
+      }
+    });
+    console.log(id);
+  }
   delete_lesson(id: number){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { message: 'Are you sure you want to delete this lesson?' }
@@ -200,9 +242,23 @@ materialForm: any;
         });
       }
     });
+    console.log(id);
   }
 
 
+  unlockNext(id:any){
+
+    this.MydataService.unlock(id).subscribe();
+    
+    }
+
+  lockUnlock(id:any){
+
+    this.MydataService.unlockManually(id).subscribe();
+  
+  
+  }
+  
   delete_mat(id: number): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { message: 'Are you sure you want to delete this material?' }
@@ -326,10 +382,7 @@ validateDocumentType(materialType: string, expectedDocumentType: string): boolea
     this.hoveredItemId = null;
   }
 
-  // Actions for material buttons
-  previewMaterial(material: any): void {
-  
-  }
+
   
   
 
@@ -483,7 +536,7 @@ addLesson(): void {
   if (modal) {
     modal.style.display = 'block';
   }
-  this.eval=Eval;
+  
   this.update = update;
   console.log(this.selectedLessonId,this.selectedmatId,this.update);
   this.myform.value['title'] = material.title;
@@ -491,8 +544,10 @@ addLesson(): void {
   this.myform.value['content'] = material.content;
   this.uploadedLink=material.content;
 }
-openMaterialModaleval(): void {
+openMaterialModaleval(id:string): void {
   const modal = document.getElementById('materialModaleval');
+  this.selectedLessonId=id;
+  
   if (modal) {
     modal.style.display = 'block';
   }
@@ -566,15 +621,8 @@ AddMaterial(lessonId: string): void {
   const formData: FormData = new FormData();
   formData.append('title', this.myform.value['title']);
   formData.append('document_type', this.myform.value['document_type']);
-  if(this.eval==true){
-formData.append('content',"https://www.eval.com")
-  }
-  else{
-    formData.append('content', this.uploadedLink);
-  }
-
+  formData.append('content', this.uploadedLink);
   formData.append('lesson', lessonId);
-
   this.MydataService.addCourseMaterial(lessonId, formData).subscribe(
     (response: any) => {
       console.log('Material added successfully:', response);
@@ -601,24 +649,21 @@ toggleMaterials(lesson: any): void {
 }
 
 
-
-// getmaterial(){
-
-//   this.MydataService.getCourseMaterial(1).subscribe((data: any[]) => {
-
-//     console.log( data);
-
-//     this.material= data;
-//     console.log(  this.material)
-
-//   },
-//   (error: any) => {
-//     console.error('Error fetching users:', error);
-//   }
-// );
-
-// }
-
-
+checkEval(id: string): void {
+  this.eval=false;
+  for ( let quiz of this.quizes) {
+      if (quiz.lesson === id) {
+          console.log(`Quiz found with lessonid ${id}`);
+          this.eval=true;
+          
+      }
+  }
+  console.log("eval",this.eval);
+}
 
 }
+
+
+
+
+

@@ -1,6 +1,7 @@
-body{
-  
+.custom-width {
+    width: 100%;
 }
+
 .contact-form{
     background-color: #fff;
     margin-top: 50px;
@@ -55,3 +56,7 @@ body{
     border: none;
     cursor: pointer;
 }
+
+
+
+

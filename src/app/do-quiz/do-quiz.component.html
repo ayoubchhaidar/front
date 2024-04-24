@@ -1,0 +1,68 @@
+<ng-container *ngIf="!quizStarted">
+  <div class="loading-screen btn" (click)="startQuiz()">
+    Appuyer pour démarrer le quiz
+  </div>
+</ng-container>
+
+
+
+<div [class.blurredElement]="!quizStarted" >
+  <section   class="container contact-form" >
+
+    <!-- Circular timer -->
+    <div class="timer-container" *ngIf="!quizFinished">
+      <div class="timer">
+        {{ timer }}
+      </div>
+    </div>
+
+    <div class="text-container" >
+      <h3>{{ quizData?.title }}</h3>
+      <p *ngIf="!quizFinished && currentQuestionIndex< quizData?.questions?.length">Question {{ currentQuestionIndex + 1 }}/{{ quizData?.questions?.length }}</p>
+      <p>{{ quizData?.questions[currentQuestionIndex]?.content }}</p>
+    </div>
+
+    <form *ngIf="!quizFinished && loading == false">
+    
+      <div class="quiz-options" *ngFor="let choice of quizData?.questions[currentQuestionIndex]?.choices; let i = index">
+        <input type="radio" class="input-radio one-a jshdgdgwgdwfdfwdwjfdjwwdwdco" id="choice-{{i}}" name="choices" required>
+        <label (click)="toggleActiveLabel($event)" (click)="onChoiceClick(choice.choice,$event.target)" class="radio-label jsjwjdwjdwjdwco" for="choice-{{i}}">
+          <span class="alphabet">{{ i + 1 }}</span> {{ choice.choice }}
+        </label>
+      </div>
+      <button class="btn" type="button" (click)="onNextClick()" *ngIf="!quizFinished">Avance</button>
+    </form>
+  
+    <div style="text-align: center;" *ngIf="quizFinished">
+      <h3>Quiz terminer!</h3>
+      <p>Tu a répondu correctement à {{ calculateScore() }} questions sur {{ quizData?.questions?.length }}.{{(calculateScore() / quizData?.questions?.length) * 100}} </p>
+      <div class="progress-bar-container" >
+      <div role="progressbar" 
+      [attr.aria-valuenow]="((calculateScore() / quizData?.questions?.length) * 100)" 
+      aria-valuemin="10" 
+      [attr.aria-valuemax]="quizData?.questions?.length"
+      [style.--value]="((calculateScore() / quizData?.questions?.length) * 100)">
+ </div>
+</div>
+      
+      <p *ngIf="quizData.pass_mark<calculateScore() || quizData.pass_mark===calculateScore()"> trés bien tu as réussir</p>
+      <div *ngIf="quizData.pass_mark > calculateScore()" class="lesson">
+        <div>
+            <p><i class="fas fa-times-circle"></i> Vous avez échoué à ce quiz</p>
+            <a (click)="ngOnInit()"><strong>Réessayez?</strong></a>
+        </div>
+        <p>Il est nécessaire d'avoir au moins {{ quizData.pass_mark }} de {{ quizData?.questions?.length }} pour passer.</p>
+    </div>
+      <div *ngIf="quizData.pass_mark <= calculateScore()" class="lessonT">
+        <p> <i class="fas fa-check-circle"></i> Vous avez réussi ce quiz </p>
+        <p><strong>Congratulations</strong></p>
+        <p> Il est possible de passer à une autre section, bonne chance ♥</p>
+    </div>
+    
+    </div>
+    <ng-container *ngIf="loading == true">
+      <app-loading-spinner></app-loading-spinner>
+    </ng-container>
+  </section>
+
+</div>

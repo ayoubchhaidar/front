@@ -1,3 +1,68 @@
+.buton{
+  cursor: pointer;
+ border: none;
+  color: #4e73df;
+  background:  #fff;
+  font-family: "Open Sans", sans-serif;
+  font-size: 26px;
+
+}
+.container {
+  position: relative;
+}
+
+.buton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+button.ai-assistant {
+  position: relative;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+button.ai-assistant::before {
+  content: "\1F916"; /* Robot Emoji */
+  font-size: 24px; /* Adjust size as needed */
+}
+
+button.ai-assistant .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Adjust positioning of the emoji */
+button.ai-assistant::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4e73df; 
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #007bff;
+}
+
 .correct-answer {
   border-color: green;
   box-shadow: 0 0 5px green;
@@ -366,14 +431,7 @@
       background-color: #fff;
     }
     
-    button {
-      background-color: #4e73df;
-      color: #fff;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+
     
     .lesson {
       margin: 10px 0;

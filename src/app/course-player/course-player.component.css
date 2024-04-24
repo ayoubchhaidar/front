@@ -21,7 +21,6 @@ ngx-doc-viewer .document-content {
 }
 
 .video-container iframe {
-  
   width: 90%; /* Adjust width as needed */
   height: 90%; /* Adjust height as needed */
 }

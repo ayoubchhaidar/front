@@ -1,6 +1,8 @@
 body{
   
 }
+
+
 .contact-form{
     background-color: #fff;
     margin-top: 50px;
@@ -23,10 +25,10 @@ body{
     margin-top: -3%;
 
 }
-.contact-form form{
+.contact-form .form{
     padding: 10%;
 }
-.contact-form form .row{
+.contact-form .form .row{
     margin-bottom: -7%;
 }
 .contact-form h1{
@@ -35,27 +37,25 @@ body{
     text-align: center;
     color: #0062cc;
 }
-.contact-form .btnContact {
-    width: 50%;
+.custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f8f9fc;
     border: none;
-    border-radius: 1rem;
-    padding: 1.5%;
-    background: #dc3545;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
+    border-radius: 0;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 150px;
+    margin-right: 40px;
 }
-.btnContactSubmit
- {
-    margin-top: 20px;
-    width: 50%;
-    border-radius: 1rem;
-    padding: 1.5%;
-    color: #fff;
-    background-color: #0062cc;
-    border: none;
-    cursor: pointer;
+
+.custom-select:focus {
+    outline: none;
+    box-shadow: none;
 }
+
 .modal {
     display: none;
     position: fixed;

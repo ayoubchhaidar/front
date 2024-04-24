@@ -447,30 +447,7 @@
                                             </a>
                                         </div>
                                 <!-- ****** -->
-                                <div class="notification-banner">
-                                    <div *ngFor="let noti of realtimenoti" class="notification-item">
-                                        <a class="dropdown-item d-flex align-items-center" >
-                                            <div class="mr-3">
-                                                <div *ngIf="noti.type=='warning'" class="icon-circle bg-warning">
-                                                    <i class="fas fa-exclamation-triangle text-white"></i>
-                                                </div>
-                                                <div *ngIf="noti.type=='success'" class="icon-circle bg-success">
-                                                    <i class="fas fa-check-circle text-white"></i>
-                                                </div>
-                                                <div *ngIf="noti.type=='information'" class="icon-circle bg-info">
-                                                    <i class="fas fa-info-circle text-white"></i>
-                                                </div>
-                                                <div *ngIf="noti.type=='danger'" class="icon-circle bg-danger">
-                                                    <i class="fas fa-times-circle text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">Maintenant</div>
-                                                <span class="font-weight-bold">{{ noti.message }}</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+                               
                                 
                                       <!-- //////////////  -->
                                     

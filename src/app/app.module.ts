@@ -41,6 +41,10 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { QuizComponent } from './quiz/quiz.component';
 import { QuizContentComponent } from './quiz-content/quiz-content.component';
+import { QuizDisplayComponent } from './quiz-display/quiz-display.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { DoQuizComponent } from './do-quiz/do-quiz.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 
 
@@ -76,6 +80,10 @@ import { QuizContentComponent } from './quiz-content/quiz-content.component';
     StatisticsComponent,
     QuizComponent,
     QuizContentComponent,
+    QuizDisplayComponent,
+    ChatbotComponent,
+    DoQuizComponent,
+    LoadingSpinnerComponent,
 
   ],
   

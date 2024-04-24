@@ -51,14 +51,12 @@ export class DashboardComponent {
   
     var channel = pusher.subscribe('chat');
     channel.bind('notifications', (data: any) => {
-  
-      if (data.targeted_users.includes(this.signeduser.user_id)) {
+      console.log(data);
+        if (data.targeted_users.includes(this.signeduser.user_id)) {
         this.nb++;
         this.showNotification(data.message, data.type); 
        return this.realtimenoti.push(data);
-        
       }
-  
        else return 0;});  
   }
   updateSearch() {
@@ -191,23 +189,8 @@ export class DashboardComponent {
       );
     
     }
-  //   showNotification(message: string, type: string): void {
-  //     const notification = document.createElement('div');
-  //     notification.className = `notification ${type}`;
-  //     notification.innerHTML = `
-  //         <div class="icon">
-  //             ${type === 'warning' ? '<i class="fas fa-exclamation-triangle"></i>' :
-  //             type === 'success' ? '<i class="fas fa-check-circle"></i>' :
-  //             type === 'information' ? '<i class="fas fa-info-circle"></i>' :
-  //             type === 'danger' ? '<i class="fas fa-times-circle"></i>' : ''}
-  //         </div>
-  //         <div class="message">${message}</div>
-  //     `;
-  //     document.body.appendChild(notification);
-  //     setTimeout(() => {
-  //         notification.remove();
-  //     }, 10000); // Remove the notification after 10 seconds
-  // }
+
+
   showNotification(message: string, type: string): void {
     const alertClass: { [key: string]: string } = {
         'success': 'alert-success',

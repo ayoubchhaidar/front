@@ -23,6 +23,9 @@ import { CoursePlayerComponent } from './course-player/course-player.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { QuizContentComponent } from './quiz-content/quiz-content.component';
+import { QuizDisplayComponent } from './quiz-display/quiz-display.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { DoQuizComponent } from './do-quiz/do-quiz.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -39,7 +42,14 @@ const routes: Routes = [
     { path: 'stat', component: StatisticsComponent },
     { path: 'quiz', component: QuizComponent },
     { path: 'quizC', component: QuizContentComponent },
+    { path: 'quizD', component: QuizDisplayComponent},
+    
+    { path: 'assignment', component: AssignmentComponent },
   ] },
+  { path: 'submissions', component: CoursePlayerComponent,children:[
+    { path: 'Do', component: DoQuizComponent},
+  ] },
+  {path: 'chatbot', component: ChatbotComponent},
   { path: 'sign-up', component: SignUpComponent },
   { path: 'resme', component: ResetPasswordComponent },
   { path: 'profile', component: ProfileComponent },
@@ -50,9 +60,8 @@ const routes: Routes = [
   },
  
   { path: 'material', component: MaterialComponent },
-  { path: 'submissions', component: CoursePlayerComponent },
-  { path: 'assignment', component: AssignmentComponent },
-  { path: 'add-course', component: AddCourseComponent },
+ 
+   { path: 'add-course', component: AddCourseComponent },
   { path: 'add-lesson', component: AddLessonComponent },
   { path: '**', redirectTo: '/login' }, 
   { path: '', redirectTo: '/login', pathMatch: 'full' },

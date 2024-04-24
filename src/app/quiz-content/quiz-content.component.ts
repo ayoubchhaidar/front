@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MydataService } from 'src/app/services/mydata.service';
 import { timer } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ElementRef, Renderer2 } from '@angular/core';
 
 interface Answer {
@@ -22,7 +22,7 @@ interface Question {
   styleUrls: ['./quiz-content.component.css']
 })
 export class QuizContentComponent implements OnInit {
-
+  showMessage: boolean = false;
   i = 0;
   j = 0;
   part1: Question[] = [];
@@ -36,7 +36,7 @@ export class QuizContentComponent implements OnInit {
   myform: FormGroup;
   driveId: string | null = null; 
 
-  constructor(private MydataService: MydataService, private route: ActivatedRoute,private renderer: Renderer2, private el: ElementRef) {
+  constructor(private MydataService: MydataService, private route: ActivatedRoute,private renderer: Renderer2, private el: ElementRef,private router: Router) {
     this.myform = new FormGroup({
       content: new FormControl(''),
       explanation: new FormControl(''),
@@ -55,13 +55,22 @@ export class QuizContentComponent implements OnInit {
   questId!: number;
    courseId :any;
    lessonId :any;
+   quizID : any;
    lesson: any ;
    loading: boolean = false;
 
   ngOnInit(): void {
+    setInterval(() => {
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+      }, 5000); // Show the message for 2 seconds
+    }, 10000); // Repeat every 10 seconds
+  
     this.route.queryParams.subscribe(params => {
       this.courseId = params['courseId'];
       this.lessonId = params['lessonId'];
+      this.quizID= params['quizID'];
     });
     this.MydataService.getMaxidQuest().subscribe(
       (data: number) => {
@@ -127,13 +136,10 @@ export class QuizContentComponent implements OnInit {
   }
 
   getmaterials() {
-   
-
       this.MydataService.getCourseMaterial(this.lessonId).subscribe(
         (data: any[]) => {
           console.log('Received data for lesson',this.lessonId, ':', data);
-          this.materials = data; 
-         
+          this.materials = data;        
         },
         (error: any) => {
           console.error('Error fetching materials for lesson', this.lesson.id, ':', error);
@@ -155,7 +161,9 @@ export class QuizContentComponent implements OnInit {
       modal.style.display = 'none';
     }
   }
-  
+  backC(){
+    this.router.navigateByUrl('/dashboard/quizD?quizID='+this.quizID+'&CourseId='+this.courseId+'');
+  }
   
 
   back() {
@@ -261,6 +269,7 @@ export class QuizContentComponent implements OnInit {
   }
   
   parseBackendData(data: string[][]) {
+    
     this.generated_data = data.map(part => {
       return part.map(item => {
         const questionData = item.split('\n');
@@ -302,7 +311,7 @@ export class QuizContentComponent implements OnInit {
     });
   }
   addAIQuiz(questionContent: any) {
-    
+    this.choices = [];
       for (let answer of questionContent.answers) {
           const choice = {
               'question': this.questId,
@@ -313,7 +322,7 @@ export class QuizContentComponent implements OnInit {
       }
 
     const question = {
-      'quiz': 1,
+      'quiz': this.quizID,
       'content': questionContent.question,    
     }
   
@@ -324,7 +333,7 @@ export class QuizContentComponent implements OnInit {
       this.MydataService.addChoices(this.choices).subscribe();
       console.log('Question added successfully');
     });
-  
+  console.log("data",question);
     this.questId++;
   }
   
@@ -333,6 +342,8 @@ export class QuizContentComponent implements OnInit {
    
 
 addQ() {
+  this.choices = [];
+
   for (let i = 0; i < 5; i++) {
   let   index='choice'+i;
 
@@ -354,21 +365,25 @@ console.log( this.choices);
 console.log( this.myform.value['content']);
 
 const question ={
-  'quiz':1,
+  'quiz':this.quizID,
   'content':this.myform.value['content'],
 }
 
-// this.MydataService.addQuestion(question).subscribe();
-// this.MydataService.addChoices(this.choices).subscribe();
 
-this.MydataService.addQuestion(question).pipe(
-  concatMap(() => timer(1000))
-).subscribe(() => {
-  this.MydataService.addChoices(this.choices).subscribe();
+
+this.MydataService.addQuestion(question).subscribe((data) => {
+
+  console.log('Received data:', data);
+
+  this.choices.forEach(choice => {
+    choice.question = data.id; 
+});
+
+    this.MydataService.addChoices(this.choices).subscribe();
 });
 
 
-
+ console.log("data",question);
 this.questId++;
 
 }
@@ -383,7 +398,4 @@ this.questId++;
   
   
 
-function getInputWidth(content: any, string: any) {
-  throw new Error('Function not implemented.');
-}
 

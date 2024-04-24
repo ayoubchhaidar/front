@@ -1,0 +1,58 @@
+
+
+<div class="container contact-form">
+    <div class="quiz-container">
+  
+      <h1>{{quizData.title}} </h1>
+      <button class="buton" *ngIf="update===false" (click)="backC()"><i class="fas fa-arrow-left"></i></button>
+      <button class="buton" *ngIf="update===true" (click)="back()"><i class="fas fa-arrow-left"></i></button>
+      <div class="quiz-info" *ngIf="update===false" style="display: flex; flex-direction: row;">
+        <div style="flex: 1;">
+          
+            <p>
+               <strong style="margin-right:10px;"> Minimum pour passer:</strong> {{ quizData.pass_mark }}
+            </p>
+            <p>
+                <strong style="margin-right:7px;">Nombre des questions:</strong> {{ quizData.questions.length }}
+            </p>
+        </div>
+        <div style="flex: 1;">
+            <p class="quiz-description">
+               <strong> Description:</strong> <br> {{quizData.description }} 
+            </p>
+        </div>
+    </div>
+    
+    
+      <div class="quiz-body" *ngIf="update===true">
+      
+        <h3 style="text-align: center;">Question et Réponses</h3>
+      <textarea style="width: 600px; margin-bottom: 20px;" type="text" [(ngModel)]="questionContent" [value]="quizData.questions[currentQuestionIndex].content" class="form-control"></textarea>
+        <div *ngFor="let choice of quizData.questions[currentQuestionIndex].choices; let i = index" class="d-flex mb-3 align-items-center">      
+           <input type="checkbox" style="width: 20px; height: 20px; margin-right: 10px;" class="me-3 mt-2 align-self-start"   [(ngModel)]="choice.correct" [checked]=" choice.correct" >
+          <div class="form-outline flex-grow-1">
+            <input [(ngModel)]="choice.choice"  [value]="choice.choice" style="width: 450px;height: auto;" class="form-control" 
+            type="text"                     
+            [ngClass]="{'correct-answer': choice.correct}">
+          </div>
+        </div>
+        <div id="result"></div>
+      </div>
+      <div class="quiz-foot">
+        <div class="button-container" *ngIf="update===true">
+          <button type="button" class="button back-button" (click)=" onPrevClick()"><i class="fas fa-arrow-left"></i></button>
+          <button type="button"  class="button" (click)="updateQC(quizData.questions[currentQuestionIndex].id)">Sauvegarder</button>
+          <button type="button" class="button" (click)="deleteQ(quizData.questions[currentQuestionIndex].id)">Supprimer</button>
+          <button type="button" class="button next-button" (click)="onNextClick()"><i class="fas fa-arrow-right"></i></button>
+        </div>
+       
+      
+        
+      </div>
+    </div>
+
+    <button type="button" *ngIf="update===false" [routerLink]="['/dashboard/quizC']" [queryParams]="{ quizID : quizID, lessonId: lessonID,courseId: courseID}" class="button">Ajouter des questions</button>      
+    <button type="button" *ngIf="update===false" class="button" (click)="Mod()">Modifier les questions existantes</button>
+  </div>
+
+  

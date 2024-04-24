@@ -80,8 +80,8 @@ export class AuthService {
     return this.http.get<any[]>(`${this.api_url}accounts/api/users/`);
   }
 
-  getuserfreinds(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.api_url}accounts/api/user_freinds/`);
+  getuserfreinds(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.api_url}accounts/api/user_freinds/${userId}/`);
   }
 
 

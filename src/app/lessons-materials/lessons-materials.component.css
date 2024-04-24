@@ -1,58 +1,42 @@
-
-/* Style for the links */
-a {
-  color: black;
-  font-size: 1.3rem;
-  text-decoration: none;
-  margin-top: 1em;
-  display: inline-block;
-  font-weight: bold;
-  padding: .5em;
-  margin-left: -.5em;
-  position: relative;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-}
-
-/* Style for active links */
-.active-section a {
-  color: rgb(0, 99, 228); /* Change color for links within active section */
-  text-decoration: underline; /* Underline active links */
-}
-
-a:before, a:after {
-  position: absolute;
-  content: '';
-  border-bottom: 3px solid rgb(0, 99, 228);
-  border-radius: 1em;
-  bottom: .3em;
-  transition: transform .5s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-a:before {
-  width: 1em;
-  transform-origin: left;
-}
-
-a:after {
-  width: 82%;
-  left: 1em;
-  transform: translateX(110%);
-}
-
-a:hover:before {
-  transform: scaleX(0.3);
-}
-
-a:hover:after {
-  transform: translateX(0);
-}
-
-/* Center the links */
 .button-container {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
+.custom-link {
+  display: inline-block;
+  padding: 8px 16px; /* Adjust padding as needed */
+  margin-right: 10px; /* Adjust margin between links */
+  background-color: #f0f0f0; /* Button background color */
+  color: #333; /* Text color */
+  text-decoration: none; /* Remove underline */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.custom-link:hover {
+  background-color: #ddd; /* Hover background color */
+}
+
+.custom-link.active {
+  background-color:#4e73df; /* Active link background color */
+  color: #fff; /* Active link text color */
+}
+
+.delete-button1 {
+  position: absolute;
+  top:20;
+  right: 0;
+  font-size: 14px;
+  color: red;
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+}
+
+
+/* Center the links */
+
 
 .lesson-header-container {
   display: flex;
@@ -133,9 +117,19 @@ input:required {
      .delete-button {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 15px;
     font-size: 14px;
     color: red;
+    background: none; /* Remove any default background */
+    border: none; /* Remove any default border */
+    cursor: pointer; /* Add cursor pointer for better UX */
+  }
+  .lock-button {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    font-size: 14px;
+    color: #4e73df;
     background: none; /* Remove any default background */
     border: none; /* Remove any default border */
     cursor: pointer; /* Add cursor pointer for better UX */
@@ -182,6 +176,16 @@ input:required {
   }
   
   .material-title {
+    font-size: 20px; /* Adjust the size as needed */
+    margin-right: 5px;
+  }
+  .eval-icon {
+    font-size: 25px; /* Adjust the size as needed */
+    margin-right: 10px;
+  }
+  
+
+  .eval-title {
     font-size: 20px; /* Adjust the size as needed */
     margin-right: 5px;
   }

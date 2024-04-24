@@ -26,10 +26,62 @@ export class MydataService {
 
 
 
+  deleteQuiz(id: number): Observable<any> {
+    return this.http.delete<any>(this.api_url+'palteforme/delete_quiz/'+id+'/');
+  }
+  deleteAssignment(id: number): Observable<any> {
+    return this.http.delete<any>(this.api_url+'palteforme/assignments/'+id+'/');
+  }
+  deleteQuestion(id: number): Observable<any> {
+    return this.http.delete<any>(this.api_url+'palteforme/updateQuestionChoices/'+id+'/');
+  }
+  addAssignment(obj: any){
+    return this.http.post<any>(this.api_url+'palteforme/assignments/',obj) ;
+  }
+  AssignmentsbyCourse(id: number){
+  return this.http.get<any>(this.api_url+'palteforme/assignment_by_course/' + id + '/') ;
+  }
+  
+  addSubmission(obj: any): Observable<any> {
+    return this.http.post<any>(this.api_url+'palteforme/submissions/',obj) ;
+  }
+  
+  SubmissionsByAssignment(id: number): Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/submission-assignment/' + id + '/');
+  }
+  
+  addGrade(obj: any): Observable<any> {
+    return this.http.post<any>(this.api_url+'palteforme/grades/',obj) ;
+  }
+  
+  gradeByStudAssig(idStudent:number,idassignment:number){
+    return this.http.get<any>(this.api_url+'palteforme/grades/' + idStudent + '/'+ idassignment + '/') ;
+  
+  }
+
+  QuizById(id:number) :Observable<any> {
+
+    return this.http.get(this.api_url + 'palteforme/getQuiz/' + id+ '/');
+
+
+
+  }
+
+
+ updateQuestionChoices(id:number,obj:any): Observable<any> {
+
+
+      return this.http.put<any>(this.api_url+'palteforme/updateQuestionChoices/'+id+'/',obj) ;
+    }
 
   generateQuiz(id:string): Observable<any> {
     return this.http.get(this.api_url + 'palteforme/generate_Quiz/' + id + '/');
   }
+
+  generateAnswr(id:string,query: string): Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/generate_Answer/' + id + '/'+query+'/');
+  }
+
   addQuiz(obj:any): Observable<any> {
     return this.http.post(this.api_url + 'palteforme/quizzes/',obj);
   }
@@ -39,7 +91,7 @@ export class MydataService {
   }
 
 
-  getQuizByCourse(id:number) :Observable<any> {
+  getQuizByLesson(id:number) :Observable<any> {
 
     return this.http.get(this.api_url + 'palteforme/quizzes/course/' + id+ '/');
 
@@ -109,6 +161,14 @@ export class MydataService {
 
 
   }
+
+  unlock(id:any){
+    return this.http.post<any>(this.api_url+'palteforme/UnlockNextLesson/'+id+'/',{}) ;
+  }
+  unlockManually(id:any){
+    return this.http.post<any>(this.api_url+'palteforme/ManuallyUnlockNextLesson/'+id+'/',{}) ;
+  }
+  
   seen(userId: number){
     return this.http.post<any>(`http://127.0.0.1:8000/palteforme/seen/${userId}/`, {});
 }
