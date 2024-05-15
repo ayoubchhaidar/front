@@ -1,35 +1,52 @@
-
 <div class="container contact-form">
-            <div class="contact-image">
-                <img src="https://www.keeplewisvillebeautiful.org/wp-content/uploads/2017/05/icon-education-blue.png" alt="course"/>
-            </div>
-            <form [formGroup]="myform" (ngSubmit)="addCourse()">
-                <h1>Ajouter un cour</h1>
-               <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                           <label class="form-label" for="title">Title</label>
-                                    <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="capacity">Enrollment Capacity</label>
-                            <input type="number" id="capacity" class="form-control form-control-lg" formControlName="capacity" />
-                        </div>
-                        <div class="form-group">                            
-                        <label class="form-label" for="form3Example97">Profile Picture</label>
-                        <input type="file"  id="formFile"  (change)="onFileChange($event)" [(ngModel)]="selectedFile" class="form-control" >
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn  btn-lg ms-2" style="background-color: #4e73df; color: #ffffff;">Ajouter</button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="desc">Description</label>
-                            <textarea id="desc" class="form-control form-control-lg" formControlName="desc" maxlength="140"></textarea>
+  <!-- Semi-circle container -->
+  <div class="header-container">
+   
 
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <img src="assets/social.png" class="modal__product" />
+  </div>
+
+
+  <div class="row justify-content-end" style="margin-top: 5%;margin-bottom: 5%;" > <!-- Align content to the right -->
+      <div class="col-md-6">
+          <form [formGroup]="myform" (ngSubmit)="addCourse()">
+            <h1 style="margin-left:5% ;">Ajouter un cours</h1>
+              <div class="form-group">
+                  <label class="form-label" for="title">Titre</label>
+                  <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
+              </div>
+              <div class="form-group">
+                  <label class="form-label" for="desc">Description</label>
+                  <textarea id="desc" class="form-control form-control-lg" formControlName="desc" maxlength="140"></textarea>
+              </div>
+              <div class="form-group">
+                  <label class="form-label" for="capacity">Capacité d’inscription</label>
+                  <input type="number" id="capacity" class="form-control form-control-lg" formControlName="capacity" />
+              </div>
+              <div class="form-group">
+                  <label class="form-label" for="formFile">Photo de Profile</label>
+                  <input type="file" id="formFile" (change)="onFileChange($event)" [(ngModel)]="selectedFile" class="form-control" />
+              </div>
+              <div class="form-group">
+                  <button type="submit" class="button">Ajouter</button>
+              </div>
+          </form>
+      </div>
+  </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

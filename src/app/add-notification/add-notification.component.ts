@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MydataService } from 'src/app/services/mydata.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { SearchService } from '../search.service';
 @Component({
@@ -21,9 +21,19 @@ export class AddNotificationComponent {
   selectedUserIds: any[] = [];
 
 checkbox: any;
-showButton: any;
+
   filteredUsers: any[] = [];
 selectedOption: string="tous";
+  errorMessage: string="";
+  myform: FormGroup;
+  showButton: boolean = false;
+  constructor(private MydataService: MydataService, private AuthService: AuthService, private searchService: SearchService) {
+    this.myform = new FormGroup({
+      message: new FormControl('', Validators.required),
+      type: new FormControl('', Validators.required),
+      targeted_users: new FormControl(''),
+    });
+  }
   ngOnInit(): void {
 
     this.user = localStorage.getItem("currentUser");
@@ -39,10 +49,7 @@ selectedOption: string="tous";
     });
   });
   }
-  toggleButtonVisibility() {
-    // Check if any user is checked
-    this.showButton = this.users.some(user => user.checked);
-  }
+
   addToTable(userId: string, isChecked: boolean) {
     if (isChecked) {
         this.selectedUserIds.push(userId);
@@ -69,37 +76,46 @@ selectedOption: string="tous";
 addnoti() {
 throw new Error('Method not implemented.');
 }
-  myform: FormGroup;
-  constructor(private MydataService:MydataService,private AuthService: AuthService,private searchService: SearchService) {
-    this.myform = new FormGroup({
-      message: new FormControl(''),
-      type: new FormControl(''),
-      targeted_users:new FormControl(''),
-    });}
 
 
 
 
-sendNoti(){
-
-const notificaton={
-  sender_id:this.user.user_id,
-  message:this.myform.value['message'],
-  type:this.myform.value['type'],
-  targeted_users:this.selectedUserIds,
-}
-const targetedUsersString = notificaton.targeted_users.join(',');
-const formData = new FormData();
-formData.append('sender_id', notificaton.sender_id);
-formData.append('message', notificaton.message);
-
-formData.append('type', notificaton.type);
-formData.append('targeted_users', targetedUsersString);
-
-this.MydataService.sendNoti(formData).subscribe();
-
-
-}
+    sendNoti() {
+      if (this.myform.valid) {
+        const notificaton = {
+          sender_id: this.user.user_id,
+          message: this.myform.value['message'],
+          type: this.myform.value['type'],
+          targeted_users: this.selectedUserIds,
+        };
+  
+        const targetedUsersString = notificaton.targeted_users.join(',');
+        const formData = new FormData();
+        formData.append('sender_id', notificaton.sender_id);
+        formData.append('message', notificaton.message);
+        formData.append('type', notificaton.type);
+        formData.append('targeted_users', targetedUsersString);
+  
+        // Call the service to send notification
+        this.MydataService.sendNoti(formData).subscribe(
+          () => {
+            // Reset form after successful submission
+            this.myform.reset();
+            this.selectedUserIds = [];
+            this.showButton = false;
+            this.closeMaterialModalup();
+          },
+          (error) => {
+            // Handle error from API call
+            this.errorMessage = 'Failed to send notification. Please try again.';
+            console.error('Error sending notification:', error);
+          }
+        );
+      } else {
+        // Mark form fields as touched to display validation errors
+        this.myform.markAllAsTouched();
+      }
+    }
 getUsers(){
   this.AuthService.getAllUsers().subscribe(
     (data: any[]) => {

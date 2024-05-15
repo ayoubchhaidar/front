@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MydataService } from 'src/app/services/mydata.service';
 
@@ -18,10 +19,13 @@ export class DoQuizComponent implements OnInit {
   quizFinished: boolean = false;
   timerInterval: any;
   quizId: any;
+  user: any;
 
   constructor(private MydataService: MydataService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.user = localStorage.getItem("currentUser");
+    this.user = JSON.parse(this.user);
     this.route.queryParams.subscribe(params => {
       this.quizId = params['quizID'];
       this.loadQuizData();
@@ -78,6 +82,12 @@ export class DoQuizComponent implements OnInit {
         this.loading = false;
         score = this.calculateScore();
         clearInterval(this.timerInterval);
+        const formData = new FormData();
+        formData.append('student',this.user.user_id );
+        formData.append('quiz',this.quizId );
+        formData.append('grade',score.toString());
+        formData.append('feedback','huh');
+        this.MydataService.Add_quiz_grade(formData).subscribe();
       }, 2000);
       // Additional logic for quiz completion
     }

@@ -21,7 +21,7 @@ interface Quiz {
 })
 export class QuizComponent implements OnInit {
 
-
+  
   myform1: FormGroup;
   constructor(private MydataService: MydataService, private route: ActivatedRoute,private router: Router) {
     this.myform1 = new FormGroup({
@@ -60,7 +60,9 @@ addquiz() {
     this.router.navigate(['/dashboard/quizC'], { queryParams: { quizID: this.quiz.id  ,courseId: this.courseId, lessonId: this.lessonId} });
   });
 }
-
+backC(){
+  this.router.navigateByUrl('/dashboard/lesoon?CourseId='+this.courseId+'');
+}
   }
   
 

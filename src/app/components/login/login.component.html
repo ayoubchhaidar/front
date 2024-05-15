@@ -18,7 +18,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Bienvenue!</h1>
                                     </div>
                                     <form class="user" id="login-form" [formGroup]="myform" (ngSubmit)="onSubmit()">
                                         <div class="form-group">
@@ -28,7 +28,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="password-input-container">
-                                                <input type="password" placeholder="Password" formControlName="password" [type]="hidePassword ? 'password' : 'text'" class="form-control form-control-user">
+                                                <input type="password" placeholder="Mot de passe" formControlName="password" [type]="hidePassword ? 'password' : 'text'" class="form-control form-control-user">
                                                 <button type="button" class="toggle-password-button" (click)="togglePasswordVisibility()">
                                                     <i class="fas" [ngClass]="{'fa-eye': hidePassword, 'fa-eye-slash': !hidePassword}"></i>
                                                 </button>
@@ -36,18 +36,18 @@
                                         </div>
                                         
                                         <div class="form-group">                                  
-                                                <div style="margin-left:65px;" *ngIf="errorMessage" class="error-message">
+                                                <div style="margin-left:65px;color:red;" *ngIf="errorMessage" class="error-message">
                                                     {{ errorMessage }}
                                                   </div>
                                         </div>
                                         <input routerlink="dashboard" type="submit" name="submit"
-                                            class="btn btn-primary btn-user btn-block" value="Login">
+                                            class="btn btn-primary btn-user btn-block" value="Se Connecter">
                                         <hr>
                                         <div class="text-center">
-                                            <a class="small" routerLink="/resme" >Forgot Password?</a>
+                                            <a class="small" routerLink="/resme" >Mot de passe oublié?</a>
                                         </div>
                                         <div class="text-center">
-                                            <a routerLink="/sign-up"class="small" >Register here</a>
+                                            <a routerLink="/sign-up"class="small" >s' inscrire</a>
                                         </div>
                                     </form>
                                 </div>

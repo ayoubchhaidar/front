@@ -24,7 +24,27 @@ export class MydataService {
   private apiUrl = 'http://127.0.0.1:8000/palteforme/materials/course/';
   constructor(private http: HttpClient) { }
 
+  
+  passedQuizzes(id:number) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/passedQuizzes/'+ id+ '/');
 
+  }
+
+
+  tutorstat(id:number) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/tutor_stat/'+ id+ '/');
+
+  }
+
+recReq(id:number): Observable<any> {
+  return this.http.get(this.api_url + 'palteforme/recentReq/' + id + '/');
+}
+  
+
+ reminders(id:number) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/get_reminders/'+ id+ '/');
+
+  }
 
   deleteQuiz(id: number): Observable<any> {
     return this.http.delete<any>(this.api_url+'palteforme/delete_quiz/'+id+'/');
@@ -50,6 +70,7 @@ export class MydataService {
     return this.http.get(this.api_url + 'palteforme/submission-assignment/' + id + '/');
   }
   
+
   addGrade(obj: any): Observable<any> {
     return this.http.post<any>(this.api_url+'palteforme/grades/',obj) ;
   }
@@ -144,7 +165,9 @@ export class MydataService {
     return this.http.put<any>(this.api_url+'palteforme/verify_course/'+id+'/',{ }) ;
   }
 
-
+  update_Course(id:any,formData: FormData){
+    return this.http.put<any>(this.api_url+'palteforme/courses/'+id+'/',formData) ;
+  }
   
   addLesson(newLesson: any): Observable<any> {
     return this.http.post<any>(this.api_url+'palteforme/add_lesson/',newLesson) ;    
@@ -184,9 +207,13 @@ getUserNoti(id:any){
     return this.http.get(this.api_url + 'palteforme/tutor-courses/' + id + '/');
   }
 
-  getCourses(id: number): Observable<any> {
+  sc(id: number): Observable<any> {
     return this.http.get(this.api_url + 'palteforme/sc/' + id + '/');
   }
+  getCourses(id: number): Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/get_courses/' + id + '/');
+  }
+
   
 
   // getCourses(id: number): Observable<any> {
@@ -200,7 +227,9 @@ getUserNoti(id:any){
 
     return this.http.get(this.api_url + 'palteforme/lessons_by_course/' + id+'/');
   }
-
+  getCourselessonsS(id: number,userId: number): Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/lessons_by_courseS/' + id+'/' + userId+'/');
+  }
   
   addCourseMaterial(lessonId: string, formData: FormData): Observable<any> {
     // Assuming api_url is a property in your service
@@ -213,7 +242,10 @@ getUserNoti(id:any){
     debugger;
     return this.http.post<any>(this.api_url+'palteforme/enrollments/',obj) ;
   }
- 
+Add_quiz_grade(obj: any): Observable<any> {
+  debugger;
+    return this.http.post<any>(this.api_url+'palteforme/quizgrade/',obj) ;
+  }
   UpdateCourseMaterial(id: number,obj: any): Observable<any> {
     debugger;
     return this.http.put<any>(this.api_url+'palteforme/materials/'+id+'/',obj) ;
@@ -269,5 +301,20 @@ getUserNoti(id:any){
   //   debugger;
   //   return this.http.get(this.api_url+'palteforme/courses/');
   // }
+  deleteremind(id: number): Observable<any> {
+    return this.http.delete<any>(this.api_url+'palteforme/delete_reminder/'+id+'/');
+  }
+
+gradeByAssig(idassignment:number){
+  return this.http.get<any>(this.api_url+'palteforme/grade/' + idassignment + '/') ;
+
+}
+updateGrade(obj: any): Observable<any> {
+  return this.http.put<any>(this.api_url+'palteforme/grades/',obj) ;
 }
 
+progress(id: number): Observable<any> {
+  return this.http.get(this.api_url + 'palteforme/progress/' + id + '/');
+}
+
+}

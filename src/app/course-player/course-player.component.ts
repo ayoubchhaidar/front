@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { ChatbotComponent } from '../chatbot/chatbot.component';
+
 import { MydataService } from 'src/app/services/mydata.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
-
+declare var $: any;
 @Component({
   selector: 'app-course-player',
   templateUrl: './course-player.component.html',
@@ -19,10 +19,60 @@ export class CoursePlayerComponent {
   showViewer: boolean = false;
   user: any;
   pdfID: any;
-  showChatbot: any;
+  showChatbot: boolean=false;
   quizes: any[] =[];
   assignments: any[]=[];
-  
+  title: string="";
+
+  private initializeScript(): void {
+    "use strict";
+
+    // Toggle the side navigation
+    $("#sidebarToggle, #sidebarToggleTop").on('click', (e: any) => {
+      $("body").toggleClass("sidebar-toggled");
+      $(".sidebar").toggleClass("toggled");
+      if ($(".sidebar").hasClass("toggled")) {
+        $('.sidebar .collapse').collapse('hide');
+      }
+    });
+
+    // Close any open menu accordions when window is resized below 768px
+    $(window).resize(() => {
+      if ($(window).width() < 768) {
+        $('.sidebar .collapse').collapse('hide');
+      }
+
+      // Toggle the side navigation when window is resized below 480px
+      if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+        $("body").addClass("sidebar-toggled");
+        $(".sidebar").addClass("toggled");
+        $('.sidebar .collapse').collapse('hide');
+      }
+    });
+
+    // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+
+
+    // Scroll to top button appear
+    $(document).on('scroll', () => {
+      var scrollDistance = $(this).scrollTop();
+      if (scrollDistance > 100) {
+        $('.scroll-to-top').fadeIn();
+      } else {
+        $('.scroll-to-top').fadeOut();
+      }
+    });
+
+    // Smooth scrolling using jQuery easing
+    $(document).on('click', 'a.scroll-to-top', (e: any) => {
+      var $anchor = $(this);
+      $('html, body').stop().animate({
+        scrollTop: ($($anchor.attr('href')).offset().top)
+      }, 1000, 'easeInOutExpo');
+      e.preventDefault();
+    });
+  }
+
 
   get embedUrl() {
     if (this.mattype === 'video') {
@@ -32,11 +82,13 @@ export class CoursePlayerComponent {
   }
 
   ngOnInit(): void {
+    this.initializeScript();
     this.user = localStorage.getItem("currentUser");
     this.user = JSON.parse(this.user);
     this.lessons=[]
     this.route.queryParams.subscribe(params => {
       this.CourseId = params['CourseId'];
+      this.title= params['title']
       });   
       this.getCourselessons(this.CourseId);
       this.get_assig();
@@ -69,11 +121,17 @@ export class CoursePlayerComponent {
     this.MydataService.track(formData).subscribe(); console.log("baaa");
   }
   showDocument(documentUrl: string, mattype: string) {
+    if(mattype === 'pdf'){
+    this.showChatbot=true;}
+    else{
+      this.showChatbot=false;
+    }
     this.documentToShow = documentUrl;
     this.mattype=mattype
     this.showViewer = true;
     this.pdfID=this.extractDriveId(documentUrl);
-    console.log(this.pdfID);
+    console.log(this.pdfID, "cht",this.showChatbot);
+    
   }
   extractDriveId(link: string): string | null {
     const match = link.match(/(?:https?:\/\/)?drive.google.com\/(?:file\/d\/|open\?id=)([\w-]+)/);
@@ -123,7 +181,7 @@ export class CoursePlayerComponent {
   }
 
   getCourselessons(id:number){
-    this.MydataService.getCourselessons(id).subscribe((data: any[]) => {
+    this.MydataService.getCourselessonsS(id,this.user.user_id).subscribe((data: any[]) => {
       this.lessons = data;
       console.log( this.lessons)
       for (let i = 0; i < this.lessons.length; i++) {

@@ -38,13 +38,24 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { CoursePlayerComponent } from './course-player/course-player.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { QuizComponent } from './quiz/quiz.component';
 import { QuizContentComponent } from './quiz-content/quiz-content.component';
 import { QuizDisplayComponent } from './quiz-display/quiz-display.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 import { DoQuizComponent } from './do-quiz/do-quiz.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { ChartDialogComponent } from './chart-dialog/chart-dialog.component';
+import { ModalDialogComponent } from './modal-dialog/modal-dialog.component';
+import { ReminderComponent } from './reminder/reminder.component';
+import { ViewSubmissionsComponent } from './view-submissions/view-submissions.component';
+import { CertificationComponent } from './certification/certification.component';
+import { FormateurDashboardComponent } from './formateur-dashboard/formateur-dashboard.component';
+import { StudishDashboardComponent } from './studish-dashboard/studish-dashboard.component';
+import { ProgressComponent } from './progress/progress.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GenerateCourseComponent } from './generate-course/generate-course.component';
+
+
 
 
 
@@ -84,10 +95,20 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     ChatbotComponent,
     DoQuizComponent,
     LoadingSpinnerComponent,
+    ChartDialogComponent,
+    ModalDialogComponent,
+    ReminderComponent,
+    ViewSubmissionsComponent,
+    CertificationComponent,
+    FormateurDashboardComponent,
+    StudishDashboardComponent,
+    ProgressComponent,
+    GenerateCourseComponent,
 
   ],
   
   imports: [
+   
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -102,8 +123,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     MatDialogModule,
     NgxExtendedPdfViewerModule,
     NgxDocViewerModule,
-    HighchartsChartModule
-
+    HighchartsChartModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

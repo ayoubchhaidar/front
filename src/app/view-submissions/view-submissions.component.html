@@ -1,0 +1,79 @@
+<div *ngFor="let sub of submissions" class="material-item">
+              
+   
+  
+  <span class="material-title">{{ sub.studentname }}</span>
+  <span class="material-title">{{getGradeBySt(sub.student)  }}</span>
+  <span class="material-title">{{  getF(sub.student)}}</span>
+  
+    <button (click)="openMaterialModalpreview(sub.submission_content)" class="material-action">
+      <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
+    </button>
+
+
+   
+    
+    <form *ngIf="getGradeBySt(sub.student)===''" [formGroup]="myform" (ngSubmit)="submitgrade(sub.student,sub.assignment)">
+
+  
+      
+
+          <input type="number"   formControlName="note" >
+          <input type="text" formControlName="remarque" > 
+    
+
+ 
+
+
+  <button  type="submit">Attribuer note</button>
+</form>
+
+<form *ngIf="getGradeBySt(sub.student)!==''" [formGroup]="myform" (ngSubmit)="updateGrade(sub.student,sub.assignment)">
+
+  
+      
+
+  <input type="number"   formControlName="note" >
+  <input type="text" formControlName="remarque" > 
+
+
+
+
+
+<button  type="submit">Update</button>
+</form>
+ 
+  </div>
+  <div id="materialModalpreview" class="modal"  >
+    <div class="modal-content">
+      <span class="close" (click)="closeMaterialModal()">&times;</span>
+      <h4  style="text-align: center; color: #4e73df;">mat</h4>
+      <form >
+        
+      <!-- <iframe [src]="mat.content" height="1100px" width="100%" frameborder="0" ></iframe>  -->
+        <!-- <ngx-extended-pdf-viewer [src]="mat.content" [textLayer]="true"></ngx-extended-pdf-viewer> 
+        
+        -->
+
+        <ngx-doc-viewer
+        [url]="content"
+        viewer="url"
+        style="width:100%;height:500px;"
+      >
+      </ngx-doc-viewer> 
+    
+    
+      
+      </form>  
+      
+    </div>
+  </div>
+
+<div class="container-wrapper">
+  <div class="container contact-form" *ngFor="let course of myData$" >
+    <h1>{{course.title}}</h1>
+    <ol >
+      <li></li>
+    </ol>
+  </div>
+</div>

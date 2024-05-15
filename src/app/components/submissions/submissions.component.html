@@ -1,14 +1,29 @@
 
+<div class="container contact-form">
+  <div class="contact-image">
+      <!-- <img src="https://www.keeplewisvillebeautiful.org/wp-content/uploads/2017/05/icon-education-blue.png" alt="course"/> -->
+  </div>
 
-  <!-- Your HTML file -->
+  <h1>afficher assignment i ci !!!!!!!!!!!!!!!!!!!!</h1>
 
-<div class="card-container" style="display: flex; flex-wrap: wrap;">
-  <div *ngFor="let submissions of myData$ | async" class="card">
-    <div class="card-body">
-      <h5 class="card-title">Student : {{ submissions.studentName }}</h5>
-      <h5>Content: {{ submissions.submission_content }}</h5>
-      <p class="card-text">Submitted on: {{ submissions.submission_date }}</p>
-      <button color="primary" mat-raised-button (click)="opendialog(submissions.student,submissions.assignment)">Grade work</button>   
+
+</div>
+
+
+<div class="frame">
+  <div class="center">
+    <div class="bar"></div>
+    <div class="title">Drop file to upload</div>
+    <div class="dropzone">
+      <div class="content">
+        <img src="https://100dayscss.com/codepen/upload.svg" class="upload">
+        <span class="filename">{{ uploadedFileName }}</span> <!-- Display uploaded file name here -->
+        <input type="file" class="input" (change)="onFileSelected($event)">
+      </div>
     </div>
+    <img src="https://100dayscss.com/codepen/syncing.svg" class="syncing">
+    <img src="https://100dayscss.com/codepen/checkmark.svg" class="done">
+    <div class="upload-btn" (click)="addSubmission()">Submit</div>
   </div>
 </div>
+

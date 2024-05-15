@@ -23,13 +23,13 @@
                             <p class="text-secondary mb-1" style="font-size: 1.2em; ">Dernière connexion : {{ user.last_login | date: 'medium' }} </p>
                             <br>
                             <div *ngIf="user.is_superuser == true">
-                                <i class="ni education_hat mr-2"></i>Administrateur 
+                               <strong> <i class="ni education_hat mr-2"></i>Administrateur </strong>
                             </div>
                             <div *ngIf="user.is_active == true && !user.is_superuser && !user.is_staff">
-                                <i class="ni education_hat mr-2"></i>Apprenant 
+                               <strong><i class="ni education_hat mr-2"></i>Apprenant </strong> 
                             </div>
                             <div *ngIf="user.is_staff === true && user.is_active === true && !user.is_superuser">
-                                <i class="ni education_hat mr-2"></i>Formateur 
+                            <strong>  <i class="ni education_hat mr-2"></i>Formateur </strong> 
                             </div>
                         </div>
                     </div>
@@ -39,22 +39,22 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <!-- Form for displaying user profile when not in edit mode -->
-                        <form *ngIf="!editMode" [formGroup]="myform">
+                     
+                        <form *ngIf="!editMode && !modpww" [formGroup]="myform">
                             <h6 class="heading-small text-muted mb-4" style="font-size: 1.3em;">Information de l'utilisateur </h6>
                             <div class="pl-lg-4">
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label" for="input-username">Username :</label>
+                                        <label class="form-control-label" for="input-username">Nom d'utilisateur:</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" id="input-username" class="form-control form-control-alternative"
-                                            placeholder="Username" formControlName="Username" [value]="user.username" readonly>
+                                            placeholder="Nom d'utilisateur" formControlName="Username" [value]="user.username" readonly>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label" for="input-email">Email :</label>
+                                        <label class="form-control-label" for="input-email">E-mail :</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="email" id="input-email" class="form-control form-control-alternative"
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label" for="input-first-name">Full name :</label>
+                                        <label class="form-control-label" for="input-first-name">Nom Complet :</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" id="input-first-name" class="form-control form-control-alternative"
@@ -75,14 +75,15 @@
                         </form>
 
                         <!-- Form for displaying user profile for editing when in edit mode -->
-                        <button class="btn btn-sm mr-4" style="background-color: #4e73df; color: white;" *ngIf="editMode === false" (click)="toggleEditMode()">Modifier le profil</button>
+                        <button class="btn btn-sm mr-4"  style="background-color: #4e73df; color: white;" *ngIf="editMode === false && modpww === false" (click)="toggleEditMode()">Modifier le profil</button>
+                        <button (click)="modpw()" style="background-color: #4e73df; color: white;"class="btn btn-sm mr-4" *ngIf="editMode === false && modpww === false" >Modifier mot de passe</button>
 
                         <form *ngIf="editMode" [formGroup]="myform" (ngSubmit)="updateUserProfile()">
                             <h6 class="heading-small text-muted mb-4" style="font-size: 1.3em;">Modifier l'information de l'utilisateur </h6>
                             <div class="pl-lg-4">
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label" for="input-username">Username :</label>
+                                        <label class="form-control-label" for="input-username">Nom d'utilisateur :</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" id="input-username" class="form-control form-control-alternative"
@@ -91,7 +92,7 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label">Email :</label>
+                                        <label class="form-control-label">E-mail :</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="email" id="input-email" class="form-control form-control-alternative"
@@ -100,7 +101,7 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-control-label">Full name :</label>
+                                        <label class="form-control-label">Nom Complet :</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" id="input-first-name" class="form-control form-control-alternative"
@@ -117,11 +118,40 @@
                                 <input type="file" id="formFile" (change)="onFileChange($event)" class="form-control">
                             </div>
                            
-                            <input type="submit" style="background-color: #4e73df; color: white;" href="#" class="btn btn-sm btn-info mr-4">
+                            <input type="submit"  value="Modifier" style="background-color: #4e73df; color: white;" class="btn btn-sm mr-4" >
+                            <input type="submit" value="Annuler" style="background-color: #4e73df; color: white;" class="btn btn-sm mr-4"  (click)="annuller()">
                         </form>
+                        <form *ngIf="modpww"  [formGroup]="myform1" (ngSubmit)="modifierMp()">
+                            <h6 class="heading-small text-muted mb-4" style="font-size: 1.3em;">Modifier mot de passe </h6>
+                            <div class="pl-lg-4">
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-control-label" for="input-username">Mot de passe actuelle :</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="password" id="input-username" class="form-control form-control-alternative"
+                                            formControlName="op"  required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-control-label">nouveau mot de passe :</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="password" id="input-email" class="form-control form-control-alternative"
+                                            formControlName="np" required>
+                                    </div>
+                                </div> </div>
+                                <input type="submit" style="background-color: #4e73df; color: white;" href="#" value="Modifier" class="btn btn-sm mr-4" >
+                                <input type="submit" value="Annuler" style="background-color: #4e73df; color: white;" class="btn btn-sm mr-4" (click)="annuller()" >
+                                <label *ngIf="messagrpw=='Password updated successfully'"  class="form-control-label"   style="float: right; color: green;" for="input-username">{{messagrpw}}.</label>
+                                <label *ngIf="messagrpw=='Invalid password'"  class="form-control-label"   style="float: right; color: red;" for="input-username">{{messagrpw}}.</label>
+                                <label *ngIf="messagrpw=='Le mot de passe doit comporter au moins 8 caractères, contenir au moins une lettre majuscule et au moins un chiffre '"  class="form-control-label"   style="float: right; color: red;" for="input-username">{{messagrpw}}.</label>
+                            </form>
                     </div>
                 </div>
-            </div>
+                     
+       
         </div>
     </div>
 </div>

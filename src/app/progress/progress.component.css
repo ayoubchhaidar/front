@@ -1,0 +1,55 @@
+.progress-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: black;
+  }
+  
+  .main-body {
+    padding: 15px;
+  }
+  
+  .card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    height: 100%;}
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-title {
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 1rem;
+    background-color: #fff;
+    border-top: 1px solid rgba(0,0,0,.125);
+  }
+  
+  .btn-light {
+    color: #1a202c;
+    background-color: #fff;
+    border-color: #cbd5e0;
+  }
+  
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+  }
+  
+  .has-icon svg {
+    vertical-align: middle;
+    margin-right: 0.3rem;
+  }
+  

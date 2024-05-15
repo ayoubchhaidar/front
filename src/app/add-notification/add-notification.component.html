@@ -1,28 +1,34 @@
 <div class="container contact-form">
     <div class="contact-image">
-        <img src="https://www.keeplewisvillebeautiful.org/wp-content/uploads/2017/05/icon-education-blue.png"
-            alt="course" />
+        <img src="assets/alarm-on (1).png" alt="Alarm Icon" />
+
+       
     </div>
-    <form class="form" [formGroup]="myform">
+    <form class="form" [formGroup]="myform" >
         <h1>Envoyer une notification</h1>
         <div class="form-group">
-            <label class="form-label" for="form3Example97">Description</label>
+            <label class="form-label" for="form3Example97">Contenu</label>
             <textarea id="form3Example97" class="form-control form-control-lg" formControlName="message"></textarea>
+            <div *ngIf="myform.get('message')?.invalid && myform.get('message')?.touched" class="text-danger">
+             * Ce champ est obligatoire.
+            </div>
+            
+            
         </div>
-
+    
         <div class="form-outline">
             <label class="form-label" for="form3Example97">Type</label>
             <select class="form-control" formControlName="type">
-                <option value="success">Success</option>
+                <option value="success">Succès</option>
                 <option value="information">Information</option>
-                <option value="warning">Warning</option>
+                <option value="warning">Avertissement</option>
                 <option value="danger">Danger</option>
             </select>
         </div>
-
+        
+    
         <div>
-            <button (click)="openMaterialModalup()"
-                class="btn btn-lg ms-2" style="background-color: #4e73df; color: #ffffff; margin-top: 20px;">Ajouter</button>
+            <button type="button"  (click)="openMaterialModalup()" class="btn btn-lg ms-2" [disabled]="myform.invalid || showButton" style="background-color: #4e73df; color: #ffffff; margin-top: 20px;">Ajouter des Utilisateurs</button>
         </div>
     </form>
 
@@ -70,7 +76,7 @@
                             <td>
                                 <input type="checkbox" [(ngModel)]="user.checked"
                                     (change)="addToTable(user.id, user.checked)"
-                                    (change)="toggleButtonVisibility()">
+                                    >
                             </td>
                             <td>{{user.id}}</td>
                             <td>{{user.username}}</td>

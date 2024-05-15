@@ -1,21 +1,4 @@
-.buton{
-  cursor: pointer;
- border: none;
-  color: #4e73df;
-  background:  #fff;
-  font-family: "Open Sans", sans-serif;
-  font-size: 26px;
 
-}
-.container {
-  position: relative;
-}
-
-.buton {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
 button.ai-assistant {
   position: relative;
   padding: 0;
@@ -25,9 +8,12 @@ button.ai-assistant {
 }
 
 button.ai-assistant::before {
-  content: "\1F916"; /* Robot Emoji */
-  font-size: 24px; /* Adjust size as needed */
+  content: url('C:\Users\ayoub\OneDrive\Bureau\projet\projet\Front\front\src\assets\hands.png'); /* Replace 'path/to/your/image.png' with the URL or path to your image */
+  display: inline-block; /* Ensure the image is displayed correctly */
+ 
+  margin-right: 8px; /* Optional: Add spacing between the image and button text */
 }
+
 
 button.ai-assistant .sr-only {
   position: absolute;
@@ -48,388 +34,8 @@ button.ai-assistant::before {
   transform: translate(-50%, -50%);
 }
 
-.button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #4e73df; 
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.button:hover {
-  background-color: #007bff;
-}
-
-.correct-answer {
-  border-color: green;
-  box-shadow: 0 0 5px green;
-}
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding-top: 50px;
-  }
- 
-  .modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #3949ab;
-    width: 50%;
-    height: auto;
-  }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: #333;
-    text-decoration: none;
-    cursor: pointer;
-  }
-.contact-form{
-    background-color: #fff;
-    margin-top: 50px;
-    margin-bottom: 5%;
-    width: 70%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    
-   
-}
-.contact-form .form-control{
-    border-radius:1rem;
-}
-.contact-image{
-    text-align: center;
-}
-.contact-image img{
-    border-radius: 10%;
-    width: 10%;
-    margin-top: -3%;
-
-}
-.contact-form form{
-    padding: 14%;
-}
-.contact-form form .row{
-    margin-bottom: -7%;
-}
-.contact-form h1{
-    margin-bottom: 8%;
-    margin-top: -10%;
-    text-align: center;
-    color: #0062cc;
-}
-.contact-form .btnContact {
-    width: 50%;
-    border: none;
-    border-radius: 1rem;
-    padding: 1.5%;
-    background: #dc3545;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-}
-.btnContactSubmit
-{
-    width: 50%;
-    border-radius: 1rem;
-    padding: 1.5%;
-    color: #fff;
-    background-color: #0062cc;
-    border: none;
-    cursor: pointer;
-}
 
 
-
-
-
-.auto-width-input {
-  width: auto;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-  /* Center the links */
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .lesson-header-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* Adjust as needed */
-    gap: 20px; /* Adjust as needed for spacing between items */
-    margin:auto
-  }
-  
-  .lesson-header {
-    flex-basis: calc(33.33% - 20px); /* 33.33% for three items per row, minus gap */
-    /* Adjust width and margin as needed */
-  }
-  input:required {
-      border: 1px solid red;
-    }
-    
-      .document-type-list {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .document-type-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5em; /* Adjust the margin as needed */
-    }
-    
-    input[type=radio] {
-      margin-right: 0.5em; /* Adjust the margin as needed */
-      /* Add additional styling for radio inputs if necessary */
-    }
-    
-    label {
-      cursor: pointer;
-    }
-    
-      input[type=file] { display: none; }
-    label[for=file] {
-      margin-top: 10px;
-        display: grid;
-        grid-auto-flow: column;
-        grid-gap: .5em;
-        justify-items: center;
-        align-content: center;
-        color: #4e73df;
-        border: .2em solid #4e73df;
-        background: hsl(0 0 0/0);
-        padding: .85em 1.5em;
-        color: #4e73df;
-        border-radius: 2em;
-        transition: 1s;
-      width: 150px;
-        &:hover, &:focus, &:active {
-        background: #4e73df;
-            color: #fff;
-        }
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    
-    
-     
-       /* Add these styles to your component's CSS file */
-       .delete-button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      font-size: 14px;
-      color: red;
-      background: none; /* Remove any default background */
-      border: none; /* Remove any default border */
-      cursor: pointer; /* Add cursor pointer for better UX */
-    }
-       .material-item {
-      display: flex;
-      align-items: center;  
-      margin-bottom: 20px; /* Adjust the size of the space between each material */
-    }
-    
-    .material-actions {
-      display: flex;
-      align-items: center;
-    }
-    
-    /* Add this to your global styles or component styles file */
-    
-    .material-action {
-      background-color: #f9f9f9;/* Set background color */
-      color: #4e73df;  /* Set text color */
-      cursor: pointer; /* Change cursor to pointer on hover */
-    }
-    
-    .material-action mat-icon {
-      font-size: 8px;  
-    }
-    
-    /* Add hover effect */
-    .material-action:hover {
-    color: #2980b9; /* Darken the background color on hover */
-    }
-    
-    
-    
-    
-    .material-content {
-      display: flex;
-      align-items: center;
-    }
-    
-    .icon {
-      font-size: 25px; /* Adjust the size as needed */
-      margin-right: 10px;
-    }
-    
-    .material-title {
-      font-size: 20px; /* Adjust the size as needed */
-      margin-right: 5px;
-    }
-    
-    .lesson {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid #4e73df;
-      background-color: #f9f9f9;
-      position: relative;
-    }
-    
-    .add-material-button {
-      color: #28a745; /* Green color for an "add" theme */
-      position: absolute;
-      bottom: -5px; /* Move to the bottom */
-      left: 0px; /* Move to the left */
-      font-size: 14px;
-      background: none; /* Remove any default background */
-      border: none; /* Remove any default border */
-      cursor: pointer;
-    }
-    
-    
-    .lesson-content {
-      width: 70%;
-    }
-    
-    .lesson-header {
-      display: flex;
-      align-items: center;
-    }
-    
-    .lesson-number {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #4e73df;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #fff;
-      margin-right: 10px;
-    }
-    
-    .lesson-title {
-      font-size: 18px;
-      color: #4e73df;
-      flex: 1;
-    }
-    
-    .button-link {
-      background: none;
-      border: none;
-      color: #4e73df;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    
-    .materials-container {
-      margin-top: 20px;
-      padding-left: 40px;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .button-container {
-      display: flex;
-      align-items: center;
-      margin-top: 20px;
-    }
-    
-    .button_plus {
-      position: relative;
-      display: block;
-      width: 50px;
-      height: 50px;
-      background: #fff;
-      cursor: pointer;
-      border: 2px solid #4e73df;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    
-    .button_plus:after {
-      content: '';
-      position: absolute;
-      transform: translate(-50%, -50%);
-      height: 4px;
-      width: 50%;
-      background: #4e73df;
-      top: 50%;
-      left: 50%;
-    }
-    
-    .button_plus:before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #4e73df;
-      height: 50%;
-      width: 4px;
-    }
-    
-    .button_plus:hover:before,
-    .button_plus:hover:after {
-      background: #fff;
-      transition: 0.2s;
-    }
-    
-    .button_plus:hover {
-      background-color: #4e73df;
-      transition: 0.2s;
-    }
-    
-    main {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      background-color: #fff;
-    }
     
 
     
@@ -490,4 +96,115 @@ button.ai-assistant::before {
       text-decoration: none;
       cursor: pointer;
     }
+    .modal__product {
+      position: absolute;
+      top: 20%;
+      left: 22%;
+      max-width: 35%;
+      -ms-transform: translateX(calc(-50% - 10px));
+          transform: translateX(calc(-50% - 10px)); }
+    .button--transparent {
+      background: transparent;
+      border: 0;
+      outline: 0; }
     
+    .button--close {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+          align-items: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+      width: 30px;
+      height: 30px;
+      color: #ffffff;
+      border-radius: 50%;
+      transition: all .25s;
+      z-index: 10; }
+  
+    
+  
+  
+  
+    .contact-form {
+      background-color: #fff;
+      margin-top: 10px;
+      margin-bottom: 5%;
+      width: 90%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      position: relative; /* Position relative for pseudo-element */
+      overflow: hidden; /* Hide overflowing semi-circle */
+  }
+  
+  /* Pseudo-element to create semi-circle */
+  .contact-form::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 200%;
+      width: 90%;
+      background-color:   #4e73df;
+      border-radius: 50%;
+      -ms-transform: translateX(-50%) translateY(-25%);
+          transform: translateX(-50%) translateY(-25%);
+          }
+  
+  
+  .contact-form .form-group {
+      padding: 0 20px; /* Padding for form inputs */
+  }
+  
+  .contact-form form .row {
+      display: flex;
+      justify-content: flex-end; /* Align form elements to the right */
+    
+      
+  }
+  
+  .contact-form h1 {
+    margin-bottom: 30px;
+      text-align: center;
+      color: black;
+  }
+  
+  .button{
+    cursor: pointer;
+    border: 1px solid  #4e73df;
+    padding: 14px 30px;
+    border-radius: 200px;
+    color: #fff;
+    background:  #4e73df;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    transition: 200ms;
+  
+  
+   
+  }
+  
+  .button:hover{
+    background: #fff;
+    color:  #4e73df;
+  }
+  .header-container {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Align items with space between them */
+    align-items: center; /* Align items vertically at the center */
+  
+  }
+  
+  .buton{
+    cursor: pointer;
+   border: none;
+    color: #fff;
+    background:  #4e73df;
+    font-family: "Open Sans", sans-serif;
+    font-size: 26px;
+    margin-top: 15px;
+  
+  }

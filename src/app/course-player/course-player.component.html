@@ -1,12 +1,14 @@
 <div id="app-container">
     <div id="wrapper">     
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15"></div>
-                <div class="sidebar-brand-text mx-3">course title</div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
+                <button class="buton" style="margin-top: 5px;"[routerLink]="['/dashboard/courses/inscrit']" [queryParams]="{  }"><i class="fas fa-arrow-left"></i></button>
+
+                
+                <div class="sidebar-brand-text mx-3">{{this.title}}</div>
             </a>
             <hr class="sidebar-divider">
-            <hr class="sidebar-divider my-0">
+    
             <div>
                 <li class="nav-item" *ngFor="let lesson of lessons; let i = index">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" [attr.data-target]="'#collapse' + i"
@@ -22,34 +24,49 @@
                                 <a *ngIf="lesson.locked==true"   class="collapse-item"  >
                                     <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">{{ getMaterialIcon(mat.document_type) }}</mat-icon>
                                     <span>{{ mat.title }}</span>
+                                    <i style="color:black;margin-left: 10px;" class="fas fa-lock"></i>
                                 </a>
-                                <a *ngIf="lesson.locked==false" class="collapse-item"  [routerLink]="['/submissions']" [queryParams]="{ CourseId: CourseId}" (click)="showDocument(mat.content,mat.document_type); showChatbot = (mat.document_type === 'pdf')" (click)="track(mat.id,user.user_id)">
+                                <a *ngIf="lesson.locked==false" class="collapse-item" [routerLink]="['/submissions']" [queryParams]="{ CourseId: CourseId, title: title}" (click)="showDocument(mat.content,mat.document_type)" (click)="track(mat.id,user.user_id)">
                                     <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">{{ getMaterialIcon(mat.document_type) }}</mat-icon>
                                     <span>{{ mat.title }}</span>
                                 </a>
-                                <div *ngIf="showChatbot">
+                                
+                                <div *ngIf="showChatbot===true ">
                                     <app-chatbot [pdfID]="pdfID" > </app-chatbot>
                                 </div>
                                 
                                 
                             </div>
-                            <a *ngFor="let quiz of quizes"  class="collapse-item" [routerLink]="['/submissions/Do']" [queryParams]="{ CourseId: CourseId ,quizID : quiz.id}" (click)="showDocument(quiz.content,quiz.document_type)">
-                                <div *ngIf="quiz.lesson===lesson.id" class="material-item" >
+                            <div *ngFor="let quiz of quizes "   class="material-item" >
+                            <a *ngIf="quiz.lesson===lesson.id && lesson.locked==true" class="collapse-item"  >                        
                               <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">live_help</mat-icon> 
                               <span class="material-title">{{quiz.title}}</span>
-                            </div>
+                              <i style="color:black;margin-left: 10px;" class="fas fa-lock"></i>
                                 </a>
-                           
+                                <a *ngIf="quiz.lesson===lesson.id && lesson.locked==false" class="collapse-item" [routerLink]="['/submissions/Do']" [queryParams]="{ CourseId: CourseId ,quizID : quiz.id , title: title}" (click)="showDocument('','')">                        
+                                    <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">live_help</mat-icon> 
+                                    <span class="material-title">{{quiz.title}}</span>
+                                  
+                                      </a>
+                            </div>
                             <a *ngFor="let sub of assignments"   class="collapse-item">
-                            <div *ngIf="sub.lesson===lesson.id" class="material-item" >
+                            <div *ngIf="sub.lesson===lesson.id && lesson.locked==true" class="material-item" >
+                            <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">fitness_center</mat-icon> 
+                            <span class="material-title">{{sub.title}}</span>   
+                            <i style="color:black;margin-left: 10px;" class="fas fa-lock"></i> 
+                          </div>   
+                          <div *ngIf="sub.lesson===lesson.id && lesson.locked==false" class="material-item" >
                             <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">fitness_center</mat-icon> 
                             <span class="material-title">{{sub.title}}</span>    
-                          </div>            
+                          </div>          
                             </a>
                            
                         </div>
                     </div>
                 </li>
+            </div>
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
         
@@ -71,13 +88,15 @@
               </ng-container>
           
 
-            <!-- <iframe src="https://player.vimeo.com/video/909169767?h=1453759f78&color=ffffff&title=0&byline=0&portrait=0&badge=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>       
-             -->
+       
              <ng-container>
             <router-outlet></router-outlet>
         </ng-container>
             </div>
         </div>
         <!-- End of Dashboard content area -->
+        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+        </button>
     </div>
 </div>

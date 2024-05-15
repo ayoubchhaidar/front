@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, booleanAttribute } from '@angular/core';
+import { AfterViewChecked,  ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, booleanAttribute } from '@angular/core';
 import Pusher from 'pusher-js'
 import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -21,12 +21,10 @@ export class CommsComponent  implements AfterViewChecked {
   usermessages: any [] = [];
   midmessages: any [] = [];
   selecteduserId: string | undefined;
-  modalData = {
-    name: 'Miro Badev',
-    email: 'miro@badev@gmail.com',
-    // other properties...
-  };
+
   realtimemessagges: any[] = [];
+  userId: any;
+  user_name: any;
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
@@ -55,14 +53,10 @@ export class CommsComponent  implements AfterViewChecked {
       paramValue :any;
       messages:any=[];
       message=''; username='';preusername='';
-      constructor(private http:HttpClient,private route: ActivatedRoute,private service:AuthService,private location: Location,private router: Router,private cdr: ChangeDetectorRef) { 
+      constructor(private http:HttpClient,private route: ActivatedRoute,private service:AuthService,private router: Router,private cdr: ChangeDetectorRef) { 
         this.paramValue=this.route.snapshot.params;
         this.preusername= this.paramValue.param;
-        
-       
-    
-    
-    
+  
        this.myform = new FormGroup({
           message: new FormControl(''),});
         
@@ -81,13 +75,17 @@ export class CommsComponent  implements AfterViewChecked {
       pusher!: Pusher;  
       channel: any;
       ngOnInit(): void {
-        
+      
+        this.route.queryParams.subscribe(params => {
+          this.user_name = params['userId'];      
+        });
+
         this.signeduser = localStorage.getItem("currentUser");
         this.signeduser = JSON.parse(this.signeduser);
       
          this.getfreinds();
          this.getUserMessages();
-    
+       
          Pusher.logToConsole = true;
     
          this.pusher = new Pusher('90f0597aabf866e92325', {
@@ -137,28 +135,20 @@ export class CommsComponent  implements AfterViewChecked {
       this.usertitle=userId;
       // this.pusher.disconnect();
       // this.channel.unsubscribe();
-    
-      // this.messages=  []
-    
-      this.preusername=userId;
+            
+    this.preusername=userId;
+      console.log("um",this.usermessages);
       if (this.usermessages.length>=1){
+        console.log("zz",this.preusername);
     this.specmessages= this.usermessages.filter(msg => (msg.username== this.signeduser.user_id   && msg.receiver==this.getUserIdByUsername(this.preusername) )  || (msg.username==this.getUserIdByUsername(this.preusername) && msg.receiver== this.signeduser.user_id   )  );
     }
      
     // this.realtimemessagges=this.midmessages.filter(msg => ( msg.username==this.usertitle));
     
-      const modal = document.getElementById('materialModalup');
-    
-      if (modal) {
-        modal.style.display = 'block';
-      }
     
       
     }
-    closeMaterialModalup(): void {
-    
-    
-    }
+
     reloadCurrentRoute() {
 
       this.messages=  []
@@ -172,14 +162,14 @@ export class CommsComponent  implements AfterViewChecked {
         (data: any[]) => {
           this.usermessages = data;
         console.log(this.usermessages);
-        
+        this.openMaterialModalup(this.user_name);
         },
     
           (error: any) => {
             console.error('Error fetching users:', error);
           }
       );
-    
+      
     }
     
      getUserIdByUsername(preusername: string): number | null {

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Responsive Dashboard Design #2 | AsmrProg</title>
+</head>
+
+<body>
+
+
+    <!-- Main Content -->
+    <div class="content">
+       
+
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Dashboard</h1>
+                    <ul >
+                        <li><a href="#">
+                                Analytics
+                            </a></li>
+                       
+                    </ul>
+                </div>
+                <a href="#" class="report">
+                    <i class='bx bx-cloud-download'></i>
+                    <span>Download CSV</span>
+                </a>
+            </div>
+
+            <!-- Insights -->
+            <ul class="insights">
+                <li>
+                    <i class='bx bxs-book-add'></i>
+                    <span class="info">
+                        <h3>
+                            {{stats.total_courses}}
+                        </h3>
+                        <p>Cours</p>
+                    </span>
+                </li>
+                <li><i class='bx bxs-user-plus'></i>
+                    <span class="info">
+                        <h3>
+                            {{stats.total_enrollements}}
+                        </h3>
+                        <p>Enrollements</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-loader bx-spin-hover'>
+
+                    </i>
+                    <span class="info">
+                        <h3>
+                            {{stats.enattends}}
+                        </h3>
+                        <p>Cours En Attend </p>
+                    </span>
+                </li>
+                <li><i class='bx bxs-bell bx-tada'></i>
+                    <span class="info">
+                        <h3>
+                            {{nb}}
+                        </h3>
+                        <p>Nouvelle notification</p>
+                    </span>
+                </li>
+            </ul>
+            <!-- End of Insights -->
+
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-receipt'></i>
+                        <h3>Demandes RÃ©centes</h3>
+                        <i class='bx bx-filter'></i>
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>course</th>
+                                <th>Enrolement Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         
+                            <tr *ngFor="let req of recentReq">
+                                <td>
+                                    <img [src]="req.user_image">
+                                    <p>{{req.student}}</p>
+                                </td>
+                                <td>{{req.course}}</td>
+                                <td>{{req.enrollment_date}}</td>
+                                <td><span class="status pending">Pending</span></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+                <!-- Reminders -->
+                <div class="reminders">
+                    <div class="header">
+                        <i class='bx bx-note'></i>
+                        <h3>Remiders</h3>
+                        <i class='bx bx-filter'></i>
+                        <i (click)="openDialog3()" class='bx bx-plus'></i>
+                    </div>
+                    <ul class="task-list">
+                        <li class="completedd">
+                            <div class="task-title">
+                                <i  (click)="openDialog3()" class='bx bx-plus-circle'></i>
+                                <p>Ajouter reminder</p>
+                            </div>
+                            <i class='bx bx-dots-vertical-rounded'></i>
+                        </li>
+                        <div   *ngFor="let reminder of reminders">
+                        <li class="completed">
+                            <div class="task-title">
+                                <i class='bx bx-check-circle'></i>
+                                <p>{{reminder.title}}</p>
+                                <br>
+                                 {{reminder.timestamp | date: 'medium'}}
+                            </div>  
+                            <i  (click)="deleteReminder(reminder.id)" class='bx bx-trash'></i>
+                        </li>
+                      </div>
+                    </ul>
+                </div>
+
+                <!-- End of Reminders-->
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

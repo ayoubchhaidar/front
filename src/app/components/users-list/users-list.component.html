@@ -14,11 +14,10 @@
           <th><button   class="btn btn-danger btn-circle btn-sm" *ngIf="showButton" (click)="deleteAll()"  >  <i class="fas fa-trash"> </i></button>
           </th>
           <th>ID</th>
-          <th>username </th>
-          <th>first name </th>
-          <th>last name</th>
-          <th>email </th>
-          <th>date joined  </th>
+          <th>Nom D'Utilisateur</th>
+          <th>Nom Complet </th>       
+          <th>E-mail</th>
+          <th>Date D'inscription</th>
           
         </tr>
       </thead>
@@ -34,8 +33,7 @@
           </td>
           <td> {{user.id}} </td>
           <td> {{user.username}} </td>
-          <td> {{user.first_name}}  </td>
-          <td> {{user.last_name}}  </td>
+          <td> {{user.full_name}}  </td>
           <td> {{user.email}}  </td>
           <td> {{user.date_joined | date: 'medium' }}  </td>
 
@@ -46,7 +44,7 @@
 
           <td> 
                   
-            <button  *ngIf="user.is_active==false"  class="btn btn-danger"  (click)="verify(user.id)" style="margin-left: 10px;"> Verify</button>    
+            <button  *ngIf="user.is_active==false"  class="btn btn-success"  (click)="verify(user.id)" style="margin-left: 10px;"> Verifier</button>    
            
         <img *ngIf="user.is_active==true" src="assets/verif.png" alt="Verification Image" width="50" height="50">
     
@@ -62,11 +60,10 @@
         <tr>
       
           <th>ID</th>
-          <th>username </th>
-          <th>first name </th>
-          <th>last name</th>
-          <th>email </th>
-          <th>date joined  </th>
+          <th>Nom D'Utilisateur</th>
+          <th>Nom Complet </th>       
+          <th>E-mail</th>
+          <th>Date D'inscription</th>         
           <th>Admin  </th>
          
         </tr>
@@ -79,10 +76,10 @@
          
           <td> {{user.id}} </td>
           <td> {{user.username}} </td>
-          <td> {{user.first_name}}  </td>
-          <td> {{user.last_name}}  </td>
+          <td> {{user.full_name}}  </td>
           <td> {{user.email}}  </td>
           <td> {{user.date_joined | date: 'medium' }}  </td>
+          
 
 
           

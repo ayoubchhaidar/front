@@ -32,6 +32,8 @@ export class DashboardComponent {
 
   scrollTop!: number;
   nb: number=0;
+  myData$: any[]=[];
+  verifiedCourses: any[] = [];
   
   constructor(private AuthService: AuthService,private router: Router,private searchService: SearchService,private MydataService:MydataService) {}
   ngOnInit(): void {
@@ -42,6 +44,15 @@ export class DashboardComponent {
     this.AuthService.getUserProfile(this.signeduser.user_id).subscribe(user => {
       this.user = user;
     });
+    this.MydataService.getTutorCourses(this.signeduser.user_id).subscribe( (data: any[]) => {
+      this.myData$ = data;
+      console.log(this.myData$);
+      this.filterCourses();
+  },
+  (error: any) => {
+      console.error('Error fetching users:', error);
+  }
+);  
     this.getNotifications();
     Pusher.logToConsole = true;
 
@@ -64,6 +75,16 @@ export class DashboardComponent {
     this.searchService.setSearchQuery(this.searchQuery);
   }
   
+  filterCourses() {
+    this.myData$.forEach(course => {
+      if (course.verified) {
+    
+        this.verifiedCourses.push(course);
+      } 
+    });
+console.log("f",this.verifiedCourses);
+  }
+
 
   search() {
     // Perform search if needed

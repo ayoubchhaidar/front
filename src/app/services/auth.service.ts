@@ -60,6 +60,12 @@ export class AuthService {
       }
     );
   }
+  
+  changePw(obj:any) {
+    return this.http.post<any>(this.api_url + 'accounts/api/change_password/', obj);
+  }
+
+
   confirmEmail(username: string) {
     return this.http.post<any>(this.api_url + 'accounts/api/confirm_email/' + username + '/', {});
   }
@@ -83,7 +89,9 @@ export class AuthService {
   getuserfreinds(userId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.api_url}accounts/api/user_freinds/${userId}/`);
   }
-
+  getTutors(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.api_url}accounts/api/tutors/`);
+  }
 
 
   changeVerificationStatus(newStatus: boolean) {

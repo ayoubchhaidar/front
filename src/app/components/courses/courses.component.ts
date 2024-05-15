@@ -1,5 +1,5 @@
     import { Component, OnInit } from '@angular/core';
-    import { FormGroup } from '@angular/forms';
+    import { FormControl, FormGroup } from '@angular/forms';
     import { Observable, tap } from 'rxjs';
     import { MydataService } from 'src/app/services/mydata.service';
     import { ActivatedRoute, Router } from '@angular/router';
@@ -14,10 +14,17 @@
     })
     export class CoursesComponent implements OnInit {
       
-      myData$: Observable<any> | undefined;
+      myData$: any []=[];
       myData2$: any []=[];
       enrollments$: any []=[];
-      myform: FormGroup | undefined;
+      myform: any = {
+        value: {
+          title: '',
+          description: '',
+          image:'',
+          enrollment_capacity:'',
+        }
+      };
       user!:any;
       api_url: string = 'http://127.0.0.1:8000/';
         New_enrollement: any = {
@@ -41,49 +48,68 @@
       specificEnrollments: any[]=[];
       myData3$: any[]=[];
       filteredCourses: any[]=[];
+      SelectedCourseID: any;
+      selectedFile!: File;
+      noFileSelected = true;
 
       constructor(private MydataService:MydataService,private dialog: MatDialog,private route: ActivatedRoute,private auth:AuthService ,private searchService: SearchService){ }
     
       ngOnInit(): void {
+        this.myform = new FormGroup({
+          title: new FormControl(''),
+          document_type: new FormControl(''),
+          up_file: new FormControl('')
+        });
         this.user = localStorage.getItem("currentUser");
         this.user = JSON.parse(this.user);
-        this.myData$ = this.MydataService.getTutorCourses(this.user.user_id);
-        this.auth.getuserfreinds(this.user.user_id).subscribe(
+         this.MydataService.getTutorCourses(this.user.user_id).subscribe( (data: any[]) => {
+          this.myData$ = data;
+          
+      },
+      (error: any) => {
+          console.error('Error fetching users:', error);
+      }
+  );     
+        this.auth.getTutors().subscribe(
             (data: any[]) => {
                 this.myData3$ = data;
-                console.log(this.myData3$)
+                console.log('users',this.myData3$)
             },
             (error: any) => {
                 console.error('Error fetching users:', error);
             }
         );
     
+
         this.route.paramMap.subscribe(params => {
-            this.type = params.get('type')!;
-            this.searchService.getSearchQuery().subscribe((query) => {
-                this.verifiedCourses = [];
-                this.unverifiedCourses = [];
-                this.ICourses = [];
-                this.WCourses = [];
-                this.specificEnrollmentsW = [];
-                this.specificEnrollmentsI = [];
-                this.enrollments = [];
-                this.filteredCourses = [];
-                this.myData2$ = [];
-                this.MydataService.getCourses(this.user.user_id).subscribe(
-                    (data: any[]) => {
-                        this.myData2$ = data;
-                        console.log(this.myData2$)
-                        this.GetEnrollments(this.user.user_id);
-                        this.filterenrollment(this.user.user_id);
-                    },
-                    (error: any) => {
-                        console.error('Error fetching users:', error);
-                    }
-                );
-                this.filterData(query);
-            });
-        });
+          this.verifiedCourses = [];
+          this.unverifiedCourses = [];
+          this.ICourses = [];
+          this.WCourses = [];
+          this.specificEnrollmentsW = [];
+          this.specificEnrollmentsI = [];
+          this.enrollments = [];
+          this.filteredCourses = [];
+          this.type = params.get('type')!;
+          this.MydataService.getCourses(this.user.user_id).subscribe(
+            (data: any[]) => {
+                this.myData2$ = data;
+                console.log(this.myData2$)
+                this.GetEnrollments(this.user.user_id);
+                this.filterenrollment(this.user.user_id);
+            },
+            (error: any) => {
+                console.error('Error fetching users:', error);
+            }
+        );     
+          this.searchService.getSearchQuery().subscribe((query) => {             
+              this.filterData(query);
+                 
+          });
+          
+      });
+       
+  
     
         console.log(this.enrollments);
     
@@ -103,7 +129,8 @@
       console.log('Query:', query);
       console.log('verifiedCourses:', this.verifiedCourses);
       if (query === '') {
-        
+       
+      
         switch (this.type) {
           case 'Verifier':
             this.filteredCourses = this.verifiedCourses;
@@ -136,6 +163,9 @@
 
       
       } else {
+       
+        this.filteredCourses = [];
+        
       
         switch (this.type) {
           case 'Verifier':
@@ -202,6 +232,8 @@
         if (user.id === id) {
           return { username: user.full_name, image: user.image };
         }
+      
+        console.log('us',user.full_name);
       }
       return null;
     }
@@ -246,20 +278,28 @@
       
       
       }
+    
       verifyCourse(id:number,tutor:number,title:string){
-
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          data: { message: 'Est-ce que vous souhaitez vraiment Verifier ce cour?' }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
         this.MydataService.verifyCourse(id).subscribe();
         const formData = new FormData();
         
         formData.append('sender_id', this.user.user_id,);
-        formData.append('message', "this course '"+title+"' is accepted");
+        formData.append('message', "Ce cour: '"+title+"' est vérifié par l'administrateur.");
         
         formData.append('type','success');
         formData.append('targeted_users', tutor.toString());
         
         this.MydataService.sendNoti(formData).subscribe();
-
-        }
+        this.ngOnInit() ;
+      }
+    });
+  
+  }
     //  getCourses(){
     //   const courses: any[] = [];
     //   this.MydataService.getTutorCourses(1).subscribe((data)=>{
@@ -280,28 +320,44 @@
     }
 
 
-    delete_course(id:number,tutor:number,title:string){
+    delete_course_Admin(id:number,tutor:number,title:string){
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: { message: 'Are you sure you want to delete this lesson?' }
+        data: { message: 'Est-ce que vous souhaitez vraiment supprimer ce cour?' }
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.MydataService.deleteCourse(id).subscribe(() => {
+            const formData = new FormData();
+        
+            formData.append('sender_id', this.user.user_id,);
+            formData.append('message', "Ce cour :211'"+title+"' a été supprimer par l'administrateur");
+            
+            formData.append('type','danger');
+            formData.append('targeted_users', tutor.toString());
+            this.MydataService.sendNoti(formData).subscribe();
+            
+            
             console.log(`lesoon with ID ${id} deleted successfully.`);
           this.ngOnInit() ;
           });
         }
       });
-      const formData = new FormData();
-        
-      formData.append('sender_id', this.user.user_id,);
-      formData.append('message', "this course '"+title+"' was denied");
-      
-      formData.append('type','danger');
-      formData.append('targeted_users', tutor.toString());
-      this.MydataService.sendNoti(formData).subscribe();
-      
-      
+    
+    }
+    delete_course_Tutor(id:number,tutor:number,title:string){
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: { message: 'Est-ce que vous souhaitez vraiment supprimer ce cour?' }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.MydataService.deleteCourse(id).subscribe(() => {
+           
+            console.log(`lesoon with ID ${id} deleted successfully.`);
+          this.ngOnInit() ;
+          });
+        }
+      });
+    
     }
     GetEnrollments(id: number): void {
       
@@ -419,5 +475,42 @@
 
     this.filterenrollment(this.user.user_id);
     }
+
+    onFileChange(event: any) {
+      if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+      this.noFileSelected = false;
+    }}
+    openMaterialModalupdate(Id: string, course: any): void {
+      this.SelectedCourseID=Id;
+        const modal = document.getElementById('materialModallesson');
+        if (modal) {
+          modal.style.display = 'block';
+        }
+ 
+        this.myform.value['title'] = course.title;
+        this.myform.value['description'] = course.description;
+        this.myform.value['enrollment_capacity'] = course.enrollment_capacity;
+        this.myform.value['image'] = course.content;
+     
+      }
+    closeMaterialModalupdate(): void {
+     
+      const modal = document.getElementById('materialModal');
+
+      if (modal) {
+        modal.style.display = 'none';
+      }  
     }
-                                  
+    Update_course(id: number){
+      const formData = new FormData();
+      if( this.myform.value['title'] !=''){ formData.append('title', this.myform.value['title']);}
+      if( this.myform.value['description'] !=''){ formData.append('description', this.myform.value['description']);}
+      if( this.myform.value['enrollment_capacity'] !=''){ formData.append('enrollment_capacity', this.myform.value['enrollment_capacity']);}
+      if( this.noFileSelected===false){     formData.append('image', this.selectedFile); }
+      this.MydataService.update_Course(id,formData).subscribe(() => {
+        
+      });
+    }
+
+  }

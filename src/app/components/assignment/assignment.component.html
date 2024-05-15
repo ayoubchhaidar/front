@@ -1,35 +1,57 @@
+
+
+
 <div class="container contact-form">
-  <div class="contact-image">
-      <!-- <img src="https://www.keeplewisvillebeautiful.org/wp-content/uploads/2017/05/icon-education-blue.png" alt="course"/> -->
-  </div>
-  <form [formGroup]="myform1" (ngSubmit)="addass()">
-      <h1>Ajouter un Exercice</h1>
-      <div class="row">
-          <div class="col-md-6">
-              <div class="form-group">
-                  <label class="form-label" for="form3Example97">Title</label>
-                  <input type="text" id="form3Example97" class="form-control form-control-lg contact-form-control" formControlName="title" />
-              </div>            
+    <!-- Semi-circle container -->
+    <div class="header-container">
+     
+        <button type="button" class=" button--close buton" (click)="backC()">
+      
+            <span class="fas fa-arrow-left"></span>
+          </button>
+      <img src="assets/exam.png" class="modal__product" />
+    </div>
+  
+  
+    <div class="row justify-content-end" style="margin-top: 5%;margin-bottom: 5%;" > <!-- Align content to the right -->
+        <div class="col-md-6">
+            <form [formGroup]="myform1" (ngSubmit)="addass()">
+                <h1>Ajouter un Exercice</h1>
+                <div class="form-group">
+                    <label class="form-label" for="title">Titre</label>
+                    <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="desc">Travail a faire </label>
+                    <textarea id="desc" class="form-control form-control-lg" formControlName="description" maxlength="140"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="form3Example97">Date de soumission</label>
+                    <input type="datetime-local" id="form3Example97" class="form-control form-control-lg contact-form-control" formControlName="date" />
+                </div>  
               
-            <div class="form-group">
-              <label class="form-label" for="form3Example97">Date de soumission</label>
-              <input type="datetime-local" id="form3Example97" class="form-control form-control-lg contact-form-control" formControlName="date" />
-          </div>   
-
-
-              <div class="form-group">
-                  <button type="submit" class="btn btn-lg ms-2" style="background-color: #4e73df; color: #ffffff;">Ajouter</button>
-              </div>
-          </div>
-        
-            <div class="col-md-6">
-            <div class="form-group">
-              <label class="form-label" for="desc">Travail a faire </label>
-              <textarea id="desc" class="form-control form-control-lg" formControlName="description" maxlength="140"></textarea>
-          </div>
-          </div>
          
-      </div>
-  </form>
-</div>
-
+                <div class="form-group">
+                    <button type="submit" class="button">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

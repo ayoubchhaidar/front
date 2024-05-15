@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { HttpClient } from '@angular/common/http';
+
+import { MydataService } from 'src/app/services/mydata.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
+import { ChartDialogComponent } from '../chart-dialog/chart-dialog.component';
+import {  ReminderComponent} from '../reminder/reminder.component';
+
 
 @Component({
   selector: 'app-statistics',
@@ -8,21 +15,110 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent  implements OnInit {
+  scriptElement:HTMLScriptElement;
+  scriptElement1:HTMLScriptElement;
 
-
+  course_counts:any = {};
   userCounts: any = {};
   top_courses:any=[];
+  new_courses:any=[];
+  new_users:any=[];
+  reminders:any=[];
+
+
   courseTitles: string[] =[];
 enrollmentCounts: number[] =[];
-  constructor(private http: HttpClient) {}
+  constructor(private MydataService:MydataService,private http: HttpClient,public elementRef: ElementRef,public dialog: MatDialog) {
+ this.scriptElement=document.createElement("script");
+ this.scriptElement1=document.createElement("script");
 
 
-  ngOnInit(): void {
-    this.fetchUserCounts();
-    this.topCourses()
+
+
   }
 
+
+  private options = {};
+  private readonly isAsync = true;
+
+  
+  ngOnInit(): void {
+    this.fetchUserCounts();
+    this.topCourses();
+   
+
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalDialogComponent, {
+      width: '600px', // Adjust the width as needed
+      data: JSON.stringify({ hh: this.pieChart }) // Convert to JSON format
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+  openDialog2(): void {
+    const dialogRef = this.dialog.open(ChartDialogComponent, {
+      width: '600px', // Adjust the width as needed
+      data: JSON.stringify({ hh: this.pieChart }) // Convert to JSON format
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openDialog3(): void {
+    const dialogRef = this.dialog.open(ReminderComponent, {
+      width: '600px', // Adjust the width as needed
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+deleteReminder(id:any){
+this.MydataService.deleteremind(id).subscribe();
+const index = this.reminders.findIndex((reminder: { id: any; }) => reminder.id === id);
+this.reminders.splice(index, 1);
+
+
+
+}
+
+  reminder() {
+    this.http.post('http://127.0.0.1:8000/palteforme/sendhh/',{}).subscribe(
+      (data) => {
+        this.ngOnInit();
+        
+        },
+        (error) => {
+          console.error('Error remind:', error);
+        }
+      
+    );
+  }
+
+
+//   reminderss(){
+
+// this.MydataService.reminders().subscribe(
+//   (data) => {
+//   this.reminders=data;
+  
+//   },
+//   (error) => {
+//     console.error('Error remind:', error);
+//   }
+
+
+// );
+
+//   }
   topCourses(): void {
+
     this.http.get<any>('http://127.0.0.1:8000/palteforme/top_courses/').subscribe(
       (data) => {
         this.top_courses = data;
@@ -35,9 +131,34 @@ enrollmentCounts: number[] =[];
         console.error('Error fetching user counts:', error);
       }
     );
+
+    this.http.get<any>('http://127.0.0.1:8000/palteforme/course_counts/').subscribe(
+        (data) => {
+          this.course_counts = data;
+        },
+        (error) => {
+          console.error('Error fetching user counts:', error);
+        }
+      );
+
+      this.http.get<any>('http://127.0.0.1:8000/palteforme/new_courses/').subscribe(
+        (data) => {
+          this.new_courses = data;
+        },
+        (error) => {
+          console.error('Error fetching user counts:', error);
+        }
+      );
+
   }
 
+
+
+
+
+
   fetchUserCounts(): void {
+
     this.http.get<any>('http://127.0.0.1:8000/accounts/api/user-counts/').subscribe(
       (data) => {
         this.userCounts = data;
@@ -49,6 +170,14 @@ enrollmentCounts: number[] =[];
         console.error('Error fetching user counts:', error);
       }
     );
+    this.http.get<any>('http://127.0.0.1:8000/accounts/api/recent_users/').subscribe(
+        (data) => {
+          this.new_users = data;
+        },
+        (error) => {
+          console.error('Error fetching user counts:', error);
+        }
+      );
   }
   updatePieChart(): void {
     const totalUsers = this.userCounts.total_users || 1; // Avoid division by zero
@@ -71,7 +200,7 @@ piechart(admin:number,formatteur:number,apprenant:number){
         type: 'pie'
     },
     title: {
-        text: 'Egg Yolk Composition'
+        text: 'actual users'
     },
     tooltip: {
         valueSuffix: '%'
@@ -142,7 +271,7 @@ this.spiderWeb= {
     },
 
     title: {
-        text: 'top 5 courses',
+        text: '',
         x: -80
     },
 
@@ -164,7 +293,7 @@ this.spiderWeb= {
 
     tooltip: {
         shared: true,
-        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f} enrollment(s)</b><br/>'
     },
 
     legend: {
@@ -200,13 +329,9 @@ this.spiderWeb= {
 }
 
 }
+Dashboards:any;
+
+
+
 
 }
-
-
-
-
-
-
-
-

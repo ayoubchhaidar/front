@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+
+    <title>Responsive Dashboard Design #01 | AsmrProg</title>
+</head>
+
+<body>
+
+    <div class="container">
+    
+    
+       
+        <main>
+            <header>
+                <button class="menu-btn" id="menu-open">
+                    <i class='bx bx-menu'></i>
+                </button>
+                <h5>Hello <b>{{signeduser.username}}</b>, welcome back!</h5>
+
+            </header>
+
+            <div class="separator">
+                <div class="info">
+                    <h3>My Courses</h3>
+                    <a href="#">View All</a>
+                </div>
+                <div class="search">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="item" *ngFor="let foura of four; let i = index;">
+                    <div class="progress">
+                        <div class="info">
+                            <h5>{{ foura.title }}</h5>
+                        </div>
+                        <div class="info">
+                            <h5>{{ foura.pourcentage }}%</h5>
+                        </div>
+                    </div>
+                    <img [src]="foura.image" class="little">
+                </div>
+            </div>
+            
+
+            <div class="separator">
+                <div class="info">
+                    <h3>Remiders</h3>
+                   
+                </div>
+                <input type="date" value="2023-10-15">
+            </div>
+
+            <div class="planning" >
+                <div  (click)="openDialog3()" class="notification add-reminder">
+                    <div>
+                        <span class="material-icons-sharp">
+                            
+                        </span>
+                        <h3>Add Reminder</h3>
+                    </div>
+                </div>
+                <div *ngFor="let reminder of reminders">
+
+
+                
+                <div class="item">
+                    <div class="left">
+                        <div class="icon">
+                            <i class='bx bx-book-alt'></i>
+                        </div>
+                        <div class="details">
+                            <h5>{{reminder.title}}</h5>
+                            <p> {{reminder.timestamp | date: 'medium'}}</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-vertical-rounded'></i>
+                </div>
+            </div>
+                <div class="item">
+                    <div class="left">
+                        <div class="icon">
+                            <i class='bx bx-edit-alt'></i>
+                        </div>
+                        <div class="details">
+                            <h5>Writing - Topic 2</h5>
+                            <p>13:00 - 14:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-vertical-rounded'></i>
+                </div>
+            
+              
+            </div>
+
+        </main>
+
+        <aside class="right-section">
+
+
+            <div class="separator" id="first">
+                <h4>Statistics</h4>
+            </div>
+
+            <div class="stats">
+                <div class="item">
+                    <div class="top">
+                        <p>Cours </p>
+                        <p>Terminés</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>{{ CoursesCompleted() }}</h3>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="top">
+                        <p>Quiz </p>
+                        <p>Réussis</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>{{pq.quiz_passed_counts}}</h3>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="top">
+                        <p>Courses</p>
+                        <p>In Progress</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>{{CoursesInProgress()}}</h3>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="top">
+                        <p>Tasks</p>
+                        <p>Finished</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>250</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="separator">
+                <h4>Weekly Work</h4>
+            </div>
+
+            <div class="weekly">
+                <div class="title">
+                    <div class="line"></div>
+                    <h5>Tasks This Week</h5>
+                </div>
+                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+
+        </aside>
+
+       
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

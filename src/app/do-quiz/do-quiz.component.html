@@ -35,13 +35,14 @@
   
     <div style="text-align: center;" *ngIf="quizFinished">
       <h3>Quiz terminer!</h3>
-      <p>Tu a répondu correctement à {{ calculateScore() }} questions sur {{ quizData?.questions?.length }}.{{(calculateScore() / quizData?.questions?.length) * 100}} </p>
+      <p>Tu a répondu correctement à {{ calculateScore() }} questions sur {{ quizData?.questions?.length }}.</p>
+     
       <div class="progress-bar-container" >
       <div role="progressbar" 
-      [attr.aria-valuenow]="((calculateScore() / quizData?.questions?.length) * 100)" 
+      [attr.aria-valuenow]="((calculateScore() / quizData?.questions?.length) * 100).toFixed(0)" 
       aria-valuemin="10" 
       [attr.aria-valuemax]="quizData?.questions?.length"
-      [style.--value]="((calculateScore() / quizData?.questions?.length) * 100)">
+      [style.--value]="((calculateScore() / quizData?.questions?.length) * 100).toFixed(0)">
  </div>
 </div>
       
@@ -63,6 +64,30 @@
     <ng-container *ngIf="loading == true">
       <app-loading-spinner></app-loading-spinner>
     </ng-container>
+    <ng-container *ngIf="quizFinished">
+      <div *ngFor="let question of quizData?.questions; let i = index">
+        <div class="container">
+    
+          <textarea style="width: 100%;" type="text" [value]="question.content" class="form-control" disabled></textarea>
+          <div *ngFor="let choice of question.choices; let j = index">
+            <div [ngClass]="{
+              'user-answer': userChoices[i]?.includes(choice.choice),
+              'correct-answer': choice.correct
+            }">
+            <input style="margin-top: 10px; margin-bottom: 10px;width: 90%;height: auto;" class="form-control" 
+            type="text"                    
+            [value]="choice.choice " 
+            [ngClass]="{
+              'user-answer': userChoices[i]?.includes(choice.choice),
+              'correct-answer': choice.correct
+            }"
+             disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    
   </section>
 
 </div>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MydataService } from '../services/mydata.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -10,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class QuizDisplayComponent {
 
-
+  user: any;
   quizData:any;
   userChoices: any[] = [];
   quizID: any;
@@ -18,12 +20,15 @@ export class QuizDisplayComponent {
   courseID: any;
   update:boolean=false;
   currentQuestionIndex = 0;
-  constructor(private MydataService:MydataService,private route: ActivatedRoute,private router: Router){
-
-  }    
+  showInfo: any;
+  showInfoQ: any;
+constructor(private MydataService:MydataService,private route: ActivatedRoute,private router: Router,private dialog: MatDialog){ }    
   questionContent:string='';
 
+ 
   ngOnInit(): void {
+    this.user = localStorage.getItem("currentUser");
+      this.user = JSON.parse(this.user);
     this.route.queryParams.subscribe(params => {  
       this.quizID= params['quizID'];
       this.lessonID= params['lessonID'];
@@ -57,16 +62,14 @@ back(){
 backC(){
   this.router.navigateByUrl('/dashboard/lesoon?CourseId='+this.courseID+'');
 }
-  loadQuestion(index: number) {
-    // Load question logic here
-  }
+   
   onPrevClick() {
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
       this.questionToUpdate = this.quizData.questions[this.currentQuestionIndex];
       console.log(this.questionToUpdate);
       console.log(this.quizData);
-      this.loadQuestion(this.currentQuestionIndex);
+     
     }
   }
   
@@ -81,7 +84,13 @@ backC(){
   
   updateQC(id:number){
 
-    let cont=this.questionToUpdate.content
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: 'Êtes-vous sûre de vouloir mettre à jour cette question ?' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+       
+        let cont=this.questionToUpdate.content
    if(this.questionContent!==''){
      cont=this.questionContent;
    }
@@ -89,16 +98,31 @@ backC(){
    let   qq={'content':cont,
              'choices' :this.questionToUpdate.choices};
  this.MydataService.updateQuestionChoices(id,qq).subscribe();
+        
+      }
+      else{
+       this.ngOnInit();
+      }
+      });
+   
 
   }
 
 deleteQ(id:any){
- this.MydataService.deleteQuestion(id).subscribe(()=>
-  {
-console.log("Question deleted");
-  }
- )
- this.quizData.questions.splice(this.currentQuestionIndex, 1);
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    data: { message: 'Êtes-vous sûre de vouloir supprimer cette question ?' }
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.MydataService.deleteQuestion(id).subscribe(()=>
+        {
+      console.log("Question deleted");
+        }
+       )
+       this.quizData.questions.splice(this.currentQuestionIndex, 1);
+    }
+  });
+ 
 }
 
 

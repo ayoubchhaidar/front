@@ -1,0 +1,546 @@
+/* Style for the links */
+a {
+  color: black;
+  font-size: 1.3rem;
+  text-decoration: none;
+  margin-top: 1em;
+  display: inline-block;
+  font-weight: bold;
+  padding: .5em;
+  margin-left: -.5em;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Style for active links */
+.active-section a {
+  color: rgb(0, 99, 228); /* Change color for links within active section */
+  text-decoration: underline; /* Underline active links */
+}
+
+a:before, a:after {
+  position: absolute;
+  content: '';
+  border-bottom: 3px solid rgb(0, 99, 228);
+  border-radius: 1em;
+  bottom: .3em;
+  transition: transform .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+a:before {
+  width: 1em;
+  transform-origin: left;
+}
+
+a:after {
+  width: 82%;
+  left: 1em;
+  transform: translateX(110%);
+}
+
+a:hover:before {
+  transform: scaleX(0.3);
+}
+
+a:hover:after {
+  transform: translateX(0);
+}
+
+/* Center the links */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.lesson-header-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Adjust as needed */
+  gap: 20px; /* Adjust as needed for spacing between items */
+  margin:auto
+}
+
+.lesson-header {
+  flex-basis: calc(33.33% - 20px); /* 33.33% for three items per row, minus gap */
+  /* Adjust width and margin as needed */
+}
+input:required {
+    border: 1px solid red;
+  }
+  
+    .document-type-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .document-type-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5em; /* Adjust the margin as needed */
+  }
+  
+  input[type=radio] {
+    margin-right: 0.5em; /* Adjust the margin as needed */
+    /* Add additional styling for radio inputs if necessary */
+  }
+  
+  label {
+    cursor: pointer;
+  }
+  
+    input[type=file] { display: none; }
+  label[for=file] {
+    margin-top: 10px;
+      display: grid;
+      grid-auto-flow: column;
+      grid-gap: .5em;
+      justify-items: center;
+      align-content: center;
+      color: #4e73df;
+      border: .2em solid #4e73df;
+      background: hsl(0 0 0/0);
+      padding: .85em 1.5em;
+      color: #4e73df;
+      border-radius: 2em;
+      transition: 1s;
+    width: 150px;
+      &:hover, &:focus, &:active {
+      background: #4e73df;
+          color: black;
+      }
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  
+    input[type=text] {
+      appearance: none;
+      border: none;
+      outline: none;
+      border-bottom: .2em solid #4e73df;
+      background: rgba(#4e73df, .2);
+      border-radius: .2em .2em 0 0;
+      margin-bottom: 20px;
+      color: #000;
+    width:250px;
+  }
+     /* Add these styles to your component's CSS file */
+     .delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    color: red;
+    background: none; /* Remove any default background */
+    border: none; /* Remove any default border */
+    cursor: pointer; /* Add cursor pointer for better UX */
+  }
+
+
+  .delete-button1 {
+    position: absolute;
+    
+    top:20;
+    right: 0;
+    font-size: 14px;
+    color: red;
+    background: none; /* Remove any default background */
+    border: none; /* Remove any default border */
+    cursor: pointer; /* Add cursor pointer for better UX */
+  }
+     .material-item {
+    display: flex;
+    align-items: center;  
+    margin-bottom: 20px; /* Adjust the size of the space between each material */
+  }
+  
+  .material-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Add this to your global styles or component styles file */
+  
+  .material-action {
+    background-color: #f9f9f9;/* Set background color */
+    color: #4e73df;  /* Set text color */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  .material-action mat-icon {
+    font-size: 8px;  
+  }
+  
+  /* Add hover effect */
+  .material-action:hover {
+  color: #2980b9; /* Darken the background color on hover */
+  }
+  
+  
+  
+  
+  .material-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    font-size: 25px; /* Adjust the size as needed */
+    margin-right: 10px;
+  }
+  
+  .material-title {
+    font-size: 20px; /* Adjust the size as needed */
+    margin-right: 5px;
+  }
+  
+  .lesson {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #4e73df;
+    background-color: #f9f9f9;
+    position: relative;
+  }
+  
+  .add-material-button {
+    color: #28a745; /* Green color for an "add" theme */
+    position: absolute;
+    bottom: -5px; /* Move to the bottom */
+    left: 0px; /* Move to the left */
+    font-size: 14px;
+    background: none; /* Remove any default background */
+    border: none; /* Remove any default border */
+    cursor: pointer;
+  }
+  
+  
+  .lesson-content {
+    width: 70%;
+  }
+  
+  .lesson-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .lesson-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4e73df;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: black;
+    margin-right: 10px;
+  }
+  
+  .lesson-title {
+    font-size: 18px;
+    color: #4e73df;
+    flex: 1;
+  }
+  
+  .button-link {
+    background: none;
+    border: none;
+    color: #4e73df;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .materials-container {
+    margin-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .button_plus {
+    position: relative;
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: black;
+    cursor: pointer;
+    border: 2px solid #4e73df;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .button_plus:after {
+    content: '';
+    position: absolute;
+    transform: translate(-50%, -50%);
+    height: 4px;
+    width: 50%;
+    background: #4e73df;
+    top: 50%;
+    left: 50%;
+  }
+  
+  .button_plus:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #4e73df;
+    height: 50%;
+    width: 4px;
+  }
+  
+  .button_plus:hover:before,
+  .button_plus:hover:after {
+    background: black;
+    transition: 0.2s;
+  }
+  
+  .button_plus:hover {
+    background-color: #4e73df;
+    transition: 0.2s;
+  }
+  
+  main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: black;
+  }
+  
+  button {
+    background-color: #4e73df;
+    color: black;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .lesson {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #4e73df;
+    background-color: #f9f9f9;
+  }
+  
+  .material {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .material-icon {
+    margin-right: 10px;
+  }
+  
+  .material-link {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 50px;
+  }
+  
+  .modal-content {
+    background-color: black;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #3949ab;
+    width: 50%;
+    height: auto;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+  }
+.hahaha {
+    --s: 20px; /* adjust this to control the size*/
+    
+    height: var(--s);
+    aspect-ratio: 2.5;
+    width: auto; /* some browsers need this */
+    border-radius: var(--s);
+    padding: calc(var(--s)/10);
+    margin: calc(var(--s)/2);
+    cursor: pointer;
+    background:
+      radial-gradient(farthest-side,#15202a 96%,#0000) 
+        var(--_p,0%)/var(--s) content-box no-repeat,
+      var(--_c,#e2e1f9);
+    box-sizing: content-box;
+    transform-origin: calc(3*var(--s)/5) 50%;
+    transition: transform cubic-bezier(0,300,1,300) .5s,background .3s .1s ease-in;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  input:checked {
+    --_c: #4e73df;
+    --_p: 100%;
+    transform-origin: calc(100% - 3*var(--s)/5) 50%;
+    transform: rotate(0.1deg);
+  }
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .contact-form {
+    
+    background-color: #fff;
+    margin-top: 10px;
+    margin-bottom: 5%;
+    width: 90%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative; /* Position relative for pseudo-element */
+    overflow: hidden; /* Hide overflowing semi-circle */
+}
+
+  
+  body {
+    
+      margin: 0;
+      height: 100vh;
+      display: grid;
+      font-size: 1.6rem; /* 16px */
+      place-items: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      font-family: Rockwell, "Courier New", Courier, Georgia, Times, "Times New Roman", serif;
+  }
+  
+/* Container Styles */
+.container-wrapper {
+  display: flex; /* Use flexbox to display containers side by side */
+  flex-wrap: wrap; /* Allow containers to wrap onto multiple lines */
+  justify-content: space-around; /* Adjust the spacing between containers */
+}
+
+.container {
+  width: 20%; /* Adjust the width of each container */
+  height: auto;
+  padding: 3rem;
+  overflow: hidden;
+  position: relative;
+  border-radius: 3rem;
+  margin: 0 10px; /* Add spacing between containers */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+  
+  .container::before {
+      content: "";
+      top: -10rem;
+      left: -10rem;
+      width: 40rem;
+      height: 40rem;
+      position: absolute;
+      border-radius: 50%;
+    
+  }
+  
+  .container::after {
+      content: "";
+      bottom: 0;
+      right: -10rem;
+      width: 40rem;
+      height: 40rem;
+      margin-bottom: -25rem;
+      position: absolute;
+      border-radius: 50%;
+    
+  }
+  
+  /* Heading Styles */
+  h1 {
+      margin-bottom: 30px;
+font-size: 24px;
+      position:relative;
+      top: 0;
+      text-align: center;
+      color: black;
+  }
+  
+  /* List Styles */
+  ol {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    
+      list-style: none;
+  }
+  
+  ol li {
+      width: auto;
+     
+      color: black;
+      border-radius: 3rem;  
+      margin-bottom: 10px;
+  }
+  
+
+  

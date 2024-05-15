@@ -4,7 +4,7 @@ import { MydataService } from 'src/app/services/mydata.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GradeComponent } from '../grade/grade.component';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -14,6 +14,7 @@ import * as moment from 'moment';
 })
 export class AssignmentComponent implements OnInit {
   myform1: FormGroup;
+  courseId: any;
 
 
 
@@ -36,7 +37,7 @@ addass() {
   lessonId: any;
 
 
-  constructor(private MydataService:MydataService,private matDialog:MatDialog, private route: ActivatedRoute){ 
+  constructor(private MydataService:MydataService,private matDialog:MatDialog, private route: ActivatedRoute,private router: Router){ 
     this.myform1 = new FormGroup({
     title: new FormControl(''),
     description: new FormControl(''),
@@ -50,7 +51,12 @@ addass() {
     this.user = JSON.parse(this.user);
     this.route.queryParams.subscribe(params => {
        this.lessonId = params['lessonId'];
+       this.courseId = params['courseId'];
      });
+  }
+
+  backC(){
+    this.router.navigateByUrl('/dashboard/lesoon?CourseId='+this.courseId+'');
   }
 }
 

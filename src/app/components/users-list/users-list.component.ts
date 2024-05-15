@@ -34,16 +34,27 @@ users: any[] = [];
 checkbox: any;
 showButton: any;
 constructor (private AuthService: AuthService,private route: ActivatedRoute,private searchService: SearchService){
+
   
-  this.paramValue=this.route.snapshot.params;
-  this.listeDe= this.paramValue.param;
 }
 ngOnInit(): void {
-  this.getAllUsers().subscribe(() => {
-    this.searchService.getSearchQuery().subscribe((query) => {
-      this.filterData(query);
+  this.filteredUsers=[];
+  this.users=[];
+  this.speceficUsers=[];
+  console.log(this.listeDe);
+  this.route.paramMap.subscribe(() => {
+    this.paramValue=this.route.snapshot.params;
+    this.listeDe= this.paramValue.param;
+    this.getAllUsers().subscribe(() => {
+
+      this.searchService.getSearchQuery().subscribe((query) => {
+        this.filterData(query);
+      });
     });
+    console.log(this.listeDe);
   });
+
+ 
 }
 
 
@@ -85,7 +96,7 @@ getAllUsers(){
 deleteUser(ID: number) {
   this.AuthService.deleteUser(ID).subscribe(data=>{
   console.log(data);
-  this.getAllUsers();
+  this.ngOnInit()
   });
 
 }
@@ -105,8 +116,7 @@ addToTable(userId: string, isChecked: boolean) {
 verify(userId: number) {
 
   this.AuthService.verifyUser(userId).subscribe();
-  location.reload();
-
+ this.ngOnInit()
 
 }
 filterData(query: string) {

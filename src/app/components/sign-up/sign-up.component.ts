@@ -85,11 +85,11 @@ togglePasswordVisibility() {
 
     else {
 
-      this.errormsg='Password must be at least 8 characters long,contain at least one uppercase letter and at least one digit '
+      this.errormsg='Le mot de passe doit comporter au moins 8 caractères, contenir au moins une lettre majuscule et au moins un chiffre '
     }
       } else {
-        this.errormsg="Please fill in all required fields."
-      console.error('Please fill in all required fields.');
+        this.errormsg="Veuillez remplir tous les champs requis."
+      console.error('Veuillez remplir tous les champs requis.');
     }
 
 

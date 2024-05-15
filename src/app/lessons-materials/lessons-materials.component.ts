@@ -69,7 +69,7 @@ quizes: any[] =[];
      this.get_quiz();
       this.user = localStorage.getItem("currentUser");
       this.user = JSON.parse(this.user);
-      this.MydataService.getTutorCourses(this.user.user_id).subscribe(
+      this.MydataService.getCourses(this.user.user_id).subscribe(
         (data: any[]) => {
           this.myData$ = data;
           console.log( "user",this.myData$)   
@@ -136,14 +136,26 @@ quizes: any[] =[];
   showContent: boolean = false;   // Hide content section by default
 
 
-  getCourseById(id: number): Course | null {
+  getCourseTitleById(id: number) {
     for (let course of this.myData$) {
-      if (id === this.CourseId) {
-        return course;
-      }
-    }
-    return null;
+      if (course.id== id) {
+    return  course.title ;
   }
+}
+  return "";
+}
+  
+  // New function to get the description of the course by ID
+  getCourseDescriptionById(id: number): string {
+    for (let course of this.myData$) {
+      if (course.id== id) {
+  
+    return course.description ;
+   
+  }
+}
+return ""; 
+}
   
 
   // Function to toggle between information and content sections
@@ -529,6 +541,29 @@ addLesson(): void {
     }
   }
 
+
+  closeassModal(): void {
+    this.getCourselessons(this.CourseId);
+    const modal = document.getElementById('assModal');
+   
+    
+    if (modal) {
+      modal.style.display = 'none';
+    }
+   
+  
+   
+  }
+  
+  
+    openAssignmentModal(assId: any): void {
+      
+      const modal = document.getElementById('assModal');
+      if (modal) {
+        modal.style.display = 'block';
+      }
+    }
+
   openMaterialModal(lessonId: string, material: any, update: boolean, Eval: boolean): void {
   this.selectedLessonId = lessonId;
   this.selectedmatId=material.id
@@ -564,23 +599,7 @@ openMaterialModalpreview( material: any): void {
   if (modal) {
     modal.style.display = 'block';
   }
-  const imgurLink = "https://i.imgur.com/example.jpg";
-  const canvas: HTMLCanvasElement | null = document.querySelector('#myCanvas');
-  
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-  
-    const img = new Image();
-    img.crossOrigin = 'anonymous'; // Enable CORS for the image
-  
-    img.src = imgurLink;
-  
-    img.onload = () => {
-      if (ctx) {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      }
-    };
-  }
+
   
 
 }
@@ -601,7 +620,6 @@ closeMaterialModal(): void {
   this.myform.value['document_type']="";
   this.myform.value['content']="";
   this.uploadedLink="";
- 
 }
 
 

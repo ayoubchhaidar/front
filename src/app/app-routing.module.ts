@@ -26,6 +26,12 @@ import { QuizContentComponent } from './quiz-content/quiz-content.component';
 import { QuizDisplayComponent } from './quiz-display/quiz-display.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 import { DoQuizComponent } from './do-quiz/do-quiz.component';
+import { ViewSubmissionsComponent } from './view-submissions/view-submissions.component';
+import { CertificationComponent } from './certification/certification.component';
+import { FormateurDashboardComponent } from './formateur-dashboard/formateur-dashboard.component';
+import { StudishDashboardComponent } from './studish-dashboard/studish-dashboard.component';
+import { ProgressComponent } from './progress/progress.component';
+import { GenerateCourseComponent } from './generate-course/generate-course.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -43,8 +49,13 @@ const routes: Routes = [
     { path: 'quiz', component: QuizComponent },
     { path: 'quizC', component: QuizContentComponent },
     { path: 'quizD', component: QuizDisplayComponent},
-    
+    { path: 'ass', component: ViewSubmissionsComponent},
     { path: 'assignment', component: AssignmentComponent },
+    { path: 'sub', component: SubmissionsComponent },
+    { path: 'statF', component: FormateurDashboardComponent },
+    { path: 'statS', component: StudishDashboardComponent},
+    { path: 'progress', component: ProgressComponent},
+    { path: 'geng', component: GenerateCourseComponent}
   ] },
   { path: 'submissions', component: CoursePlayerComponent,children:[
     { path: 'Do', component: DoQuizComponent},
@@ -60,7 +71,7 @@ const routes: Routes = [
   },
  
   { path: 'material', component: MaterialComponent },
- 
+  { path: 'certificate', component: CertificationComponent },
    { path: 'add-course', component: AddCourseComponent },
   { path: 'add-lesson', component: AddLessonComponent },
   { path: '**', redirectTo: '/login' }, 

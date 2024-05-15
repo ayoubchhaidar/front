@@ -24,3 +24,12 @@ ngx-doc-viewer .document-content {
   width: 90%; /* Adjust width as needed */
   height: 90%; /* Adjust height as needed */
 }
+.buton{
+  cursor: pointer;
+ border: none;
+  color:  #fff;
+  background: #4e73df;
+  font-family: "Open Sans", sans-serif;
+  font-size: 26px;
+
+}

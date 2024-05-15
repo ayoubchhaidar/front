@@ -6,6 +6,8 @@ import { timer } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ElementRef, Renderer2 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 interface Answer {
   text: string;
@@ -36,7 +38,7 @@ export class QuizContentComponent implements OnInit {
   myform: FormGroup;
   driveId: string | null = null; 
 
-  constructor(private MydataService: MydataService, private route: ActivatedRoute,private renderer: Renderer2, private el: ElementRef,private router: Router) {
+  constructor(private MydataService: MydataService, private route: ActivatedRoute,private renderer: Renderer2, private el: ElementRef,private router: Router,private dialog: MatDialog) {
     this.myform = new FormGroup({
       content: new FormControl(''),
       explanation: new FormControl(''),
@@ -269,17 +271,16 @@ export class QuizContentComponent implements OnInit {
   }
   
   parseBackendData(data: string[][]) {
-    
     this.generated_data = data.map(part => {
       return part.map(item => {
         const questionData = item.split('\n');
         const question: Question = {
-          question: questionData[0],
+          question: "", // Initialize empty string
           answers: []
         };
         let correctAnswerText: string | null = null;
-    
-        for (let i = 1; i < questionData.length; i++) {
+  
+        for (let i = 0; i < questionData.length; i++) { // Start from index 0
           const correctAnswerMatch = questionData[i].match(/^Correct Answer:\s*(.*)$/);
           if (correctAnswerMatch) {
             correctAnswerText = correctAnswerMatch[1].trim();
@@ -295,21 +296,29 @@ export class QuizContentComponent implements OnInit {
               }
             }
           } else {
-            const answerText = questionData[i].substring(3).split(":")[0].trim();
-            const answerLetter = questionData[i][0];
-            console.log('Answer:', answerText, 'Letter:', answerLetter);
-            const answer: Answer = {
-              text: answerText,
-              correct: false,
-              letter: answerLetter
-            };
-            question.answers.push(answer);
+            // Check if it's the first line, then set it as question
+            if (i === 0) {
+              // Remove the "Question 1: " prefix from the question
+              question.question = questionData[i].replace(/^Question \d+: /, '');
+            } else {
+              const answerText = questionData[i].substring(3).split(":")[0].trim();
+              const answerLetter = questionData[i][0];
+              console.log('Answer:', answerText, 'Letter:', answerLetter);
+              const answer: Answer = {
+                text: answerText,
+                correct: false,
+                letter: answerLetter
+              };
+              question.answers.push(answer);
+            }
           }
         }
         return question;
       });
     });
   }
+  
+  
   addAIQuiz(questionContent: any) {
     this.choices = [];
       for (let answer of questionContent.answers) {
@@ -342,57 +351,65 @@ export class QuizContentComponent implements OnInit {
    
 
 addQ() {
-  this.choices = [];
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    data: { message: 'Êtes-vous sûre de vouloir supprimer cette question ?' }
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.choices = [];
 
-  for (let i = 0; i < 5; i++) {
-  let   index='choice'+i;
-
-  console.log(index );
-    const choice={
-        'question':this.questId,
-        'choice':this.myform.value[index],
-        'correct':this.choix[i].checked
-
+      for (let i = 0; i < 5; i++) {
+      let   index='choice'+i;
+    
+      console.log(index );
+        const choice={
+            'question':this.questId,
+            'choice':this.myform.value[index],
+            'correct':this.choix[i].checked
+    
+        }
+        if(this.myform.value[index]!='')
+         this.choices.push(choice);
+      }
+    
+    console.log( this.choices);
+    
+    console.log( this.choices);
+    
+    console.log( this.myform.value['content']);
+    
+    const question ={
+      'quiz':this.quizID,
+      'content':this.myform.value['content'],
     }
-    if(this.myform.value[index]!='')
-     this.choices.push(choice);
-  }
-
-console.log( this.choices);
-
-console.log( this.choices);
-
-console.log( this.myform.value['content']);
-
-const question ={
-  'quiz':this.quizID,
-  'content':this.myform.value['content'],
-}
-
-
-
-this.MydataService.addQuestion(question).subscribe((data) => {
-
-  console.log('Received data:', data);
-
-  this.choices.forEach(choice => {
-    choice.question = data.id; 
-});
-
-    this.MydataService.addChoices(this.choices).subscribe();
-});
-
-
- console.log("data",question);
-this.questId++;
-
-}
+    
+    
+    
+    this.MydataService.addQuestion(question).subscribe((data) => {
+    
+      console.log('Received data:', data);
+    
+      this.choices.forEach(choice => {
+        choice.question = data.id; 
+    });
+    
+        this.MydataService.addChoices(this.choices).subscribe();
+    });
+    
+    
+     console.log("data",question);
+    this.questId++;
+    
+    }
+    this.ngOnInit();
+  });
+ 
   
   
   
   }
   
-  
+}
   
   
   

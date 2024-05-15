@@ -12,11 +12,13 @@ myform: FormGroup;
 selectedFile!: File;
 noFileSelected = true;
 editMode: boolean = false;
+messagrpw='';modpww=false;
+  myform1: FormGroup;
+  
 onFileChange(event: any) {
   if (event.target.files.length > 0) {
   this.selectedFile = event.target.files[0];
   this.noFileSelected = false;
-
 }
  
 }
@@ -41,6 +43,10 @@ onFileChange(event: any) {
     Username: new FormControl(''),
     full_name: new FormControl(''),
     email: new FormControl(''),
+  });
+  this.myform1 = new FormGroup({
+    op: new FormControl(''),
+    np: new FormControl(''),
   });}
 
   ngOnInit(): void {
@@ -69,6 +75,37 @@ onFileChange(event: any) {
 
   }
 
+  annuller(){
+    this.modpww=false;
+    this.editMode=false;
+  }
+  modpw(){
+  
+   if(this.modpww==true)  { this.modpww=false} else this.modpww=true;
+  }
+  
+  modifierMp() {
+    const formData = new FormData();
+    formData.append('oldpw', this.myform1.value['op']);
+    formData.append('newpw', this.myform1.value['np']); 
+    formData.append('user', this.signeduser.user_id);
+  if(this.checkPw(this.myform1.value['np'])==true){
+    this.AuthService.changePw(formData).subscribe( data => {
+      console.log(data);
+      this.messagrpw=data.message
+   
+    },
+    error => {
+      console.error('Error occurred during login:', error);
+      this.messagrpw = 'Invalid password'; 
+    }
+  );
+}
+else {
+
+  this.messagrpw='Le mot de passe doit comporter au moins 8 caractères, contenir au moins une lettre majuscule et au moins un chiffre '
+}
+  }  
   toggleEditMode() {
     this.editMode = !this.editMode;
   }
@@ -100,5 +137,20 @@ onFileChange(event: any) {
       this.editMode = false;
   }
 
-  
+  checkPw(password: string) {
+
+    if (password.length < 8) {
+      return false;     }
+
+    if (!/[A-Z]/.test(password)) {
+      return false; 
+    }
+
+    if (!/\d/.test(password)) {
+      return false;     }
+
+    return true;
+
+  }
+
 }
