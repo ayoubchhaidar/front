@@ -45,16 +45,16 @@
     <div id="materialModal" class="modal">
         <div class="modal-content">
             <span class="close" (click)="closeMaterialModal()">&times;</span>
-            <h4 *ngIf="update==false && eval==false" style="text-align: center; color: #4e73df;">Add Material</h4>
-            <h4 *ngIf="update==true" style="text-align: center; color: #4e73df;">Update Material</h4>
-            <h4 *ngIf="eval==true" style="text-align: center; color: #4e73df;">Add Evaluation</h4>
+            <h4 *ngIf="update==false && eval==false" style="text-align: center; color: #4e73df;">Ajouter un support</h4>
+            <h4 *ngIf="update==true" style="text-align: center; color: #4e73df;">Mettre à jour le support</h4>
+            <h4 *ngIf="eval==true" style="text-align: center; color: #4e73df;">Ajouter une evaluation</h4>
             <form (ngSubmit)="update ? UpdateMaterial(selectedmatId): AddMaterial(selectedLessonId)" #myForm="ngForm">
               
               <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" [(ngModel)]="myform.value['title']" required #Input="ngModel">
                 <div *ngIf="(Input.invalid) && (Input.dirty || Input.touched )" class="error-message">
-                  Title is required.
+                  Le titre est requis.
                 </div>
             
                 <label for="document_type">Document Type:</label>
@@ -89,38 +89,38 @@
                 </mat-select>
               
                 <div *ngIf="Input.invalid && (Input.dirty || Input.touched)" class="error-message">
-                  Document Type is required.
+                  Le type de document est obligatoire.
                 </div>
             
                 <div *ngIf="myform.value['document_type'] === 'youtube'">
                   <label for="youtube_url">YouTube URL:</label>
                   <input  type="text" id="youtube_url" name="youtube_url" class="form-control" [(ngModel)]="uploadedLink" required #youtubeUrl="ngModel" />
                   <div *ngIf="youtubeUrl.invalid && (youtubeUrl.dirty || youtubeUrl.touched)" class="error-message">
-                    YouTube URL is required.
+                    L’URL YouTube est requise.
                   </div>
                   
                 </div>
                 <div *ngIf="myform.value['document_type'] === 'video'">
-                  <label for="youtube_url">drive link for ur video:</label>
+                  <label for="youtube_url">Lien de drive pour votre vidéo avec un accés public :</label>
                   <input  type="text" id="youtube_url" name="youtube_url" class="form-control" [(ngModel)]="uploadedLink" required #youtubeUrl="ngModel" />
                   <div *ngIf="youtubeUrl.invalid && (youtubeUrl.dirty || youtubeUrl.touched)" class="error-message">
-                    drive link is required.
+                    L’URL drive est requise.
                   </div>
                 
                 </div>
             
                 <div *ngIf="['pdf','docx'].includes(myform.value['document_type'])">
-                  <label for="file">File Upload</label>
+                  <label for="file">Fichier</label>
                   <input type="file" id="file" name="content" (change)="onFileSelected($event)" [(ngModel)]="selectedFile" required #Input="ngModel" />
                   <div *ngIf="Input.invalid && (Input.dirty || Input.touched)" class="error-message">
-                    File Upload is required.
+                    Le fichier est requis.
                   </div>
                 </div>
                 <div *ngIf="myform.value['document_type'] === 'pptx'">>
-                  <label for="file">File Upload</label>
+                  <label for="file">Fichier</label>
                   <input type="file" id="file" name="content" (change)="onFileSelected($event)" [(ngModel)]="selectedFile" required #Input="ngModel" />
                   <div *ngIf="Input.invalid && (Input.dirty || Input.touched)" class="error-message">
-                    File Upload is required.
+                    Le fichier est requis.
                   </div>
                 </div>
             
@@ -129,8 +129,8 @@
                 </div>
                       <!-- your-file.html -->
 
-                <button *ngIf="myForm.valid && uploadedLink !== '' && errorMessage == '' && !update" type="submit">Add Material</button>
-  <button *ngIf="myForm.valid && uploadedLink !== '' && errorMessage == '' && update" type="submit">Update Material</button>
+                <button *ngIf="!update" type="submit">Ajouter un support</button>
+  <button *ngIf=" update" type="submit">Mettre à jour le support</button>
               </div>
             </form>
             
@@ -141,15 +141,15 @@
  <!-- Your Lessons Iteration -->
  <div *ngFor="let lesson of lessons; let i = index" class="lesson" [attr.id]="'lesson-' + lesson.id">
   <button *ngIf="user.is_staff===true && user.is_superuser===false"  class="add-material-button" (click)="openMaterialModal(lesson?.id, 0, false,false)">
-    <i class="fas fa-plus"></i> Add Material
+    <i class="fas fa-plus"></i>Ajouter un support
   </button>
   <button *ngIf="user.is_staff===true && user.is_superuser===false"  class="add-material-button" style="margin-left: 50%;" (click)="checkEval(lesson.id)" (click)="openMaterialModaleval(lesson?.id)">
-    <i class="fas fa-plus"></i> Add Evaluation
+    <i class="fas fa-plus"></i> Ajouter une evaluation
   </button>
   <div id="materialModaleval" class="modal">
     <div class="modal-content">  
       <span class="close" (click)="closeMaterialModal()">&times;</span>
-      <h4 style="text-align: center; color: #4e73df;">Select</h4>
+      <h4 style="text-align: center; color: #4e73df;">Choisir</h4>
       
       <div class="link-container">
         <a *ngIf="eval===false" 
@@ -162,26 +162,31 @@
         <a *ngIf="eval===true" class="link-square">
           <h5>Quiz</h5>
           <img src="assets/choice.png" alt="Quiz Image">
-          <p>(already exist)</p>
+          <p>(existent déjà)</p>
         </a>
-        <a [routerLink]="['/dashboard/assignment']" 
+        <a *ngIf="eval_ex===false" [routerLink]="['/dashboard/assignment']" 
            [queryParams]="{ courseId: CourseId, lessonId: selectedLessonId }" 
            class="link-square">
           <h5>Exercice</h5>
           <img src="assets/exam.png" alt="Exercise Image">
+        </a>
+        <a *ngIf="eval_ex===true" class="link-square">
+          <h5>Exercice</h5>
+          <img src="assets/exam.png" alt="Quiz Image">
+          <p>(existent déjà)</p>
         </a>
       </div>
     </div>
   </div>
   
   <button *ngIf="user.is_staff===true && user.is_superuser===false"  (click)="delete_lesson(lesson.id)" class="delete-button">
-    <i class="fas fa-trash-alt"></i> Delete
+    <i class="fas fa-trash-alt"></i> Supprimer
   </button>
 <!-- Hide the checkbox input -->
 <input *ngIf="user.is_staff===true && user.is_superuser===false"  type="checkbox" class="hahaha delete-button1" id="verificationCheckbox{{lesson.id}}" [(ngModel)]="lesson.locked" (change)="lockUnlock(lesson.id)" style="display: none;">
 
 <!-- Wrap the icon inside a label and associate it with the corresponding hidden checkbox -->
-<label *ngIf="user.is_staff===true && user.is_superuser===false"  class="lock-button" for="verificationCheckbox{{lesson.id}}">
+<label   class="lock-button" for="verificationCheckbox{{lesson.id}}">
   <span *ngIf="lesson.locked; else unlockedIcon" >
     <!-- Display closed lock icon when checkbox is checked -->
     <i class="fas fa-lock" style="cursor: pointer;"></i> <!-- Assuming you're using Font Awesome -->
@@ -207,9 +212,11 @@
       <h1 class="lesson-title">
         <span *ngIf="!lesson.isEditing" (click)="enableLessonEdit(lesson)">{{ lesson.title }}</span>
         <input *ngIf="lesson.isEditing" type="text" [(ngModel)]="lesson.newTitle" (keyup.enter)="updateLessonTitle(lesson)" >
-        <button type="button" *ngIf="lesson.isEditing" (click)="updateLessonTitle(lesson)">Save</button>
+        <button type="button" *ngIf="lesson.isEditing" (click)="updateLessonTitle(lesson)">Sauvgarder</button>
       </h1>
-      <button class="button-link" (click)="toggleMaterials(lesson)">Show More</button>
+      <button class="button-link" (click)="toggleMaterials(lesson)">
+  <i class="fas fa-chevron-down"></i>
+</button>
     </div>
     <div id="yourListItemId" class="your-list-item">
       <!-- Material content -->
@@ -232,7 +239,7 @@
                 <div id="materialModalpreview" class="modal"  >
                   <div class="modal-content">
                     <span class="close" (click)="closeMaterialModal()">&times;</span>
-                    <h4  style="text-align: center; color: #4e73df;">mat</h4>
+                    <h4  style="text-align: center; color: #4e73df;"> Support</h4>
                     <form >
 
                       <ngx-doc-viewer
@@ -261,10 +268,11 @@
               </div>
             </div>
            <p style="margin-left: -30px; font: bold;">Evaluation :</p>
-            <div *ngFor="let quiz of quizes" >
-              <div *ngIf="quiz.lesson===lesson.id" class="material-item" (mouseenter)="onMouseEnter(quiz.id)" (mouseleave)="onMouseLeave()" >
+            <div *ngFor="let quiz of quizes"  (mouseenter)="onMouseEnter(quiz.id)" (mouseleave)="onMouseLeave()"  >
+              <div *ngIf="quiz.lesson===lesson.id" class="material-item">
             <mat-icon class="icon">live_help</mat-icon> 
             <span class="material-title">{{quiz.title}}</span>
+            <div class="material-actions" *ngIf="hoveredItemId === quiz.id">
             <button  [routerLink]="['/dashboard/quizD']" [queryParams]="{ quizID : quiz.id, lessonID : lesson.id, CourseId:CourseId }" class="material-action">
               <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
             </button>
@@ -272,21 +280,44 @@
               <i class="fas fa-trash-alt"></i> 
             </button>
           </div>
+        </div>
           </div>
-          <div *ngFor="let sub of assignments" >
+          <div *ngFor="let sub of assignments" (mouseenter)="onMouseEnter(sub.id)" (mouseleave)="onMouseLeave()">
           <div *ngIf="sub.lesson===lesson.id" class="material-item" >
           <mat-icon class="icon" >fitness_center</mat-icon> 
           <span class="material-title">{{sub.title}}</span>
-          <button class="material-action" (click)="openAssignmentModal(sub.id)">
+          <div class="material-actions" *ngIf="hoveredItemId === sub.id">
+          <button class="material-action"  (click)="openAssignmentModal(sub.id,sub)">
             <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
           </button>
-          <button *ngIf="user.is_staff===true && user.is_superuser===false"  class="material-action"  >
-            <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
-          </button>         
+                  
          
           <button *ngIf="user.is_staff===true && user.is_superuser===false"  (click)="delete_assig(sub.id)" class="material-action">
             <i class="fas fa-trash-alt"></i> 
           </button>
+          </div>
+          <div id="assModal" class="modal">
+            <div class="modal-content">
+              <span class="close" (click)="closeassModal()">&times;</span>
+          
+            <div class="assignment">
+              
+              <div class="assignment-title"><strong>Titre : </strong>{{sub.title}}</div>
+              <div class="description"><strong>Travail A Faire :</strong> {{sub.description}}</div>
+              <div class="due-date"><strong>Date de Soumission : </strong> {{sub.due_date}}</div>
+
+              <div class="actions">
+                
+                <button *ngIf="user.is_staff===true && user.is_superuser===false"  class="material-action" style="margin-top: 20px ;" >
+                  <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
+                </button>         
+               
+          
+              </div>
+            </div>
+          
+            </div>
+          </div>
           </div>
           </div>
           </div>
@@ -300,25 +331,7 @@
     </div>
 </div>
 
-<div id="assModal" class="modal">
-  <div class="modal-content">
-    <span class="close" (click)="closeassModal()">&times;</span>
 
-  <div class="assignment">
-    <div class="assignment-title"><img src="assets/asss.jpeg" style=""></div>
-    <div class="assignment-title">Assignment 1</div>
-    <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum urna eget ligula malesuada aliquam.</div>
-    <div class="due-date">Due Date: May 15, 2024</div>
-    <div class="actions">
-      <button class="action-btn">Edit</button>
-      <button class="action-btn">Delete</button>
-      <button class="action-btn">view Submissions</button>
-
-    </div>
-  </div>
-
-  </div>
-</div>
 
         
        
@@ -326,7 +339,7 @@
   <div class="modal-content">
     
     <span class="close" (click)="closeMaterialModal()">&times;</span>
-    <h4  style="text-align: center; color: #4e73df;">Add Lesson</h4>
+    <h4  style="text-align: center; color: #4e73df;">Ajouter une Leçon</h4>
     <form #materialForm="ngForm" (ngSubmit)="addLesson()">
       <div class="form-group">
       <label for="title">Title:</label>
@@ -334,7 +347,7 @@
       <div *ngIf="(Input.invalid) && (Input.dirty || Input.touched)" class="error-message">
         Title is required.
       </div>
-      <button *ngIf="newLessonTitle!=''" type="submit">Add</button>
+      <button *ngIf="newLessonTitle!=''" type="submit">Ajouter</button>
     </div>
     </form>
   </div>
@@ -342,7 +355,7 @@
 
 <div class="button-container" *ngIf="user.is_staff===true && user.is_superuser===false" >
   <button class="button_plus" (click)="openMaterialModallesson()"></button>
-  <a class="add-section" (click)="openMaterialModallesson()">Add Section</a>
+  <a class="add-section" (click)="openMaterialModallesson()">Ajouter une Leçon</a>
 </div>
 
 </main>

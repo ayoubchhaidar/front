@@ -39,7 +39,7 @@ export class SubmissionsComponent implements OnInit{
         formData1.append('studentname',  this.user.full_name);
         formData1.append('submission_content',  this.uploadedLink);
         formData1.append('student', this.user.user_id);
-        formData1.append('assignment', '7');
+        formData1.append('assignment', this.idassignment);
         
         this.MydataService.addSubmission(formData1).subscribe();
 

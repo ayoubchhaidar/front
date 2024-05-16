@@ -55,7 +55,7 @@
                             <span class="material-title">{{sub.title}}</span>   
                             <i style="color:black;margin-left: 10px;" class="fas fa-lock"></i> 
                           </div>   
-                          <div *ngIf="sub.lesson===lesson.id && lesson.locked==false" class="material-item" >
+                          <div *ngIf="sub.lesson===lesson.id && lesson.locked==false" class="material-item" [routerLink]="['/submissions/sub']" [queryParams]="{ sassignmentid:sub.id}" (click)="showDocument('','')">
                             <mat-icon class="icon" style="margin-right: 10px; vertical-align: middle;">fitness_center</mat-icon> 
                             <span class="material-title">{{sub.title}}</span>    
                           </div>          

@@ -59,6 +59,7 @@ const routes: Routes = [
   ] },
   { path: 'submissions', component: CoursePlayerComponent,children:[
     { path: 'Do', component: DoQuizComponent},
+    { path: 'sub', component: SubmissionsComponent }
   ] },
   {path: 'chatbot', component: ChatbotComponent},
   { path: 'sign-up', component: SignUpComponent },

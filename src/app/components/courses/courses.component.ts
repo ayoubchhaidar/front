@@ -70,7 +70,7 @@
           console.error('Error fetching users:', error);
       }
   );     
-        this.auth.getTutors().subscribe(
+        this.auth.getAllUsers().subscribe(
             (data: any[]) => {
                 this.myData3$ = data;
                 console.log('users',this.myData3$)
@@ -238,9 +238,9 @@
       return null;
     }
 
-      getUsernameByid(id: number): String | null {
+      getUsernameByid(id: number): String | null{
         for (let user of this.myData3$) {
-          if (user.id === id) {
+          if (user.id == id) {
             return user.full_name;
           }
         }

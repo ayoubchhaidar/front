@@ -30,6 +30,7 @@ hoveredItemId: string | null = null;
 
 update: boolean = false;
 eval: boolean = false;
+eval_ex: boolean = false;
   selectedDocumentType: string | null = null;
   CourseId:any;
   material ={};
@@ -206,7 +207,7 @@ return "";
   }
   delete_quiz(id: number){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { message: 'Are you sure you want to delete this quiz?' }
+      data: { message: 'Êtes-vous sûr de vouloir supprimer ce quiz ?' }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -230,7 +231,7 @@ return "";
   }
   delete_assig(id: number){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { message: 'Are you sure you want to delete this assignment?' }
+      data: { message: 'Êtes-vous sûr de vouloir supprimer cet exercice ?' }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -244,7 +245,7 @@ return "";
   }
   delete_lesson(id: number){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { message: 'Are you sure you want to delete this lesson?' }
+      data: { message: 'Êtes-vous sûr de vouloir supprimer cette Leçon ?' }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -273,7 +274,7 @@ return "";
   
   delete_mat(id: number): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { message: 'Are you sure you want to delete this material?' }
+      data: { message: 'Êtes-vous sûr de vouloir supprimer ce support ?' }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -306,7 +307,7 @@ onFileSelected(event: any): void {
 
   if (!materialType) {
     // Set the error message
-    this.errorMessage = 'Invalid file type. Please choose a valid file.';
+    this.errorMessage = 'Type de document non valide. Veuillez choisir  un fichier valide.';
     // Log the error message to the console
     console.error(this.errorMessage);
     return;
@@ -319,7 +320,7 @@ onFileSelected(event: any): void {
   // Check if the determined material type matches the expected document type
   if (!this.validateDocumentType(materialType, expectedDocumentType)) {
     // Set the error message
-    this.errorMessage = `Invalid document type. Please choose a ${expectedDocumentType} file.`;
+    this.errorMessage = `Type de document non valide. Veuillez choisir un ${expectedDocumentType} fichier.`;
     // Log the error message to the console
     console.error(this.errorMessage);
     return;
@@ -556,7 +557,7 @@ addLesson(): void {
   }
   
   
-    openAssignmentModal(assId: any): void {
+    openAssignmentModal(assId: any,assignment:any): void {
       
       const modal = document.getElementById('assModal');
       if (modal) {
@@ -669,6 +670,7 @@ toggleMaterials(lesson: any): void {
 
 checkEval(id: string): void {
   this.eval=false;
+  this.eval_ex=false
   for ( let quiz of this.quizes) {
       if (quiz.lesson === id) {
           console.log(`Quiz found with lessonid ${id}`);
@@ -676,6 +678,13 @@ checkEval(id: string): void {
           
       }
   }
+  for ( let ass of this.assignments) {
+    if (ass.lesson === id) {
+        console.log(`Quiz found with lessonid ${id}`);
+        this.eval_ex=true;
+        
+    }
+}
   console.log("eval",this.eval);
 }
 

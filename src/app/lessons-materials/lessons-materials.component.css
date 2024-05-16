@@ -320,7 +320,9 @@ input:required {
     display: flex;
     flex-direction: column;
   }
-  
+  .error-message{
+    color: red;
+  }
   .button-container {
     display: flex;
     align-items: center;
