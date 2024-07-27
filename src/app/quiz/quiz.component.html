@@ -1,46 +1,54 @@
-
 <div class="container contact-form">
     <!-- Semi-circle container -->
     <div class="header-container">
-     
-        <button type="button" class=" button--close buton" (click)="backC()">
-      
-            <span class="fas fa-arrow-left"></span>
-          </button>
+      <button type="button" class="button--close buton" (click)="backC()">
+        <span class="fas fa-arrow-left"></span>
+      </button>
       <img src="assets/choice.png" class="modal__product" />
     </div>
   
-  
-    <div class="row justify-content-end" style="margin-top: 5%;margin-bottom: 5%;" > <!-- Align content to the right -->
-        <div class="col-md-6">
-            <form [formGroup]="myform1"  (ngSubmit)="addquiz()" >
-                <h1>Ajouter un Quiz</h1>
-                <div class="form-group">
-                    <label class="form-label" for="form3Example97">Titre</label>
-                    <input type="text" id="form3Example97" class="form-control form-control-lg" formControlName="title" />
-                </div>      
-                <div class="form-group">
-                  <label class="form-label" for="desc">Description</label>
-                  <textarea id="desc" class="form-control form-control-lg custom-width" formControlName="description" ></textarea>
-              </div>  
-              <div class="form-group">   
-                <label class="form-label" for="form3Example97">Type</label>
-                <select formControlName="category" class="form-control form-control-lg ">
-                    <option value="assignment">assignment</option>
-                    <option value="exam">exam</option>
-                    <option value="practice">practice</option>
-                </select>
-            </div> 
-                <div class="form-group">
-                    <label class="form-label" for="form3Example97">Moyenne</label>
-                    <input type="number" id="form3Example97" class="form-control form-control-lg " formControlName="pass_mark">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="button">Ajouter</button>
-                </div>
-            </form>
-        </div>
+    <div class="row justify-content-end" style="margin-top: 5%;margin-bottom: 5%;">
+      <div class="col-md-6">
+        <form [formGroup]="myform1" (ngSubmit)="addquiz()">
+          <h1>Ajouter un Quiz</h1>
+          <div class="form-group">
+            <label class="form-label" for="title">Titre</label>
+            <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
+            <div *ngIf="myform1.get('title')?.touched && myform1.get('title')?.invalid" class="text-danger">
+              <small *ngIf="myform1.get('title')?.errors">Le titre est requis.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="desc">Description</label>
+            <textarea id="desc" class="form-control form-control-lg custom-width" formControlName="description"></textarea>
+            <div *ngIf="myform1.get('description')?.touched && myform1.get('description')?.invalid" class="text-danger">
+              <small *ngIf="myform1.get('description')?.errors">La description est requise.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="category">Type</label>
+            <select id="category" formControlName="category" class="form-control form-control-lg">
+              <option value="assignment">assignment</option>
+              <option value="exam">exam</option>
+              <option value="practice">practice</option>
+            </select>
+            <div *ngIf="myform1.get('category')?.touched && myform1.get('category')?.invalid" class="text-danger">
+              <small *ngIf="myform1.get('category')?.errors">Le type est requis.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pass_mark">Moyenne</label>
+            <input type="number" id="pass_mark" class="form-control form-control-lg" formControlName="pass_mark">
+            <div *ngIf="myform1.get('pass_mark')?.touched && myform1.get('pass_mark')?.invalid" class="text-danger">
+              <small *ngIf="myform1.get('pass_mark')?.errors">La moyenne est requise.</small>
+            
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="button">Ajouter</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-  
   

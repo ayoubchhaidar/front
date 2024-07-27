@@ -36,7 +36,11 @@ button.ai-assistant::before {
 
 
 
-    
+.correct-answer {
+  border-color: green;
+  box-shadow: 0 0 5px green;
+}
+
 
     
     .lesson {

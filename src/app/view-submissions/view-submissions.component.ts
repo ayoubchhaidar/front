@@ -33,28 +33,16 @@ export class ViewSubmissionsComponent implements OnInit {
     this.signeduser = localStorage.getItem("currentUser");
     this.signeduser = JSON.parse(this.signeduser);
 
-    this.MydataService.getTutorAssignments(this.signeduser.user_id).subscribe( (data: any[]) => {
+    this.MydataService.get_tutor_assignment(this.signeduser.user_id).subscribe( (data: any[]) => {
       this.Assignment=data; 
-      console.log(this.Assignment);
+      console.log("ass",this.Assignment);
     },
     (error: any) => {
       console.error('Error fetching materials for lesson', ':', error);
     });
-    this.MydataService.gradeByAssig(7).subscribe( (data: any[]) => {
-      this.grades=data; 
-      console.log(this.grades);
-    },
-    (error: any) => {
-      console.error('Error fetching materials for lesson', ':', error);
-    });
+  
 
-    this.MydataService.SubmissionsByAssignment(7).subscribe( (data: any[]) => {
-      this.submissions=data; 
-      console.log(this.submissions);
-    },
-    (error: any) => {
-      console.error('Error fetching materials for lesson', ':', error);
-    });
+ 
    
     this.MydataService.getTutorCourses(this.signeduser.user_id).subscribe( (data: any[]) => {
       this.myData$ = data;
@@ -86,8 +74,21 @@ export class ViewSubmissionsComponent implements OnInit {
     }
 
 
+visible:boolean=false;
+    formVisibility = new Map<string, boolean>();
 
-
+    // Function to toggle the visibility of the input forms
+    toggleForm(studentId: string, assignmentId: string) {
+      const key = `${studentId}-${assignmentId}`;
+      this.formVisibility.set(key, !this.formVisibility.get(key));
+    
+    }
+  
+    // Function to check if the form is visible for a specific student and assignment
+    isFormVisible(studentId: string, assignmentId: string): boolean {
+      const key = `${studentId}-${assignmentId}`;
+      return this.formVisibility.get(key) || false;
+    }
 
 
     selectedmatId:any;
@@ -103,22 +104,58 @@ export class ViewSubmissionsComponent implements OnInit {
     
     }
 
+    openMaterialModal(id:number): void {
+      this.MydataService.gradeByAssig(id).subscribe( (data: any[]) => {
+        this.grades=data; 
+        console.log(this.grades);
+      },
+      (error: any) => {
+        console.error('Error fetching materials for lesson', ':', error);
+      });
 
+      this.MydataService.SubmissionsByAssignment(id).subscribe( (data: any[]) => {
+        this.submissions=data; 
+        console.log(this.submissions);
+      },
+      (error: any) => {
+        console.error('Error fetching materials for lesson', ':', error);
+      });
+
+
+      const modal = document.getElementById('materialModal');
+      if (modal) {
+        modal.style.display = 'block';
+      }
+      
+      
+     
+    
+    }
     closeMaterialModal(): void {
       const modal = document.getElementById('materialModalpreview');
-      const modal1 = document.getElementById('materialModalpreview');
+     
       this.content='';
 
       if (modal) {
         modal.style.display = 'none';
       }
-      if (modal1) {
-        modal1.style.display = 'none';
-      }
+   
     
      
     }
-    
+    closeMaterialModal1(): void {
+      const modal = document.getElementById('materialModal');;
+      if (modal) {
+        modal.style.display = 'none';
+      }
+
+    }
+    downloadDocument() {
+      const link = document.createElement('a');
+      link.href = 'https://drive.google.com/uc?export=download&id=1wfZ06NVWEPmRLDn3C4L0WZaWUqf2OYk2';
+      link.download = 'document'; // You can set a default filename here
+      link.click();
+    }
 submitgrade(studId:any,assId:any){
 
   const formData = new FormData();
@@ -129,10 +166,22 @@ submitgrade(studId:any,assId:any){
 
 
 
-this.MydataService.addGrade(formData).subscribe();
+this.MydataService.addGrade(formData).subscribe(response => {
+  this.toggleForm(studId, assId);
+this.getF(assId);
+this.getGradeBySt(assId);
+
+this.openMaterialModal(assId);
+this.myform.reset();
+},
+error => {
+  console.error('Error updating grade', error);
+}
+);
 
 
 }
+
 updateGrade(studId:any,assId:any){
 
   const formData = new FormData();
@@ -143,7 +192,18 @@ updateGrade(studId:any,assId:any){
 
 
 
-this.MydataService.updateGrade(formData).subscribe();
+this.MydataService.updateGrade(formData).subscribe(response => {
+  this.toggleForm(studId, assId);
+this.getF(assId);
+this.getGradeBySt(assId);
+
+this.openMaterialModal(assId);
+this.myform.reset();
+},
+error => {
+  console.error('Error updating grade', error);
+}
+);
 
 
 }

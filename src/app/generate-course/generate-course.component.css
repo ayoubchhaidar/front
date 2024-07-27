@@ -1,4 +1,12 @@
-/* Style for the links */
+/* Add this to your CSS file */
+
+.typewriter {
+  max-width: 1100px; /* Set maximum width */
+  word-wrap: break-word; /* For older browsers */
+  overflow-wrap: break-word; /* Modern browsers */
+  white-space: normal; /* Ensure that text wraps to the next line */
+}
+
 a {
     color: black;
     font-size: 1.3rem;
@@ -229,7 +237,7 @@ a {
     
     
     .lesson-content {
-      width: 70%;
+      width: 100%;
     }
     
     .lesson-header {
@@ -256,12 +264,7 @@ a {
       color: #4e73df;
       
     }
-    .lesson-dec {
-      font-size: 16px;
-      color: #0a0a0a;
-      
-     
-    }
+
     
     .button-link {
       background: none;
@@ -466,98 +469,80 @@ a {
       width: 50px; /* Adjust the width as needed */
       margin-right: 10px;
     }
-    .container{
-
-        display: flexbox;
-        flex-direction: column;
+   
+    #typewriterbox0 h6{
+      border-right: .15em solid white;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-left: 40px;
+      transform: translateY(-100%);
+      animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
+                 blinkTextCursor 500ms steps(28) infinite normal;
+      animation-delay: 2500ms;
     }
-
-
-
-
-
-      #typewriterbox0 h6{
-        
-        border-right: .15em solid white;
-        text-align: left;
-        white-space:nowrap;
-        overflow:hidden;
-        margin-left: 40px;
-        transform: translateY(-100%);
-        animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
-                   blinkTextCursor 500ms steps(28) infinite normal;
-        animation-delay: 2500ms;
-
-
+    
+    #typewriterbox1 h6{
+      margin-left: 40px;
+      border-right: .15em solid white;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      transform: translateY(-100%);
+      animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
+                 blinkTextCursor 500ms steps(28) infinite normal;
+      animation-delay: 7500ms;
+    }
+    
+    #typewriterbox2 h6{
+      margin-left: 40px;
+      border-right: .15em solid white;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      transform: translateY(-100%);
+      animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
+                 blinkTextCursor 500ms steps(28) infinite normal;
+      animation-delay: 12500ms;
+    }
+    
+    #typewriterbox3 h6{
+      margin-left: 40px;
+      border-right: .15em solid white;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      transform: translateY(-100%);
+      animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
+                 blinkTextCursor 500ms steps(28) infinite normal;
+      animation-delay: 17500ms;
+    }
+    
+    #typewriterbox4 h6{
+      margin-left: 40px;
+      border-right: .15em solid white;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      transform: translateY(-100%);
+      animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
+                 blinkTextCursor 500ms steps(28) infinite normal;
+      animation-delay: 22500ms;
+      width: max-content;
+    }
+    
+    @media (min-width: 800px) {
+      #typewriterbox0 h6,
+      #typewriterbox1 h6,
+      #typewriterbox2 h6,
+      #typewriterbox3 h6,
+      #typewriterbox4 h6 {
+        display: block;
+        margin-left: 0;
+        width: 100%;
       }
-      
-      #typewriterbox1 h6{
-        margin-left: 40px;
-
-        border-right: .15em solid white;
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        transform: translateY(-100%);
-        animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
-                   blinkTextCursor 500ms steps(28) infinite normal;
-        animation-delay: 7500ms;
-
-
-      }
-
-
-
-
-
-
-
-
-      #typewriterbox2 h6{
-        margin-left: 40px;
-
-        border-right: .15em solid white;
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        transform: translateY(-100%);
-        animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
-                   blinkTextCursor 500ms steps(28) infinite normal;
-        animation-delay: 12500ms;
-
-
-
-      }
-
-
-      #typewriterbox3 h6{
-        margin-left: 40px;
-
-        border-right: .15em solid white;
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        transform: translateY(-100%);
-        animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
-                   blinkTextCursor 500ms steps(28) infinite normal;
-        animation-delay: 17500ms;
-
-
-      }  #typewriterbox4 h6{
-        margin-left: 40px;
-
-        border-right: .15em solid white;
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        transform: translateY(-100%);
-        animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
-                   blinkTextCursor 500ms steps(28) infinite normal;
-        animation-delay: 22500ms;
-        width: max-content;
-
-
-      }
+    }
+    
 
 
 
@@ -581,7 +566,8 @@ a {
         animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
                    blinkTextCursor 500ms steps(28) infinite normal;
         animation-delay: 0ms;
-
+        word-wrap: break-word; /* For older browsers */
+        overflow-wrap: break-word; /* Modern browsers */
 
       }#typewriterbox1 h2{
         border-right: .15em solid white;
@@ -592,7 +578,8 @@ a {
         animation: typewriter 2.5s steps(28) 2.5s 1 normal both,
                    blinkTextCursor 500ms steps(28) infinite normal;
         animation-delay: 5000ms;
-
+        word-wrap: break-word; /* For older browsers */
+        overflow-wrap: break-word; /* Modern browsers */
 
       }
 
@@ -612,7 +599,8 @@ a {
                    blinkTextCursor 500ms steps(28) infinite normal;
         animation-delay: 10000ms;
 
-
+        word-wrap: break-word; /* For older browsers */
+        overflow-wrap: break-word; /* Modern browsers */
 
       }
 
@@ -627,7 +615,8 @@ a {
                    blinkTextCursor 500ms steps(28) infinite normal;
         animation-delay: 15000ms;
 
-
+        word-wrap: break-word; /* For older browsers */
+        overflow-wrap: break-word; /* Modern browsers */
       }  #typewriterbox4 h2{
         border-right: .15em solid white;
         text-align: center;
@@ -638,7 +627,8 @@ a {
                    blinkTextCursor 500ms steps(28) infinite normal;
         animation-delay: 20000ms;
 
-
+        word-wrap: break-word; /* For older browsers */
+        overflow-wrap: break-word; /* Modern browsers */
       }
 
       

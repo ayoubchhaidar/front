@@ -22,6 +22,8 @@ export class SubmissionsComponent implements OnInit{
   myform1: FormGroup;
   uploadedFileName: string = ''; 
   file!: File;
+  assign: any[]=[];
+  courseId: any;
   onFileSelected(event: any) {
     this.file = event.target.files[0]; 
     this.uploadedFileName = this.file.name; 
@@ -70,9 +72,17 @@ export class SubmissionsComponent implements OnInit{
 
     this.route.queryParams.subscribe(params => {
       this.idassignment = params['assignmentid'];
+      this.courseId = params['CourseId'];
       });
 
     this.myData$ = this.MydataService.getSubmissionAssignmentsByStudents(this.idassignment);
+    this.MydataService.AssignmentsbyCourse(this.courseId).subscribe((data: any[]) => {
+      this.assign = data;
+      console.log("asss",this.assign,this.idassignment)
+    },
+    (error: any) => {
+      console.error('Error fetching quiz:', error);
+    });
   }
 
   opendialog(studentid:number,assignmentid:number){

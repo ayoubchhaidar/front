@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
-
+import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
 
 interface UploadResponse {
   public_link: string;
@@ -54,10 +54,12 @@ myData$: any=[];
 user!: any;
 quizes: any[] =[];
   assignments: any[]=[];
-
+  gencclicked: boolean=false;
+  documentToShow: string="";
+  mattype:string ="";
   
 
-  constructor(private MydataService:MydataService,private route: ActivatedRoute,private dialog: MatDialog) {
+  constructor(private MydataService:MydataService,private route: ActivatedRoute,private dialog: MatDialog,private sanitizer: DomSanitizer) {
    
   }
   ngOnInit(): void {
@@ -555,7 +557,29 @@ addLesson(): void {
   
    
   }
-  
+  extractYoutubeId(link: string): string | null {
+    const match = link.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  }
+  getSafeUrl(): SafeResourceUrl | null {
+    if (this.mattype === 'video') {
+   
+        const videoId = this.extractDriveId(this.documentToShow);
+        const url = `https://drive.google.com/file/d/${videoId}/preview`;
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      } else if (this.mattype==='youtube') {
+        const videoId = this.extractYoutubeId(this.documentToShow);
+        const url = `https://www.youtube.com/embed/${videoId}`;
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      }
+    
+    return null;
+  }
+
+  extractDriveId(link: string): string | null {
+    const match = link.match(/(?:https?:\/\/)?drive.google.com\/(?:file\/d\/|open\?id=)([\w-]+)/);
+    return match ? match[1] : null;
+  }
   
     openAssignmentModal(assId: any,assignment:any): void {
       
@@ -596,6 +620,8 @@ openMaterialModallesson(): void {
 }
 openMaterialModalpreview( material: any): void {
   this.selectedmatId=material.id
+  this.mattype=material.document_type;
+  this.documentToShow=material.content;
   const modal = document.getElementById('materialModalpreview');
   if (modal) {
     modal.style.display = 'block';
@@ -648,7 +674,7 @@ AddMaterial(lessonId: string): void {
       this.getCourselessons(this.CourseId);
       this.closeMaterialModal();
 
-      // Update the materials for the corresponding lesson
+      
       const lessonIndex = this.lessons.findIndex(lesson => lesson.id === lessonId);
       if (lessonIndex !== -1) {
         this.lessons[lessonIndex].materials.push(response);
@@ -687,6 +713,9 @@ checkEval(id: string): void {
 }
   console.log("eval",this.eval);
 }
+openGenModallesson() {
+  this.gencclicked=true;
+  }
 
 }
 

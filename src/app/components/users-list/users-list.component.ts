@@ -77,13 +77,13 @@ getAllUsers(){
       console.log(this.speceficUsers);}
       else if(this.listeDe=='Formateurs'){
         this.speceficUsers=this.users.filter(user => (user.is_staff==true  && user.is_active==true) &&!user.is_superuser);
-        console.log(this.speceficUsers);}
+        console.log(this.speceficUsers,"fo");}
       else if(this.listeDe=='Administraeurs'){
           this.speceficUsers=this.users.filter(user => user.is_superuser==true);
           console.log(this.speceficUsers);}
       else if(this.listeDe=='notVerified'){
         this.speceficUsers=this.users.filter(user => user.is_active==false);
-        console.log(this.speceficUsers);}
+        console.log(this.speceficUsers,"v");}
 
     },
     (error: any) => {
@@ -115,8 +115,8 @@ addToTable(userId: string, isChecked: boolean) {
 }
 verify(userId: number) {
 
-  this.AuthService.verifyUser(userId).subscribe();
- this.ngOnInit()
+  this.AuthService.verifyUser(userId).subscribe(() => { this.ngOnInit()});
+
 
 }
 filterData(query: string) {
@@ -131,11 +131,11 @@ filterData(query: string) {
     this.filteredUsers = this.speceficUsers.filter((user) => {
       // Customize this logic based on your requirements
       const usernameMatch = user.username?.toLowerCase().includes(query.toLowerCase()) || false;
-      const firstNameMatch = user.first_name?.toLowerCase().includes(query.toLowerCase()) || false;
-      const lastNameMatch = user.last_name?.toLowerCase().includes(query.toLowerCase()) || false;
+ 
+      const fullNameMatch = user.full_name?.toLowerCase().includes(query.toLowerCase()) || false;
       const idMatch = user.id?.toString().includes(query) || false;
       const emailMatch= user.email?.toLowerCase().includes(query.toLowerCase()) || false;
-      return usernameMatch || firstNameMatch || lastNameMatch || idMatch || emailMatch;
+      return usernameMatch || fullNameMatch || idMatch || emailMatch;
     });
   }
 

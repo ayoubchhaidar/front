@@ -16,21 +16,7 @@
        
 
         <main>
-            <div class="header">
-                <div class="left">
-                    <h1>Dashboard</h1>
-                    <ul >
-                        <li><a href="#">
-                                Analytics
-                            </a></li>
-                       
-                    </ul>
-                </div>
-                <a href="#" class="report">
-                    <i class='bx bx-cloud-download'></i>
-                    <span>Download CSV</span>
-                </a>
-            </div>
+         
 
             <!-- Insights -->
             <ul class="insights">
@@ -48,7 +34,7 @@
                         <h3>
                             {{stats.total_enrollements}}
                         </h3>
-                        <p>Enrollements</p>
+                        <p>Inscriptions</p>
                     </span>
                 </li>
                 <li>
@@ -59,7 +45,7 @@
                         <h3>
                             {{stats.enattends}}
                         </h3>
-                        <p>Cours En Attend </p>
+                        <p>Cours en attente</p>
                     </span>
                 </li>
                 <li><i class='bx bxs-bell bx-tada'></i>
@@ -77,17 +63,16 @@
                 <div class="orders">
                     <div class="header">
                         <i class='bx bx-receipt'></i>
-                        <h3>Demandes RÃ©centes</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-search'></i>
+                        <h3> Demandes récentes</h3>
+                       
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>course</th>
-                                <th>Enrolement Date</th>
-                                <th>Status</th>
+                                <th>Utilisateur</th>
+                                <th>cour</th>
+                                <th>Date d'inscription</th>
+                                <th>État</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,7 +84,7 @@
                                 </td>
                                 <td>{{req.course}}</td>
                                 <td>{{req.enrollment_date}}</td>
-                                <td><span class="status pending">Pending</span></td>
+                                <td><span class="status pending">En attente</span></td>
                             </tr>
                             
                         </tbody>
@@ -112,17 +97,17 @@
                 <div class="reminders">
                     <div class="header">
                         <i class='bx bx-note'></i>
-                        <h3>Remiders</h3>
-                        <i class='bx bx-filter'></i>
+                        <h3>Rappels</h3>
+                       
                         <i (click)="openDialog3()" class='bx bx-plus'></i>
                     </div>
                     <ul class="task-list">
                         <li class="completedd">
                             <div class="task-title">
                                 <i  (click)="openDialog3()" class='bx bx-plus-circle'></i>
-                                <p>Ajouter reminder</p>
+                                <p>Ajouter un rappel</p>
                             </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
+                           
                         </li>
                         <div   *ngFor="let reminder of reminders">
                         <li class="completed">

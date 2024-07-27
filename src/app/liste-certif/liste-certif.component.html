@@ -1,0 +1,19 @@
+<!-- certification-display.component.html -->
+<!-- <div class="certification-container" *ngFor="let certif of myData">
+    <iframe 
+      [src]="sanitizer.bypassSecurityTrustResourceUrl(certif.content)" 
+      width="600" 
+      height="400" 
+      frameborder="0" 
+      allowfullscreen>
+    </iframe>
+    <div>
+      <button (click)="downloadCertification()">Download Certification</button>
+    </div>
+  </div> -->
+  <div class="certifications-wrapper">
+    <div class="certification-container" *ngFor="let certif of myData">
+      <ngx-doc-viewer [url]="certif.content" viewer="url" class="doc-viewer"></ngx-doc-viewer>
+      <button (click)="downloadDocument(certif.content)" class="download-button">Télécharger</button>
+    </div>
+  </div>

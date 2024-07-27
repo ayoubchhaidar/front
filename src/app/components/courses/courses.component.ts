@@ -7,6 +7,7 @@
     import { MatDialog } from '@angular/material/dialog';
     import { AuthService } from 'src/app/services/auth.service';
     import { SearchService } from 'src/app/search.service';
+import { CertificationComponent } from 'src/app/certification/certification.component';
     @Component({
       selector: 'app-courses',
       templateUrl: './courses.component.html',
@@ -285,17 +286,18 @@
         });
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
-        this.MydataService.verifyCourse(id).subscribe();
+        this.MydataService.verifyCourse(id).subscribe(() => {
         const formData = new FormData();
         
         formData.append('sender_id', this.user.user_id,);
-        formData.append('message', "Ce cour: '"+title+"' est vérifié par l'administrateur.");
+        formData.append('message', "Ce cours : '"+title+"' est vérifié par l'administrateur.");
         
         formData.append('type','success');
         formData.append('targeted_users', tutor.toString());
         
         this.MydataService.sendNoti(formData).subscribe();
         this.ngOnInit() ;
+      });
       }
     });
   
@@ -330,7 +332,7 @@
             const formData = new FormData();
         
             formData.append('sender_id', this.user.user_id,);
-            formData.append('message', "Ce cour :211'"+title+"' a été supprimer par l'administrateur");
+            formData.append('message', "Ce cours : '"+title+"' a été supprimer par l'administrateur");
             
             formData.append('type','danger');
             formData.append('targeted_users', tutor.toString());
@@ -442,38 +444,45 @@
 
       const formData = new FormData();
       formData.append('sender_id', this.user.user_id,);
-      formData.append('message', "User '"+this.user.username+"' would like to join course '"+title+"'");
+      formData.append('message', "L’utilisateur : '"+this.user.username+"'  souhaite rejoindre le cours : '"+title+"'");
       formData.append('type','information');
       formData.append('targeted_users', tutorId.toString());
       this.MydataService.sendNoti(formData).subscribe();
     this.ngOnInit();
     }
 
-    verifEnrollment(id:number,accepted :boolean,enrolStudent:string){
+    verifEnrollment(id:number,accepted :boolean,enrolStudent:string,titre:any){
 
 
-      this.MydataService.verifyEnrollment({'accepted':accepted},id).subscribe();
-    if(accepted==true){
+      this.MydataService.verifyEnrollment({'accepted':accepted},id).subscribe(() => {
+        this.ngOnInit();
+        this.filterenrollment(this.user.user_id);
+        if(accepted==true){
 
-      const formData = new FormData();
-      formData.append('sender_id', this.user.user_id,);
-      formData.append('message', "Request to join course has been accepted .");
-      formData.append('type','information');
-      formData.append('targeted_users', enrolStudent);
-      this.MydataService.sendNoti(formData).subscribe();
-    }
-    else {  
+          const formData = new FormData();
+          formData.append('sender_id', this.user.user_id,);
+          formData.append('message', "La demande d’inscription au cours : '"+this.getcoursetitleByid(titre)+"' a été acceptée.");
+          formData.append('type','information');
+          formData.append('targeted_users', enrolStudent);
+          this.MydataService.sendNoti(formData).subscribe();
+        }
+        else {  
+    
+          const formData = new FormData();
+          formData.append('sender_id', this.user.user_id,);
+          formData.append('message', "Demande d’inscription au cours : '"+this.getcoursetitleByid(titre)+"' a été refusée");
+          formData.append('type','warning');
+          formData.append('targeted_users', enrolStudent);
+          this.MydataService.sendNoti(formData).subscribe();
+    
+        }
+      });
 
-      const formData = new FormData();
-      formData.append('sender_id', this.user.user_id,);
-      formData.append('message', "Request to join course "+ +"has been deneid");
-      formData.append('type','warning');
-      formData.append('targeted_users', enrolStudent);
-      this.MydataService.sendNoti(formData).subscribe();
+   
 
-    }
-
+    this.ngOnInit();
     this.filterenrollment(this.user.user_id);
+ 
     }
 
     onFileChange(event: any) {
@@ -491,7 +500,7 @@
         this.myform.value['title'] = course.title;
         this.myform.value['description'] = course.description;
         this.myform.value['enrollment_capacity'] = course.enrollment_capacity;
-        this.myform.value['image'] = course.content;
+       
      
       }
     closeMaterialModalupdate(): void {
@@ -509,8 +518,54 @@
       if( this.myform.value['enrollment_capacity'] !=''){ formData.append('enrollment_capacity', this.myform.value['enrollment_capacity']);}
       if( this.noFileSelected===false){     formData.append('image', this.selectedFile); }
       this.MydataService.update_Course(id,formData).subscribe(() => {
-        
+        this.ngOnInit();
+        this.closeassModal();
       });
     }
-
+    closeassModal(): void {
+ 
+      const modal = document.getElementById('materialModallesson');
+     
+      
+      if (modal) {
+        modal.style.display = 'none';
+      }
+     
+    
+     
+    }
+   
+    certif(id: any) {
+     
+      const username = this.getUserInfoById(this.user.user_id)?.username as string;
+      const course = this.getcoursetitleByid(id) as string;
+  
+      const certificationComponent = new CertificationComponent(this.MydataService);
+  
+      certificationComponent.generateAndUploadCertificate(course, username).subscribe(
+        (uploadedLink: string) => {
+          console.log('Uploaded Link:', uploadedLink);
+         const link = uploadedLink; // Save the uploaded link
+          this.submitCertificateData(id, uploadedLink);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+    }
+    submitCertificateData(courseId: any, uploadedLink: string) {
+      const formData = new FormData();
+      formData.append('content', uploadedLink);
+      formData.append('user', this.user.user_id);
+      formData.append('course', courseId);
+  
+      this.MydataService.certif(courseId, this.user.user_id, formData).subscribe(
+        (response) => {
+          console.log('Certificate data submitted successfully', response);
+        },
+        (error) => {
+          console.error('Error submitting certificate data', error);
+        }
+      );
+    }
   }

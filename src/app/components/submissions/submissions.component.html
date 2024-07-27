@@ -4,26 +4,21 @@
 
 
 <div class="modal1">
-  <div class="modal-header">
-      <div class="modal-logo">
-          <span class="logo-circle">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="419.116" viewBox="0 0 512 419.116">
-                  <defs>
-                      <clipPath id="clip-folder-new">
-                          <rect width="512" height="419.116" />
-                      </clipPath>
-                  </defs>
-                  <g id="folder-new" clip-path="url(#clip-folder-new)">
-                      <path id="Union_1" data-name="Union 1" d="M16.991,419.116A16.989,16.989,0,0,1,0,402.125V16.991A16.989,16.989,0,0,1,16.991,0H146.124a17,17,0,0,1,10.342,3.513L227.217,57.77H437.805A16.989,16.989,0,0,1,454.8,74.761v53.244h40.213A16.992,16.992,0,0,1,511.6,148.657L454.966,405.222a17,17,0,0,1-16.6,13.332H410.053v.562ZM63.06,384.573H424.722L473.86,161.988H112.2Z" fill="#2e44ff" stroke="" stroke-width="1" />
-                  </g>
-              </svg>
-          </span>
-      </div>
-  </div>
-  <div class="modal-body">
+<div class="modal-header">
+<div class="modal-logo">       
+<div *ngFor="let ass of assign">
+<div *ngIf="ass.id==idassignment">
+<h2 class="modal-title">Exercice : {{ass.title}}</h2>
+<div class="description"><strong>Travail A Faire :</strong> {{ass.description}}</div>
+<div class="due-date"><strong>Date de Soumission : </strong> {{ass.due_date}}</div>
+</div>
+</div>    
+</div>
+</div>
+<div class="modal-body">
   
       <h2 class="modal-title">Télécharger un fichier</h2>
-      <p class="modal-description">Joignez le fichier ci-dessous</p>
+      <p class="modal-description">Joignez votre travail dans un fichier ci-dessous</p>
       <button class="upload-area" id="uploadArea">
           <span class="upload-area-icon">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="340.531" height="419.116" viewBox="0 0 340.531 419.116">

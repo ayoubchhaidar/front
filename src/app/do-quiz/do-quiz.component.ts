@@ -9,7 +9,7 @@ import { MydataService } from 'src/app/services/mydata.service';
   styleUrls: ['./do-quiz.component.css']
 })
 export class DoQuizComponent implements OnInit {
-
+msg="Calcul du score";
   quizData: any;
   userChoices: any[] = [];
   loading = false;
@@ -159,4 +159,20 @@ export class DoQuizComponent implements OnInit {
     const target = event.target as HTMLElement;
     target.classList.toggle('active');
   }
+  openMaterialModallesson(): void {
+    const modal = document.getElementById('materialModallesson');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+  closeMaterialModal(): void {
+ 
+    const modal = document.getElementById('materialModallesson');
+    
+    
+    if (modal) {
+      modal.style.display = 'none';
+    }
+    
+}
 }

@@ -3,11 +3,7 @@ body{
 }
 .contact-form{
     background-color: #fff;
-    margin-top: 50px;
-    margin-bottom: 5%;
-    width: 70%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    
     
    
 }
@@ -80,7 +76,7 @@ body{
   
   .close {
     color: #aaa;
-    float: right;
+    float: left;
     font-size: 28px;
     font-weight: bold;
   }

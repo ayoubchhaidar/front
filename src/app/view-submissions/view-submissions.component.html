@@ -1,49 +1,93 @@
-<div *ngFor="let sub of submissions" class="material-item">
-              
-   
-  
-  <span class="material-title">{{ sub.studentname }}</span>
-  <span class="material-title">{{getGradeBySt(sub.student)  }}</span>
-  <span class="material-title">{{  getF(sub.student)}}</span>
-  
-    <button (click)="openMaterialModalpreview(sub.submission_content)" class="material-action">
-      <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
-    </button>
 
 
-   
-    
-    <form *ngIf="getGradeBySt(sub.student)===''" [formGroup]="myform" (ngSubmit)="submitgrade(sub.student,sub.assignment)">
-
-  
-      
-
-          <input type="number"   formControlName="note" >
-          <input type="text" formControlName="remarque" > 
-    
-
+<div class="container-wrapper" >
+  <div *ngFor="let course of myData$">
+    <div class="wrapper"   *ngIf="course.verified===true">
+      <header  >{{course.title}} </header>
+     
+      <ul class="todoList" *ngFor="let ass of Assignment">
+        <li *ngIf="ass.course === course.id" >
+          <span   style="cursor:pointer; font-size: 20px;" (click)="openMaterialModal(ass.id)">
+            {{ass.title}}
+          </span>
+        </li>
+      </ul>
+     
  
+  <!-- <div class="container contact-form" *ngFor="let course of myData$">
+    <h1 style="color:#4e73df;">{{course.title}}</h1>
+    <ol class="gradient-list">
+      <li *ngFor="let ass of Assignment">
+        <span  *ngIf="ass.course === course.id" style="cursor:pointer; font-size: 20px;" (click)="openMaterialModal(ass.id)">
+          {{ass.title}}
+        </span>
+      </li>
+    </ol>
+    
+  </div> -->
+</div>
+</div>
+</div>
 
-
-  <button  type="submit">Attribuer note</button>
-</form>
-
-<form *ngIf="getGradeBySt(sub.student)!==''" [formGroup]="myform" (ngSubmit)="updateGrade(sub.student,sub.assignment)">
-
-  
-      
-
-  <input type="number"   formControlName="note" >
-  <input type="text" formControlName="remarque" > 
-
-
-
-
-
-<button  type="submit">Update</button>
-</form>
- 
+<div id="materialModal" class="modal" >
+  <div class="modal-content">
+    <span class="close" (click)="closeMaterialModal1()">&times;</span>
+    <h4 style="text-align: center; margin-bottom: 5%; color: #4e73df;;">Liste des Soumissions et notes</h4>
+    <div *ngFor="let sub of submissions" class="material-item">
+  <div class="material-details">
+    <span ><strong>Nom :</strong> {{ sub.studentname }}</span>
+    <span class="material-grade">Note : {{ getGradeBySt(sub.student) }}</span>
+    <span class="material-feedback">Remarque : {{ getF(sub.student) }}</span>
   </div>
+  
+  <button (click)="openMaterialModalpreview(sub.submission_content)" class="material-action">
+    <i class="fas fa-eye"></i> <!-- Font Awesome eye icon -->
+  </button>
+  
+  <button *ngIf="visible===false" (click)="toggleForm(sub.student, sub.assignment)" class="material-action">
+    <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
+  </button>
+  
+  <div *ngIf="isFormVisible(sub.student, sub.assignment)" class="grade-form">
+    
+  <form *ngIf="getGradeBySt(sub.student)===''" [formGroup]="myform" (ngSubmit)="submitgrade(sub.student,sub.assignment)">
+  
+    
+        
+  
+    <input type="number" formControlName="note" placeholder="Note">
+    <input type="text" formControlName="remarque" placeholder="Remarque">
+  
+  
+  
+  
+  
+  <button  type="submit">Attribuer note</button>
+  </form>
+  
+  <form *ngIf="getGradeBySt(sub.student)!==''" [formGroup]="myform" (ngSubmit)="updateGrade(sub.student,sub.assignment)">
+  
+  
+  
+    <input type="number" formControlName="note" placeholder="Note">
+    <input type="text" formControlName="remarque" placeholder="Remarque">
+  
+  
+  
+  
+  
+  <button  type="submit">Mettre a jour</button>
+ <!-- <span style="color: #4e73df;font-size: 40px;margin-left: 20px" (click)="toggleForm(sub.student,sub.assignment)" visible="false">&times;</span> -->
+  </form>
+  </div>
+  </div> 
+
+
+
+
+
+
+
   <div id="materialModalpreview" class="modal"  >
     <div class="modal-content">
       <span class="close" (click)="closeMaterialModal()">&times;</span>
@@ -68,12 +112,6 @@
       
     </div>
   </div>
+  
 
-<div class="container-wrapper">
-  <div class="container contact-form" *ngFor="let course of myData$" >
-    <h1>{{course.title}}</h1>
-    <ol >
-      <li></li>
-    </ol>
-  </div>
-</div>
+  

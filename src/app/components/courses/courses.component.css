@@ -259,21 +259,34 @@
 
 
 
+.button{
+  cursor: pointer;
+  border: 1px solid  #4e73df;
+  padding: 14px 30px;
+  border-radius: 200px;
+  color: #fff;
+  background:  #4e73df;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  transition: 200ms;
+
+
+ 
+}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+.modal-content h1 {
+  margin-bottom: 30px;
+    text-align: center;
+    color: #4e73df;
+}
+.button:hover{
+  background: #fff;
+  color:  #4e73df;
+}
 
 
 

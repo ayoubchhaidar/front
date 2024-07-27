@@ -23,13 +23,22 @@ openDialog3() {
   });
 }
   constructor(private MydataService:MydataService,public dialog: MatDialog){ }
+  
+
+today: Date = new Date();
+  formattedDate: string = this.today.toISOString().split('T')[0];
+  dateInput: HTMLInputElement | null = document.getElementById('dateInput') as HTMLInputElement;
+      if (dateInput: { value: string; }) {
+          dateInput.value = this.formattedDate;
+      }
+
+
   signeduser!:any;
   courses :any []=[]
   four : any[]=[]
   reminders: any[]=[]
   pq :any;
   ngOnInit(): void {
-
 
     this.signeduser = localStorage.getItem("currentUser");
     this.signeduser = JSON.parse(this.signeduser);
@@ -95,6 +104,14 @@ CoursesInProgress():number{
   
   }
 
+  deleteReminder(id:any){
+    this.MydataService.deleteremind(id).subscribe();
+    const index = this.reminders.findIndex((reminder: { id: any; }) => reminder.id === id);
+    this.reminders.splice(index, 1);
+    
+    
+    
+    }
 
 
 }

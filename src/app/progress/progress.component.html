@@ -19,10 +19,10 @@
                 color="primary"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
               </mat-progress-spinner>
-              <div class="progress-value">{{ user.pourcentage }} % Completed</div>
+              <div class="progress-value">{{ user.pourcentage }} % Terminé</div>
             </div>
-            <p class="text-secondary mb-1">{{ user.passedQuizzes }} Quiz passed</p>
-            <p class="text-muted font-size-sm">{{ user.submissions }} Submissions</p>
+            <p class="text-secondary mb-1">{{ user.passedQuizzes }} Quiz réussi</p>
+            <p class="text-muted font-size-sm">{{ user.submissions }} Soumissions</p>
           </div>
           <div class="card-footer d-flex justify-content-between">
             <button class="btn btn-light btn-sm bg-white has-icon" type="button"  [routerLink]="['/dashboard/comms']" [queryParams]="{ userId : user.username }">Contact</button>

@@ -24,7 +24,7 @@ export class StatisticsComponent  implements OnInit {
   new_courses:any=[];
   new_users:any=[];
   reminders:any=[];
-
+  signeduser!:any;
 
   courseTitles: string[] =[];
 enrollmentCounts: number[] =[];
@@ -43,9 +43,11 @@ enrollmentCounts: number[] =[];
 
   
   ngOnInit(): void {
+    this.signeduser = localStorage.getItem("currentUser");
+    this.signeduser = JSON.parse(this.signeduser);
     this.fetchUserCounts();
     this.topCourses();
-   
+   this.reminderss();
 
   }
   openDialog(): void {
@@ -102,21 +104,21 @@ this.reminders.splice(index, 1);
   }
 
 
-//   reminderss(){
+  reminderss(){
 
-// this.MydataService.reminders().subscribe(
-//   (data) => {
-//   this.reminders=data;
+this.MydataService.reminders(this.signeduser.user_id).subscribe(
+  (data) => {
+  this.reminders=data;
   
-//   },
-//   (error) => {
-//     console.error('Error remind:', error);
-//   }
+  },
+  (error) => {
+    console.error('Error remind:', error);
+  }
 
 
-// );
+);
 
-//   }
+  }
   topCourses(): void {
 
     this.http.get<any>('http://127.0.0.1:8000/palteforme/top_courses/').subscribe(

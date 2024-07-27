@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SearchService } from '../search.service';
 import { MydataService } from '../services/mydata.service';
 import Pusher from 'pusher-js'
+import { HttpClient } from '@angular/common/http';
 
 declare var $: any;
 @Component({
@@ -35,7 +36,7 @@ export class DashboardComponent {
   myData$: any[]=[];
   verifiedCourses: any[] = [];
   
-  constructor(private AuthService: AuthService,private router: Router,private searchService: SearchService,private MydataService:MydataService) {}
+  constructor(private AuthService: AuthService,private router: Router,private searchService: SearchService,private MydataService:MydataService,private http: HttpClient) {}
   ngOnInit(): void {
     this.initializeScript();
     this.signeduser = localStorage.getItem("currentUser");
@@ -69,6 +70,14 @@ export class DashboardComponent {
        return this.realtimenoti.push(data);
       }
        else return 0;});  
+  }
+  logout(){
+ 
+    this.http.post('http://localhost:8000/accounts/logout', {}, {withCredentials: true})
+    .subscribe();
+
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['']);
   }
   updateSearch() {
     console.log('Search query:', this.searchQuery);
@@ -168,12 +177,7 @@ console.log("f",this.verifiedCourses);
       this.router.navigate(['/dashboard','users', 'notVerified']);
     });
   }
-  logout(){
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("currentCart");
-   
-    this.router.navigate(['']);
-  }
+
   seen() {
 
     this.nb=0;
@@ -239,7 +243,7 @@ console.log("f",this.verifiedCourses);
             <span class="sr-only">Close</span>
         </button>
         <i class="start-icon ${this.getIconClass(type)}"></i>
-        <strong class="font__weight-semibold">${this.getTitle(type)}</strong> ${message}
+         ${message}
     `;
 
     notificationContainer.appendChild(notification);

@@ -1,0 +1,68 @@
+<table class="table table-bordered table-striped" id="gradeTable">
+    <thead style="background-color:#4e73df;color: white;">
+      <tr>
+        <th scope="col" class="checkbox-col">Leçon <span class="sort-arrow"></span></th>
+        <th scope="col" class="name-col sortable" data-field="name">Exercices <span class="sort-arrow"></span></th>
+        <th scope="col" class="grade-col sortable" data-field="grade">Note <span class="sort-arrow"></span></th>
+        <th scope="col" class="options-col">Remarque</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        <tr *ngFor="let grade of userGrades.grades">
+            <td class="checkbox-col">{{grade.lesson}}</td>
+            <td class="name-col"><span class="editable" data-field="name">{{grade.title}}</span></td>
+            <td class="grade-col ${gradeClass}"><span class="editable" data-field="grade">{{grade.grade}}</span></td>
+            <td class="options-col">{{grade.feedback}}</td>
+          </tr>
+
+
+
+    </tbody>
+    <tfoot>
+      <tr>
+        
+      </tr>
+    </tfoot>
+  </table>
+  <form id="studentForm"></form>
+
+
+
+
+
+
+
+
+
+  <table class="table table-bordered table-striped" id="gradeTable">
+    <thead style="background-color:#4e73df;color: white;" >
+      <tr>
+        <th scope="col"   class="checkbox-col">Leçon <span class="sort-arrow"></span></th>
+        <th scope="col" class="name-col sortable" data-field="name">Quiz <span class="sort-arrow"></span></th>
+        <th scope="col" class="grade-col sortable" data-field="grade">Note <span class="sort-arrow"></span></th>
+        <th scope="col" class="options-col">Passé</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        <tr *ngFor="let grade of quizgrades.quizgrades">
+            <td class="checkbox-col">{{grade.lesson}}</td>
+            <td class="name-col"><span class="editable" data-field="name">{{grade.title}}</span></td>
+            <td *ngIf="grade.grade>=grade.pass_mark"  class="grade-col  grade-pass"><span class="editable" data-field="grade">{{grade.grade}}</span></td>
+
+            <td *ngIf="grade.grade<grade.pass_mark"  class="grade-col    grade-fail"><span class="editable" data-field="grade">{{grade.grade}}</span></td>
+
+         
+            <td *ngIf="grade.grade<grade.pass_mark"   class="options-col"><i style="color: #d70921;" class="fas fa-times-circle"></i>
+            </td>
+            <td  *ngIf="grade.grade>=grade.pass_mark" class="options-col"><i style="color: green;" class="fas fa-check-circle"></i></td>   
+          </tr>
+
+
+
+    </tbody>
+    <tfoot>
+   
+    </tfoot>
+  </table>

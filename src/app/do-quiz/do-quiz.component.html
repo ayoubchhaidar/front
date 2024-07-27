@@ -58,16 +58,21 @@
         <p> <i class="fas fa-check-circle"></i> Vous avez réussi ce quiz </p>
         <p><strong>Congratulations</strong></p>
         <p> Il est possible de passer à une autre section, bonne chance ♥</p>
+        <p style="cursor: pointer;text-align: end;" (click)="openMaterialModallesson()">Voir resultat</p>
     </div>
-    
+  
     </div>
     <ng-container *ngIf="loading == true">
-      <app-loading-spinner></app-loading-spinner>
+      <app-loading-spinner [title]="msg" ></app-loading-spinner>
     </ng-container>
-    <ng-container *ngIf="quizFinished">
+           
+<div id="materialModallesson" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeMaterialModal()">&times;</span>
+    <h4  style="text-align: center; color: #4e73df;">Resultat</h4>
       <div *ngFor="let question of quizData?.questions; let i = index">
         <div class="container">
-    
+          <p style="margin-top: 10px;margin-bottom: 10px;" ><span>Qeustion : {{ i + 1 }}</span></p>
           <textarea style="width: 100%;" type="text" [value]="question.content" class="form-control" disabled></textarea>
           <div *ngFor="let choice of question.choices; let j = index">
             <div [ngClass]="{
@@ -86,7 +91,9 @@
           </div>
         </div>
       </div>
-    </ng-container>
+ 
+  </div>
+</div>
     
   </section>
 

@@ -54,6 +54,9 @@ import { StudishDashboardComponent } from './studish-dashboard/studish-dashboard
 import { ProgressComponent } from './progress/progress.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GenerateCourseComponent } from './generate-course/generate-course.component';
+import { UsergradesComponent } from './usergrades/usergrades.component';
+import { ListeCertifComponent } from './liste-certif/liste-certif.component';
+import { VoidComponent } from './void/void.component';
 
 
 
@@ -104,6 +107,9 @@ import { GenerateCourseComponent } from './generate-course/generate-course.compo
     StudishDashboardComponent,
     ProgressComponent,
     GenerateCourseComponent,
+    UsergradesComponent,
+    ListeCertifComponent,
+    VoidComponent,
 
   ],
   

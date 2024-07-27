@@ -1,57 +1,43 @@
-
-
-
 <div class="container contact-form">
     <!-- Semi-circle container -->
     <div class="header-container">
-     
-        <button type="button" class=" button--close buton" (click)="backC()">
-      
-            <span class="fas fa-arrow-left"></span>
-          </button>
+      <button type="button" class="button--close buton" (click)="backC()">
+        <span class="fas fa-arrow-left"></span>
+      </button>
       <img src="assets/exam.png" class="modal__product" />
     </div>
   
-  
-    <div class="row justify-content-end" style="margin-top: 5%;margin-bottom: 5%;" > <!-- Align content to the right -->
-        <div class="col-md-6">
-            <form [formGroup]="myform1" (ngSubmit)="addass()">
-                <h1>Ajouter un Exercice</h1>
-                <div class="form-group">
-                    <label class="form-label" for="title">Titre</label>
-                    <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="desc">Travail a faire </label>
-                    <textarea id="desc" class="form-control form-control-lg" formControlName="description" maxlength="140"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="form3Example97">Date de soumission</label>
-                    <input type="datetime-local" id="form3Example97" class="form-control form-control-lg contact-form-control" formControlName="date" />
-                </div>  
-              
-         
-                <div class="form-group">
-                    <button type="submit" class="button">Ajouter</button>
-                </div>
-            </form>
-        </div>
+    <div class="row justify-content-end" style="margin-top: 5%; margin-bottom: 5%;">
+      <!-- Align content to the right -->
+      <div class="col-md-6">
+        <form [formGroup]="myform1" (ngSubmit)="addass()">
+          <h1>Ajouter un Exercice</h1>
+          <div class="form-group">
+            <label class="form-label" for="title">Titre</label>
+            <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
+            <div *ngIf="myform1.get('title')?.touched && myform1.get('title')?.invalid" class="text-danger">
+              <small *ngIf="myform1.get('title')?.errors">Le titre est requis.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="desc">Travail à faire</label>
+            <textarea id="desc" class="form-control form-control-lg" formControlName="description" maxlength="140"></textarea>
+            <div *ngIf="myform1.get('description')?.touched && myform1.get('description')?.invalid" class="text-danger">
+              <small *ngIf="myform1.get('description')?.errors">La description est requise.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="form3Example97">Date de soumission</label>
+            <input type="datetime-local" id="form3Example97" class="form-control form-control-lg contact-form-control" formControlName="date" />
+            <div *ngIf="myform1.get('date')?.touched && myform1.get('date')?.invalid" class="text-danger">
+              <small *ngIf="myform1.get('date')?.errors">La date de soumission est requise.</small>
+            </div>
+          </div>  
+          <div class="form-group">
+            <button type="submit" class="button">Ajouter</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   

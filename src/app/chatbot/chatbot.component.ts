@@ -27,7 +27,9 @@ export class ChatbotComponent {
   }
   onSubmit() {
     this.generateMessage(this.query, 'self');
-    this.MydataService.generateAnswr(this.pdfID, this.query).subscribe(
+    const formData = new FormData();
+    formData.append('query', this.query);
+    this.MydataService.generateAnswr(this.pdfID, formData).subscribe(
       (data: any) => {
         this.generateMessage(data, 'bot');
         console.log(this.pdfID,"pdf")
@@ -38,11 +40,11 @@ export class ChatbotComponent {
     );
     this.query = '';
   }
- generateMessage(message: string, type: string) {
+  generateMessage(message: string, type: string) {
     const INDEX = $('.chat-msg').length + 1; // Count the number of existing chat messages
     let str = ""; 
-    const label = (type === 'self') ? 'Moi: ' : 'Assistant: ';
-
+    const label = (type === 'self') ? '<strong>Moi:</strong> ' : '<strong>Assistant:</strong> ';
+  
     // Construct the message frame HTML
     str += "<div id='cm-msg-" + INDEX + "' class=\"chat-msg " + type + "\">";
     str += "<div class=\"msg-content\">";
@@ -55,9 +57,8 @@ export class ChatbotComponent {
     $(".chat-logs").append(str);
     // Automatically scroll to the bottom of the chat logs container
     $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, 1000);
-}
-
-
+  }
+  
 
   
   toggleChat() {

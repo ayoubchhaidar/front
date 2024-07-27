@@ -88,7 +88,10 @@ recReq(id:number): Observable<any> {
 
   }
 
+  courseStructure(query:string) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/courseStructure/'+ query+ '/');
 
+  }
  updateQuestionChoices(id:number,obj:any): Observable<any> {
 
 
@@ -99,8 +102,8 @@ recReq(id:number): Observable<any> {
     return this.http.get(this.api_url + 'palteforme/generate_Quiz/' + id + '/');
   }
 
-  generateAnswr(id:string,query: string): Observable<any> {
-    return this.http.get(this.api_url + 'palteforme/generate_Answer/' + id + '/'+query+'/');
+  generateAnswr(id:string,obj:any): Observable<any> {
+    return this.http.post(this.api_url + 'palteforme/generate_Answer/' + id + '/',obj);
   }
 
   addQuiz(obj:any): Observable<any> {
@@ -274,6 +277,26 @@ Add_quiz_grade(obj: any): Observable<any> {
   
   //   return this.http.delete<any>(this.api_url + 'palteforme/courses/' + id, { headers });
   // }
+  userGrades(id:number) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/GradesStudent/'+ id+ '/');
+
+  }
+  get_certif(id:number) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/getCertif/'+ id+ '/');
+
+  }
+  certif(Cid:number, Sid: number,formData: FormData) :Observable<any> {
+    return this.http.post(this.api_url + 'palteforme/certif/'+ Cid+ '/'+ Sid+ '/',formData);
+
+  }
+  userquizGrades(id:number) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/quizGradesStudent/'+ id+ '/');
+
+  }
+  get_tutor_assignment(id:number) :Observable<any> {
+    return this.http.get(this.api_url + 'palteforme/tutor-assignment/'+ id+ '/');
+
+  }
 
   getTutorAssignments(id: number): Observable<any> {
     debugger;

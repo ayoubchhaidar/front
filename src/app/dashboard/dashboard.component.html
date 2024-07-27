@@ -15,7 +15,7 @@
                         <i *ngIf="(user.is_active==true  && user.is_staff==false) &&!user.is_superuser" class="fas fa-user-graduate"></i>
 
                     </div>
-                    <div class="sidebar-brand-text mx-3">E-learning</div>
+                    <div class="sidebar-brand-text mx-3">EduIA</div>
                     
                 </a>
      <!-- Divider -->
@@ -37,9 +37,15 @@
     
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item active" >
-                    <a class="nav-link" >
+                    <a  *ngIf="user.is_superuser == true" class="nav-link"  routerLink="/dashboard/stat">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Tableau de bord</span></a>
+                        <a *ngIf="(user.is_staff==true  && user.is_active==true) && !user.is_superuser" class="nav-link"  routerLink="/dashboard/statF">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span>Tableau de bord</span></a>
+                            <a  *ngIf="(user.is_active==true  && user.is_staff==false) &&!user.is_superuser" class="nav-link"  routerLink="/dashboard/statS">
+                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <span>Tableau de bord</span></a>
                 </li>
     <!-- Admin Dashboard -->
 <div *ngIf="user.is_superuser == true">
@@ -112,7 +118,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header" style="font-size: 9px;">Approbation de l’inscription</h6>
                 <a class="collapse-item" routerLink="setup">Configurer</a>
-                <a class="collapse-item" [routerLink]="['/dashboard/courses', 'notVerified']"  >Demandes d'inscription</a>
+                <a class="collapse-item" [routerLink]="['/dashboard/users','notVerified']"  >Demandes d'inscription</a>
             </div>
         </div>
     </li>
@@ -135,6 +141,7 @@
                 <h6 class="collapse-header">Gestion des cours</h6>
                 <a class="collapse-item" [routerLink]="['/dashboard', 'add-course']">Ajouter</a>
                 <a class="collapse-item" [routerLink]="['/dashboard/courses', 'tutor']">mes cours</a>
+                <a class="collapse-item" [routerLink]="['/dashboard/courses', 'En Attends']">Cours en attente</a>
                 <a class="collapse-item" [routerLink]="['/dashboard/courses', 'accepter']">les demandes</a>
             </div>
         </div>
@@ -155,6 +162,19 @@
         </div>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#sub"
+            aria-expanded="true" aria-controls="sub">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Gestion des soumissions</span>
+        </a>
+        <div id="sub" class="collapse" aria-labelledby="headingsub" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Gestion des soumissions</h6>
+                <a class="collapse-item" [routerLink]="['/dashboard/ass']">Soumissions et notes</a>
+            </div>
+        </div>
+    </li>
     <!-- Communication -->
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#communicationTutor"
@@ -170,35 +190,8 @@
         </div>
     </li>
 
-    <!-- Analytics -->
-    <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#analyticsTutor"
-            aria-expanded="true" aria-controls="analyticsTutor">
-            <i class="fas fa-fw fa-chart-bar"></i>
-            <span>Analytiques</span>
-        </a>
-        <div id="analyticsTutor" class="collapse" aria-labelledby="headingAnalyticsTutor" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Analytiques</h6>
-                <a class="collapse-item" [routerLink]="['/tutor', 'analytics']">Voir les statistiques du cours, telles que les taux de participation et les scores d'évaluation</a>
-            </div>
-        </div>
-    </li>
 
-    <!-- Calendar -->
-    <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#calendarTutor"
-            aria-expanded="true" aria-controls="calendarTutor">
-            <i class="fas fa-fw fa-calendar-alt"></i>
-            <span>Calendrier</span>
-        </a>
-        <div id="calendarTutor" class="collapse" aria-labelledby="headingCalendarTutor" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Calendrier</h6>
-                <a class="collapse-item" [routerLink]="['/tutor', 'calendar']">Planifier des heures de bureau ou des sessions de tutorat</a>
-            </div>
-        </div>
-    </li>
+ 
 
     
     
@@ -239,7 +232,7 @@
         <div id="gradesStudent" class="collapse" aria-labelledby="headingGradesStudent" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Notes</h6>
-                <a class="collapse-item" [routerLink]="['/student', 'grades']">Afficher les notes des devoirs et des évaluations terminées</a>
+                <a class="collapse-item" [routerLink]="['/dashboard/grades']">Notes</a>
             </div>
         </div>
     </li>
@@ -261,21 +254,20 @@
         </div>
     </li>
 
-    <!-- Calendar -->
     <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#calendarStudent"
-            aria-expanded="true" aria-controls="calendarStudent">
-            <i class="fas fa-fw fa-calendar-alt"></i>
-            <span>Calendrier</span>
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#certif"
+            aria-expanded="true" aria-controls="certif">
+            <i class="fas fa-fw fa-certificate"></i>
+            <span>Certifications</span>
         </a>
-        <div id="calendarStudent" class="collapse" aria-labelledby="headingCalendarStudent" data-parent="#accordionSidebar">
+        <div id="certif" class="collapse" aria-labelledby="headingcertif" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Calendrier</h6>
-                <a class="collapse-item" [routerLink]="['/student', 'calendar']">Afficher les dates importantes (devoirs, examens, etc.)</a>
+                <h6 class="collapse-header">Certifications</h6>
+                <a class="collapse-item" [routerLink]="['/dashboard/certif']">Mes certifications</a>
             </div>
         </div>
     </li>
-
+    
 </div>
 <!-- end student -->
                

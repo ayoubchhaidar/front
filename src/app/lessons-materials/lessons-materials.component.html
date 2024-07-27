@@ -38,20 +38,22 @@
 </div>
 
 <main id="course-content" *ngIf="showContent">
-  <h2 style="text-align: center;">Contenu</h2>
-
+  <h2 *ngIf="gencclicked==false" style="text-align: center;">Contenu</h2>
+  <h2 *ngIf="gencclicked==true" style="text-align: center; margin-bottom:30px;">Proposition de structure du cours</h2>
+  <app-generate-course *ngIf="gencclicked==true" [courseId]="CourseId"
+  [title]="getCourseTitleById(CourseId) "> </app-generate-course>
 
     <!-- The Material Type Modal -->
     <div id="materialModal" class="modal">
         <div class="modal-content">
             <span class="close" (click)="closeMaterialModal()">&times;</span>
-            <h4 *ngIf="update==false && eval==false" style="text-align: center; color: #4e73df;">Ajouter un support</h4>
+            <h4 *ngIf="update==false && eval==false " style="text-align: center; color: #4e73df;">Ajouter un support</h4>
             <h4 *ngIf="update==true" style="text-align: center; color: #4e73df;">Mettre à jour le support</h4>
             <h4 *ngIf="eval==true" style="text-align: center; color: #4e73df;">Ajouter une evaluation</h4>
             <form (ngSubmit)="update ? UpdateMaterial(selectedmatId): AddMaterial(selectedLessonId)" #myForm="ngForm">
               
               <div class="form-group">
-                <label for="title">Title:</label>
+                <label for="title">Titre:</label>
                 <input type="text" id="title" name="title" [(ngModel)]="myform.value['title']" required #Input="ngModel">
                 <div *ngIf="(Input.invalid) && (Input.dirty || Input.touched )" class="error-message">
                   Le titre est requis.
@@ -127,9 +129,9 @@
                 <div *ngIf="errorMessage" class="error-message">
                   {{ errorMessage }}
                 </div>
-                      <!-- your-file.html -->
+                      
 
-                <button *ngIf="!update" type="submit">Ajouter un support</button>
+                <button *ngIf="!update && uploadedLink!=null" type="submit">Ajouter un support</button>
   <button *ngIf=" update" type="submit">Mettre à jour le support</button>
               </div>
             </form>
@@ -138,7 +140,7 @@
     </div>
     
 
- <!-- Your Lessons Iteration -->
+ <!--  Lessons  -->
  <div *ngFor="let lesson of lessons; let i = index" class="lesson" [attr.id]="'lesson-' + lesson.id">
   <button *ngIf="user.is_staff===true && user.is_superuser===false"  class="add-material-button" (click)="openMaterialModal(lesson?.id, 0, false,false)">
     <i class="fas fa-plus"></i>Ajouter un support
@@ -241,9 +243,12 @@
                     <span class="close" (click)="closeMaterialModal()">&times;</span>
                     <h4  style="text-align: center; color: #4e73df;"> Support</h4>
                     <form >
-
-                      <ngx-doc-viewer
-                      [url]="mat.content"
+                      <div *ngIf="mattype === 'video' || mattype === 'youtube'" class="video-container">
+                        <iframe [src]="getSafeUrl()" frameborder="0"  style="width:100%;height:500px;" allowfullscreen></iframe>
+                    </div>
+                  
+                      <ngx-doc-viewer *ngIf="mattype === 'pdf' || mattype === 'docx' || mattype === 'pptx'"
+                      [url]="documentToShow"
                       viewer="url"
                       style="width:100%;height:500px;"
                     >
@@ -358,4 +363,9 @@
   <a class="add-section" (click)="openMaterialModallesson()">Ajouter une Leçon</a>
 </div>
 
+
+<div class="button-container"  *ngIf="lessons.length==0" >
+  <button class="button_plus" (click)="openGenModallesson()" ></button>
+  <a class="add-section" (click)="openGenModallesson()" >Générer une structure pour ce cours</a>
+</div>
 </main>

@@ -1,5 +1,5 @@
-import { Component, OnInit, platformCore } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -10,110 +10,82 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SignUpComponent implements OnInit {
   myform: FormGroup;
   selectedFile!: File;
-  needVerification=false;
+  needVerification = false;
   errormsg: string | undefined;
-  constructor(private AuthService: AuthService) {
+
+  constructor(private authService: AuthService) {
     this.myform = new FormGroup({
-      username: new FormControl(''),
-      full_name: new FormControl(''),
-      password: new FormControl(''),
-      role: new FormControl(''),
-      email: new FormControl('')
+      username: new FormControl('', Validators.required),
+      full_name: new FormControl('', Validators.required),
+      password: new FormControl('', [Validators.required, this.checkPw.bind(this)]),
+      role: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email])
     });
   }
+
+  ngOnInit(): void {
+    this.authService.getVerifStatus().subscribe(
+      (data: boolean) => {
+        this.needVerification = data;
+        console.log(this.needVerification);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+
   onFileChange(event: any) {
     this.selectedFile = event.target.files[0];
   }
-  ngOnInit(): void {    this.AuthService.getVerifStatus().subscribe(
-    (data: boolean) => {
-      this.needVerification = data;
-      console.log(  this.needVerification);
-    },
-    (error) => {
-      console.error('Error:', error);
-    }
-  );
 
-}
-// Component TypeScript file
-password: string = '';
-hidePassword: boolean = true;
+  password: string = '';
+  hidePassword: boolean = true;
 
-togglePasswordVisibility() {
-  this.hidePassword = !this.hidePassword;
-}
-
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
 
   get f() {
     return this.myform.controls;
   }
 
   onSignup() {
-
-
-    const verifStatus=this.AuthService.getVerifStatus().subscribe();
-    console.log(this.myform.value['full_name']);
-
-
-    const isTeacher = this.myform.value['role'] === 'teacher';
-    const isStudent = this.myform.value['role'] === 'student';
-
-    if (this.myform.value['username'] && this.myform.value['full_name'] && this.myform.value['password']&& this.myform.value['email']) {
-
-      if(   this.checkPw( this.myform.value['password'])==true ){
-
+    if (this.myform.valid) {
       const formData = new FormData();
       formData.append('profile_image', this.selectedFile);
+      formData.append('username', this.myform.value['username']);
+      formData.append('full_name', this.myform.value['full_name']);
+      formData.append('email', this.myform.value['email']);
+      formData.append('password', this.myform.value['password']);
+      formData.append('is_active', String(!this.needVerification));
+      formData.append('is_superuser', String(false));
+      formData.append('is_staff', String(this.myform.value['role'] === 'teacher'));
 
-      if(this.needVerification==false){
-        console.log("Role value:", this.myform.value['role']);
-        console.log(isTeacher);
+      this.authService.signup(
+        this.myform.value['username'],
+        this.myform.value['full_name'],
+        this.myform.value['email'],
+        this.myform.value['password'],
+        !this.needVerification,
+        false,
+        this.myform.value['role'] === 'teacher'
+      );
 
-      this.AuthService.signup(this.myform.value['username'],this.myform.value['full_name'],this.myform.value['email'],this.myform.value['password'], true ,false,isTeacher)
-        }
-      else if(this.needVerification==true){
-        console.log("Role value:", this.myform.value['role']);
-        console.log(isTeacher);
-
-        this.AuthService.signup(this.myform.value['username'],this.myform.value['full_name'],this.myform.value['email'],this.myform.value['password'], false ,false,isTeacher)
-
-      }
-
-
+      this.errormsg = this.needVerification
+        ? 'Veuillez vérifier votre e-mail pour confirmer votre compte.'
+        : 'Veuillez vérifier votre e-mail pour confirmer votre compte.';
+    } else {
+      this.errormsg = 'Please fill in all required fields correctly.';
+      console.error('Please fill in all required fields correctly.');
     }
-
-
-    else {
-
-      this.errormsg='Le mot de passe doit comporter au moins 8 caractères, contenir au moins une lettre majuscule et au moins un chiffre '
-    }
-      } else {
-        this.errormsg="Veuillez remplir tous les champs requis."
-      console.error('Veuillez remplir tous les champs requis.');
-    }
-
-
-
   }
 
-
-  checkPw(password: string) {
-
-    if (password.length < 8) {
-      return false;     }
-
-    if (!/[A-Z]/.test(password)) {
-      return false; 
+  checkPw(control: FormControl): { [s: string]: boolean } | null {
+    const password = control.value;
+    if (password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
+      return { invalidPassword: true };
     }
-
-    if (!/\d/.test(password)) {
-      return false;     }
-
-    return true;
-
+    return null;
   }
-
 }
-  
-
-

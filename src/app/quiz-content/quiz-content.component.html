@@ -69,9 +69,9 @@
                 <div id="materialModal" class="modal">
                   <div class="modal-content">
                     <span class="close" (click)="closeMaterialModal()">&times;</span>
-                    <h4 *ngIf="!loading" style="text-align: center; color: #4e73df;">choisire un Document </h4>          
+                    <h4 *ngIf="!loading && !generated_data" style="text-align: center; color: #4e73df;">choisire un Document </h4>          
                     <div *ngFor="let mat of materials">
-                      <div  *ngIf="(mat.document_type==='pdf'||mat.document_type==='docx'||mat.document_type==='pptx') && driveId ===null" >
+                      <div  *ngIf="(mat.document_type==='pdf') && driveId ===null" >
                         <a (click)="handleClick(mat.content)">
                           <mat-icon class="icon">{{ getMaterialIcon(mat.document_type) }}</mat-icon>
                           <span class="material-title">{{ mat.title }}</span>
@@ -81,11 +81,12 @@
                    
                   </div>
                   <ng-container *ngIf="loading==true">
-                    <app-loading-spinner></app-loading-spinner>
+                    <app-loading-spinner  [title]="msg"></app-loading-spinner>
                   </ng-container>
                   <div class="container" *ngIf="generated_data && generated_data.length">
                     <div>
-                      <label>Question {{ currentQuestionIndex + 1 }}</label>
+                      <label >Question {{ currentQuestionIndex + 1 }}</label>
+                     
                       <textarea style="width: 90%;" type="text" [value]="currentQuestion?.question" class="form-control" disabled></textarea>
                       <div *ngFor="let answer of currentQuestion?.answers; let answerIndex = index">
                         <input style="margin-top: 10px; margin-bottom: 10px;width: 70%;height: auto;" class="form-control" 
@@ -96,14 +97,17 @@
                     </div>
                     
                   </div>
+                  <div *ngIf="showSuccessMessage" class="alert alert-success" role="alert">
+                    Question ajoutée avec succès!
+                </div>
                   <div  *ngIf="generated_data && generated_data.length > 0" class="d-flex justify-content-between pt-3">
-                    <button type="button" class="button" (click)="back()">Back</button>
+                    <button type="button" class="button" (click)="back()">Précédent</button>
                     <button type="button" class="button" (click)="addAIQuiz(currentQuestion)">Ajouter</button>
-                    <button type="button" class="button" (click)="next()" [disabled]="disableNextButton">Next</button>
+                    <button type="button" class="button" (click)="next()" [disabled]="disableNextButton">Prochaine</button>
                   </div>
                 </div>
                 </div>
-               
+                
     
         </form>
       </div>

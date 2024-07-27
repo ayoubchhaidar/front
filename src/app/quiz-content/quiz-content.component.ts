@@ -24,6 +24,7 @@ interface Question {
   styleUrls: ['./quiz-content.component.css']
 })
 export class QuizContentComponent implements OnInit {
+  msg="Génération des questions";
   showMessage: boolean = false;
   i = 0;
   j = 0;
@@ -37,7 +38,7 @@ export class QuizContentComponent implements OnInit {
   materials: any;
   myform: FormGroup;
   driveId: string | null = null; 
-
+  showSuccessMessage = false;
   constructor(private MydataService: MydataService, private route: ActivatedRoute,private renderer: Renderer2, private el: ElementRef,private router: Router,private dialog: MatDialog) {
     this.myform = new FormGroup({
       content: new FormControl(''),
@@ -90,16 +91,7 @@ export class QuizContentComponent implements OnInit {
     
 
   }
-  getInputWidth(content: string): string {
-    // Calculate the width based on the length of the content
-    const width = content.length * 10 + 'px'; // Adjust multiplier according to your preference
-  
-    // Apply the width to the input field
-    this.renderer.setStyle(this.el.nativeElement, 'width', width);
-  
-    // Return the width
-    return width;
-  }
+
   extractDriveId(link: string): string | null {
     const match = link.match(/(?:https?:\/\/)?drive.google.com\/(?:file\/d\/|open\?id=)([\w-]+)/);
     return match ? match[1] : null;
@@ -158,6 +150,7 @@ export class QuizContentComponent implements OnInit {
     }
   }
   closeMaterialModal(): void {   
+window.location.reload();
     const modal = document.getElementById('materialModal');  
     if (modal) {
       modal.style.display = 'none';
@@ -204,23 +197,13 @@ export class QuizContentComponent implements OnInit {
   }
   
 
-  updateQuestion(partIndex: number, questionIndex: number, event: any) {
-    const newValue = event.target.value;
-    this.generated_data[partIndex][questionIndex].question = newValue;
-    // Update the respective part's array as well
-    if (partIndex === 0) {
-      this.part1[questionIndex].question = newValue;
-    } else if (partIndex === 1) {
-      this.part2[questionIndex].question = newValue;
-    }
-  }
-
 
 
   GenQuiz(id: any) {
     this.loading = true; // Set loading state to true before making the request
     this.MydataService.generateQuiz(id).subscribe(
       (data: string[][]) => {
+        console.log(this.generated_data);
         this.parseBackendData(data);
         console.log(this.generated_data);
   
@@ -235,52 +218,38 @@ export class QuizContentComponent implements OnInit {
         this.j = 0;
   
         console.log(this.generated_data);
-       
+        
+        // Set the current question to the first question of the first part
+        this.currentPartIndex = 0;
+        this.currentQuestionIndex = 0;
+        if (this.generated_data[this.currentPartIndex] && this.generated_data[this.currentPartIndex][this.currentQuestionIndex]) {
+          this.currentQuestion = this.generated_data[this.currentPartIndex][this.currentQuestionIndex];
+        }
+        
+        this.disableNextButton = false;
         this.loading = false; 
       },
       (error) => {
         console.error('Error :', error);
         this.loading = false; // Set loading state to false in case of error
-
       }
-     
     );
-  
-  
   }
+  
   
 
-  updateAnswer(partIndex: number, questionIndex: number, answerIndex: number, event: any) {
-    const inputElement = event.target;
-    const newValue = inputElement.value;
-  
-    // Update the value of the answer
-    this.generated_data[partIndex][questionIndex].answers[answerIndex].text = newValue;
-  
-    // Get the letter of the current answer
-    const currentLetter = this.generated_data[partIndex][questionIndex].answers[answerIndex].letter;
-  
-    // Check if the current answer matches the correct answer for the question
-    const isCorrect = newValue === this.generated_data[partIndex][questionIndex].answers.find(answer => answer.correct)?.text;
-  
-    // Update the correct property of the answer based on whether it's correct or not
-    this.generated_data[partIndex][questionIndex].answers[answerIndex].correct = isCorrect;
-  
-    // Update ngClass based on whether the answer is correct or not
-    inputElement.classList.toggle('correct-answer', isCorrect);
-  }
-  
+
   parseBackendData(data: string[][]) {
     this.generated_data = data.map(part => {
       return part.map(item => {
         const questionData = item.split('\n');
         const question: Question = {
-          question: "", // Initialize empty string
+          question: "", 
           answers: []
         };
         let correctAnswerText: string | null = null;
   
-        for (let i = 0; i < questionData.length; i++) { // Start from index 0
+        for (let i = 0; i < questionData.length; i++) { 
           const correctAnswerMatch = questionData[i].match(/^Correct Answer:\s*(.*)$/);
           if (correctAnswerMatch) {
             correctAnswerText = correctAnswerMatch[1].trim();
@@ -288,7 +257,7 @@ export class QuizContentComponent implements OnInit {
             // Extract correct answer letter
             const correctAnswerLetterMatch = correctAnswerText.match(/^([A-Za-z])/);
             if (correctAnswerLetterMatch) {
-              const correctLetter = correctAnswerLetterMatch[1].toUpperCase(); // Ensure the letter is in uppercase
+              const correctLetter = correctAnswerLetterMatch[1].toUpperCase();
               for (const answer of question.answers) {
                 if (answer.letter === correctLetter) {
                   answer.correct = true;
@@ -296,9 +265,7 @@ export class QuizContentComponent implements OnInit {
               }
             }
           } else {
-            // Check if it's the first line, then set it as question
             if (i === 0) {
-              // Remove the "Question 1: " prefix from the question
               question.question = questionData[i].replace(/^Question \d+: /, '');
             } else {
               const answerText = questionData[i].substring(3).split(":")[0].trim();
@@ -341,9 +308,13 @@ export class QuizContentComponent implements OnInit {
     ).subscribe(() => {
       this.MydataService.addChoices(this.choices).subscribe();
       console.log('Question added successfully');
+      this.showSuccessMessage = true;
     });
   console.log("data",question);
     this.questId++;
+    setTimeout(() => {
+      this.showSuccessMessage = false;
+    }, 3000);
   }
   
   

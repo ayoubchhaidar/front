@@ -1,3 +1,38 @@
+.material-item {
+  display: flex;
+  align-items: center;
+
+}
+
+.material-title {
+  display: inline-block;
+  max-width: 80px;
+  overflow-wrap: break-word;
+
+  white-space: normal;
+}
+
+.material-item i,
+.material-item mat-icon {
+  margin-top: 10px;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+
+.material-item .fas.fa-lock {
+  margin-left: 10px;
+}
+
+.material-item.locked .material-title {
+  color: gray; /* Optional: to indicate the locked state visually */
+}
+
+.material-item.locked i {
+  color: black;
+}
+
+
 /* Par exemple, pour changer la couleur de fond du visualiseur */
 ngx-doc-viewer {
   background-color: #f0f0f0;

@@ -66,6 +66,16 @@ showButton: any;
     
     console.log(this.selectedUserIds)
 }
+closeassModal(): void {
+  
+  const modal = document.getElementById('modal');
+ 
+  
+  if (modal) {
+    modal.style.display = 'none';
+  }
+
+}
 
 addnoti() {
 throw new Error('Method not implemented.');

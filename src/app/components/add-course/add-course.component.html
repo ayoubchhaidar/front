@@ -1,52 +1,47 @@
 <div class="container contact-form">
-  <!-- Semi-circle container -->
-  <div class="header-container">
-   
-
-    <img src="assets/social.png" class="modal__product" />
-  </div>
-
-
-  <div class="row justify-content-end" style="margin-top: 5%;margin-bottom: 5%;" > <!-- Align content to the right -->
+    <!-- Semi-circle container -->
+    <div class="header-container">
+      <img src="assets/social.png" class="modal__product" />
+    </div>
+  
+    <div class="row justify-content-end" style="margin-top: 5%; margin-bottom: 5%;">
+      <!-- Align content to the right -->
       <div class="col-md-6">
-          <form [formGroup]="myform" (ngSubmit)="addCourse()">
-            <h1 style="margin-left:5% ;">Ajouter un cours</h1>
-              <div class="form-group">
-                  <label class="form-label" for="title">Titre</label>
-                  <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
-              </div>
-              <div class="form-group">
-                  <label class="form-label" for="desc">Description</label>
-                  <textarea id="desc" class="form-control form-control-lg" formControlName="desc" maxlength="140"></textarea>
-              </div>
-              <div class="form-group">
-                  <label class="form-label" for="capacity">Capacité d’inscription</label>
-                  <input type="number" id="capacity" class="form-control form-control-lg" formControlName="capacity" />
-              </div>
-              <div class="form-group">
-                  <label class="form-label" for="formFile">Photo de Profile</label>
-                  <input type="file" id="formFile" (change)="onFileChange($event)" [(ngModel)]="selectedFile" class="form-control" />
-              </div>
-              <div class="form-group">
-                  <button type="submit" class="button">Ajouter</button>
-              </div>
-          </form>
+        <form [formGroup]="myform" (ngSubmit)="addCourse()">
+          <h1 style="margin-left: 5%;">Ajouter un cours</h1>
+          <div class="form-group">
+            <label class="form-label" for="title">Titre</label>
+            <input type="text" id="title" class="form-control form-control-lg" formControlName="title" />
+            <div *ngIf="myform.get('title')?.touched && myform.get('title')?.invalid" class="text-danger">
+              <small *ngIf="myform.get('title')?.errors">Le titre est requis.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="desc">Description</label>
+            <textarea id="desc" class="form-control form-control-lg" formControlName="desc" maxlength="140"></textarea>
+            <div *ngIf="myform.get('desc')?.touched && myform.get('desc')?.invalid" class="text-danger">
+              <small *ngIf="myform.get('desc')?.errors">La description est requise.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="capacity">Capacité d’inscription</label>
+            <input type="number" id="capacity" class="form-control form-control-lg" formControlName="capacity" />
+            <div *ngIf="myform.get('capacity')?.touched && myform.get('capacity')?.invalid" class="text-danger">
+              <small *ngIf="myform.get('capacity')?.errors">La capacité d'inscription est requise.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="formFile">Image</label>
+            <input type="file" id="formFile" (change)="onFileChange($event)" class="form-control" />
+            <div *ngIf="imageError" class="text-danger">
+              <small>Veuillez sélectionner une image.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="button">Ajouter</button>
+          </div>
+        </form>
       </div>
+    </div>
   </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  

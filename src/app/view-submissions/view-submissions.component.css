@@ -369,7 +369,7 @@ input:required {
   }
   
   .modal-content {
-    background-color: black;
+    background-color: white;
     margin: 5% auto;
     padding: 20px;
     border: 1px solid #3949ab;
@@ -491,28 +491,7 @@ input:required {
 }
 
   
-  .container::before {
-      content: "";
-      top: -10rem;
-      left: -10rem;
-      width: 40rem;
-      height: 40rem;
-      position: absolute;
-      border-radius: 50%;
-    
-  }
-  
-  .container::after {
-      content: "";
-      bottom: 0;
-      right: -10rem;
-      width: 40rem;
-      height: 40rem;
-      margin-bottom: -25rem;
-      position: absolute;
-      border-radius: 50%;
-    
-  }
+
   
   /* Heading Styles */
   h1 {
@@ -544,3 +523,158 @@ font-size: 24px;
   
 
   
+
+
+
+
+
+  .material-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+  }
+  
+  .material-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .material-title {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .material-grade,
+  .material-feedback {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .material-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4e73df;
+    font-size: 18px;
+  }
+  
+  .grade-form {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  
+  .grade-form input[type="number"],
+  .grade-form input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .grade-form button {
+    padding: 10px 20px;
+    background-color: #4e73df;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .grade-form button:hover {
+    background-color: #3b59a4;
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+
+.wrapper{
+  background: #fff;
+  max-width: 300px;
+  width: 100%;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 5px;
+  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+}
+.wrapper header{
+  font-size: 30px;
+  font-weight: 600;
+  color:#4e73df;
+}
+
+
+.wrapper .todoList{
+  max-height: 250px;
+  overflow-y: auto;
+}
+.todoList li{
+  position: relative;
+  list-style: none;
+  margin-bottom: 8px;
+  background: #f2f2f2;
+  border-radius: 3px;
+  padding: 10px 15px;
+  cursor: default;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+

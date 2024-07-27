@@ -32,6 +32,9 @@ import { FormateurDashboardComponent } from './formateur-dashboard/formateur-das
 import { StudishDashboardComponent } from './studish-dashboard/studish-dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { GenerateCourseComponent } from './generate-course/generate-course.component';
+import { UsergradesComponent } from './usergrades/usergrades.component';
+import { ListeCertifComponent } from './liste-certif/liste-certif.component';
+import { VoidComponent } from './void/void.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -55,7 +58,9 @@ const routes: Routes = [
     { path: 'statF', component: FormateurDashboardComponent },
     { path: 'statS', component: StudishDashboardComponent},
     { path: 'progress', component: ProgressComponent},
-    { path: 'geng', component: GenerateCourseComponent}
+    { path: 'geng', component: GenerateCourseComponent},
+    { path: 'grades', component: UsergradesComponent},
+    { path: 'certif', component: ListeCertifComponent}
   ] },
   { path: 'submissions', component: CoursePlayerComponent,children:[
     { path: 'Do', component: DoQuizComponent},
@@ -70,14 +75,14 @@ const routes: Routes = [
   {
     path:'confirm-email/:username', component: ConfirmEmailComponent
   },
- 
+  { path: 'void', component: VoidComponent },
   { path: 'material', component: MaterialComponent },
   { path: 'certificate', component: CertificationComponent },
    { path: 'add-course', component: AddCourseComponent },
   { path: 'add-lesson', component: AddLessonComponent },
   { path: '**', redirectTo: '/login' }, 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-
+{ path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({
